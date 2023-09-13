@@ -1,11 +1,13 @@
 * {
-    margin: 0;
+    margin: 1;
     padding: 0;
     box-sizing: border-box;
     font-family: 'Courier New', Courier, monospace;
   }
   
-.emphasized { font-style: bold; }
+.emphasized { font-weight: bold;
+                font-style: normal; 
+            }
   
 body {
     background-color: rgba(200, 255, 0, 0);

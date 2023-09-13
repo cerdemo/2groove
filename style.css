@@ -5,8 +5,13 @@
     font-family: 'Courier New', Courier, monospace;
   }
   
-  .emphasized { font-style: italic; }
+.emphasized { font-style: italic; }
   
-  body {
-      background-color: rgba(200, 255, 0, 0);
+body {
+    background-color: rgba(200, 255, 0, 0);
+}
+
+.label-secondary {
+    color: rgb(0, 0, 0);
+    font-size: 13px;
     }

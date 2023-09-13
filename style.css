@@ -1,0 +1,12 @@
+* {
+    margin: 1;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Courier New', Courier, monospace;
+  }
+  
+  .emphasized { font-style: italic; }
+  
+  body {
+      background-color: rgba(200, 255, 0, 0);
+    }

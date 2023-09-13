@@ -5,8 +5,8 @@
     font-family: 'Courier New', Courier, monospace;
   }
   
-.emphasized { font-weight: bold;
-                font-style: normal; 
+.emphasized { font-weight: 900;
+                font-size: 15px;
             }
   
 body {

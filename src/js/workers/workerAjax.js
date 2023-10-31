@@ -9,44 +9,10 @@ self.addEventListener('message', function(event) {
 });
 
 
-// function sendArrayToServer(array, bpm, temperatureValue, hitTolerance, isHttpConnected, httpIp, portInput, samplingStrategy) {
-//     if (!isHttpConnected) return;
-
-//     const data_url = `http://${httpIp}:${portInput}/send_array`;
-//     console.log("Sending request to:", data_url);
-
-//     const payload = {
-//         method: 'POST',
-//         headers: {
-//             'Content-Type': 'application/json'
-//         },
-//         body: JSON.stringify({
-//             array: array,
-//             bpm: bpm,
-//             temp: temperatureValue,
-//             thresh: hitTolerance,
-//             samplingStrategy: samplingStrategy
-//         })
-//     };
-
-//     fetch(data_url, payload)
-//     .then(response => response.arrayBuffer())
-//     .then(data => {
-//         console.log("Processing tapped rhythms...");
-//         // send a message back to the main thread if necessary
-//         self.postMessage({type: 'arrayProcessed', data: data});
-//     })
-//     .catch(error => {
-//         console.error("Error:", error);
-//         self.postMessage({type: 'error', error: error});
-//     });
-// }
-
-
 function sendArrayToServer(array, bpm, temperatureValue, hitTolerance, isHttpConnected, httpIp, portInput, samplingStrategy) {
     if (!isHttpConnected) return;
 
-    const data_url = `http://${httpIp}:${portInput}/send_array`;
+    const data_url = `https://${httpIp}:${portInput}/send_array`;
     console.log("Sending request to:", data_url);
 
     const payload = {

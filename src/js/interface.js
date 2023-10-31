@@ -43,6 +43,7 @@ let samplingStrategyIndex = 0;
 
 
 
+
 //-------------------------------------
 // Functions
 //-------------------------------------
@@ -346,17 +347,18 @@ window.addEventListener('keydown', (e) => {
   }
 
   if (e.key === ' ' && gateKeyActive) {
-    //   playClick(tapVolumeSlider.value, 300);
-      playClick(metronomeVolumeSlider.value, 300) // If same knob is used for both metronome and tap volume
-      const elapsedMs = Date.now() - recordingStartedAt;
-      const bpm = parseInt(tempoSlider.value);
-      const quantizeValue = parseInt(quantizeSelect);
-      const singleSubdivisionDuration = (60 * 1000) / (bpm * quantizeValue);
-      const tappedSubdivision = Math.round(elapsedMs / singleSubdivisionDuration);
-      if (tappedSubdivision < currentArray.length) {
-          currentArray[tappedSubdivision] = 1;
-      }
-      lastTapTimestamp = Date.now();
+
+    playClick(metronomeVolumeSlider.value, 300) // If same knob is used for both metronome and tap volume
+    const elapsedMs = Date.now() - recordingStartedAt;
+    const bpm = parseInt(tempoSlider.value);
+    const quantizeValue = parseInt(quantizeSelect);
+    const singleSubdivisionDuration = (60 * 1000) / (bpm * quantizeValue);
+    const tappedSubdivision = Math.round(elapsedMs / singleSubdivisionDuration);
+    let lastTapTimestamp;
+    if (tappedSubdivision < currentArray.length) {
+        currentArray[tappedSubdivision] = 1;
+    }
+    lastTapTimestamp = Date.now();
   }
 
   if (e.key === ' ') { // blinking light every time space bar is hit
@@ -473,9 +475,10 @@ resetButton.addEventListener('click', () => {
     arrayList.innerHTML = '';
 });
 
+const BASE_URL = 'http://2groove.live/assets/images/';
 
-const imageA = require("./../../assets/images/A.png");
-const imageB = require("./../../assets/images/b.png");
+const imageA = `${BASE_URL}A.png`;
+const imageB = `${BASE_URL}B.png`;
 
 document.addEventListener("DOMContentLoaded", function() {
     const modelChangeButton = document.getElementById("modelChangeButton");

@@ -5,7 +5,7 @@
 // ----------------------------
 // ----------------------------
 import "./drSampler.js";
-import "./efx.js";
+// import "./efx.js";
 import "./globalFetch.js";
 import "./interface.js";
 import "./midiBroadcast.js";

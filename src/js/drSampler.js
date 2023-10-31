@@ -2,7 +2,7 @@
 // Description: MIDI Drum Sampler for 2groove web app.
 
 // import * as Tone from 'tone';
-import { delay, eq, reverb } from "./efx.js";
+// import { delay, eq, reverb } from "./efx.js";
 import { samples } from './samples.js';
 
 
@@ -111,7 +111,7 @@ function onMIDIMessageReceived(message, verbose = false) {
                 const sampler = samplers[drumType]; 
                 // Trigger the sound w/ a simple Attack-Release envelope TODO: Make better envelopes!
                 sampler.triggerAttackRelease(noteToTrigger, hitDuration[drumType]);
-                sampler.chain(eq, delay, reverb); // EFX chain
+                // sampler.chain(eq, delay, reverb); // EFX chain
 
             } else {
                 console.error(`No mappings found for drum type: ${drumType}`);

@@ -15,13 +15,6 @@ const recIndicator = document.getElementById('recIndicator');
 const arrayList = document.getElementById('arrayList');
 const intervals = []; // for tap tempo
 
-// const startButton = document.getElementById('startButton'); 
-
-// const portInput = document.getElementById('serverPort')
-// const httpIp = document.getElementById('httpIpAddress')
-// const beatsInput = document.getElementById('beats');
-// const quantizeSelect = document.getElementById('quantize');
-
 
 // Variables
 let beatsInput = 8; // 8 beats (2 bars)
@@ -53,14 +46,6 @@ let samplingStrategyIndex = 0;
 //-------------------------------------
 // Functions
 //-------------------------------------
-
-
-
-// startButton.addEventListener('click', function() {
-//     initializeApp();
-//     startButton.style.display = 'none'; // Hide the button after initialization
-// });
-
 
 
 
@@ -280,7 +265,6 @@ function resetTappedRhythms() {
 
 
 function toggleValues(arr, numIndices = 1) {
-    // TODO: Implement this function to `change` action
     /**
      * Toggle values in the input array at random indices.
      *
@@ -321,13 +305,6 @@ function toggleValues(arr, numIndices = 1) {
 //-------------------------------------
 // Event Listeners
 //-------------------------------------
-
-// WITH THE OLD UI:
-// Event listeners for the metronome
-// toggleMetronomeButton.addEventListener('click', () => {
-//     toggleMetronomeButton.classList.toggle('toggled');
-//     toggleMetronome();
-// });
 
 // WITH THE NEW UI
 // TODO: Fix it because it doesn't work properly while generating 

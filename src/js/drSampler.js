@@ -210,12 +210,3 @@ function refreshMIDIAccess() {
 function onMIDIFailure(e) {
   console.error('Could not access MIDI devices:', e);
 }
-
-  // NOTES:
-// Uint8Array(3): This indicates the array contains three elements. MIDI messages typically consist of 1-3 bytes, so this is consistent with typical MIDI behavior.
-// [128, 36, 0]: These are the actual values (in decimal) of the MIDI message:
-// 128: This is the status byte. In MIDI, a value of 128 (0x80 in hexadecimal) typically corresponds to a "Note Off" message for channel 1.
-// 36: This is the first data byte. For "Note On" and "Note Off" messages, this represents the MIDI note number. In this case, it's 36 which might correspond to a kick drum in a typical MIDI drum map.
-// 0: This is the second data byte. For "Note On" and "Note Off" messages, this represents the velocity (or volume) of the note. A velocity of 0 for a "Note On" message is often treated as a "Note Off".
-// buffer, byteLength, byteOffset, etc.: These are properties of the Uint8Array and provide information about the underlying buffer storage and the array's size. For most MIDI applications, you won't need to worry about these.
-// For example, a MIDI message (128, 36, 0) can be interpreted as: "Note Off" for MIDI note 36 on channel 1 with a velocity of 0.

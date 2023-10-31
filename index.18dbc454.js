@@ -807,14 +807,7 @@ function refreshMIDIAccess() {
 }
 function onMIDIFailure(e) {
     console.error("Could not access MIDI devices:", e);
-} // NOTES:
- // Uint8Array(3): This indicates the array contains three elements. MIDI messages typically consist of 1-3 bytes, so this is consistent with typical MIDI behavior.
- // [128, 36, 0]: These are the actual values (in decimal) of the MIDI message:
- // 128: This is the status byte. In MIDI, a value of 128 (0x80 in hexadecimal) typically corresponds to a "Note Off" message for channel 1.
- // 36: This is the first data byte. For "Note On" and "Note Off" messages, this represents the MIDI note number. In this case, it's 36 which might correspond to a kick drum in a typical MIDI drum map.
- // 0: This is the second data byte. For "Note On" and "Note Off" messages, this represents the velocity (or volume) of the note. A velocity of 0 for a "Note On" message is often treated as a "Note Off".
- // buffer, byteLength, byteOffset, etc.: These are properties of the Uint8Array and provide information about the underlying buffer storage and the array's size. For most MIDI applications, you won't need to worry about these.
- // For example, a MIDI message (128, 36, 0) can be interpreted as: "Note Off" for MIDI note 36 on channel 1 with a velocity of 0.
+}
 
 },{"./samples.js":"50Rdi"}],"50Rdi":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
@@ -1386,11 +1379,6 @@ const toggleMetronomeCheckbox = document.querySelector('#toggleMetronome input[t
 const recIndicator = document.getElementById("recIndicator");
 const arrayList = document.getElementById("arrayList");
 const intervals = []; // for tap tempo
-// const startButton = document.getElementById('startButton'); 
-// const portInput = document.getElementById('serverPort')
-// const httpIp = document.getElementById('httpIpAddress')
-// const beatsInput = document.getElementById('beats');
-// const quantizeSelect = document.getElementById('quantize');
 // Variables
 let beatsInput = 8; // 8 beats (2 bars)
 let quantizeSelect = 4; // 1/16
@@ -1446,10 +1434,6 @@ let samplingStrategyIndex = 0;
 //-------------------------------------
 // Functions
 //-------------------------------------
-// startButton.addEventListener('click', function() {
-//     initializeApp();
-//     startButton.style.display = 'none'; // Hide the button after initialization
-// });
 async function initializeApp() {
     // Set default BPM or retrieve it from a saved setting or slider
     const defaultBPM = tempoSlider.value;
@@ -1605,7 +1589,6 @@ function resetTappedRhythms() {
 // ... any other necessary resets or UI updates ...
 }
 function toggleValues(arr, numIndices1 = 1) {
-    // TODO: Implement this function to `change` action
     /**
      * Toggle values in the input array at random indices.
      *
@@ -1636,12 +1619,6 @@ function toggleValues(arr, numIndices1 = 1) {
 //-------------------------------------
 // Event Listeners
 //-------------------------------------
-// WITH THE OLD UI:
-// Event listeners for the metronome
-// toggleMetronomeButton.addEventListener('click', () => {
-//     toggleMetronomeButton.classList.toggle('toggled');
-//     toggleMetronome();
-// });
 // WITH THE NEW UI
 // TODO: Fix it because it doesn't work properly while generating 
 toggleMetronomeCheckbox.addEventListener("change", toggleMetronome);
@@ -1934,62 +1911,6 @@ function populateMidiOutputs(outputs) {
     });
     midiOutput = outputs[0]; // Default to the first output
 }
-// TODO: check if this working properly
-// function populateMidiOutputs(outputs) {
-//     const select = document.getElementById('midiOutputs');
-//     if (!select) return;  // Exit if the element doesn't exist
-//     outputs.forEach((output, index) => {
-//         const option = document.createElement('option');
-//         option.value = index;
-//         option.text = output.name;
-//         select.appendChild(option);
-//     });
-//     select.addEventListener('change', (event) => {
-//         midiOutput = outputs[event.target.value];
-//     });
-//     midiOutput = outputs[0]; // Default to the first output
-// }
-/////////////////////////////////////////
-/// TESTS FOR METRO-LOCKED SCHEDULING ///
-/////////////////////////////////////////
-// function scheduleNote(note, timeMs) {
-//     const vel = scaleValue(note.velocity, [0, 1], [0, 127]);
-//     const delay = timeMs - Tone.Time(Tone.Transport.position).toMilliseconds();
-//     const timeoutId = setTimeout(() => {
-//         midiOutput.send([0x90, note.midi, vel]);
-//     }, delay);
-//     timeouts.push(timeoutId);
-// }
-// async function loadMidiData(midiData) {
-//     isPlaying = true;  // Set the flag indicating that a MIDI is currently playing
-//     resetPlayback(); // Reset playback when a new file is chosen
-//     const midi = new Midi(midiData); // Convert the raw data into a Midi object
-//     console.log("Parsed MIDI:", midi);
-//     const track = midi.tracks[0];
-//     Tone.Transport.start(); // Start the transport
-//     if (!midiOutput) {
-//         console.warn("MIDI output not available");
-//         return;
-//     }
-//     const tempo = (midi.header.tempos && midi.header.tempos[0]) ? midi.header.tempos[0].bpm : 120; // Fallback to a default tempo if not defined ???
-//     const ticksPerBeat = midi.header.ppq;
-//     const msPerTick = (60 * 1000 / tempo) / ticksPerBeat;
-//     track.notes.forEach((note) => {
-//         if (!tickToMidiEventsMap[note.ticks]) {
-//             tickToMidiEventsMap[note.ticks] = [];
-//         }
-//         tickToMidiEventsMap[note.ticks].push(note);
-//     });
-//     const totalTimeMs = track.durationTicks * msPerTick;
-//     console.log(`Total time: ${totalTimeMs} ms`);
-//     console.log(`Total transport time: ${track.durationTicks * msPerTick / 1000} s`);
-//     setTimeout(() => {
-//         loopPlayback();
-//     }, totalTimeMs);
-// }
-/////////////////////////
-// Working stuff below //
-/////////////////////////
 // Reset playback
 function resetPlayback() {
     timeouts.forEach(clearTimeout); // Clear all scheduled notes
@@ -2069,32 +1990,6 @@ async function loadMidiData(midiData) {
         console.error("Error processing MIDI data:", error.message);
     }
 }
-// async function loadMidiData(midiData) {
-//     isPlaying = true;  // Set the flag indicating that a MIDI is currently playing
-//     resetPlayback(); // Reset playback when a new file is chosen
-//     const midi = new Midi(midiData); // Convert the raw data into a Midi object
-//     console.log("Parsed MIDI:", midi);
-//     const track = midi.tracks[0];
-//     Tone.Transport.start(); // Start the transport
-//     if (!midiOutput) {
-//         console.warn("MIDI output not available");
-//         return;
-//     }
-//     const tempo = (midi.header.tempos && midi.header.tempos[0]) ? midi.header.tempos[0].bpm : 120; // Fallback to a default tempo if not defined ???
-//     const ticksPerBeat = midi.header.ppq;
-//     const msPerTick = (60 * 1000 / tempo) / ticksPerBeat;
-//     track.notes.forEach((note, index) => {
-//         const timeMs = note.ticks * msPerTick;
-//         const timeInTicks = note.ticks; // TODO: for transport
-//         scheduleNote(note, timeMs, index);
-//     });
-//     const totalTimeMs = track.durationTicks * msPerTick;
-//     console.log(`Total time: ${totalTimeMs} ms`);
-//     console.log(`Total transport time: ${track.durationTicks * msPerTick / 1000} s`);
-//     setTimeout(() => {
-//         loopPlayback();
-//     }, totalTimeMs);
-// }
 // Loop the MIDI playback
 function loopPlayback() {
     // Tone.Transport.stop();
@@ -2140,48 +2035,6 @@ const downloadButton = document.getElementById("download-btn");
 downloadButton.addEventListener("click", downloadMidi); ////////////////////////////
  ////////////////////////////
  ////////////////////////////
- // // w Transport
- // function scheduleNote(note, ticks, ticksPerBeat, bpm) {
- //     const vel = scaleValue(note.velocity, [0, 1], [0, 127]);
- //     const timeInSeconds = ticksToTime(ticks, ticksPerBeat, bpm);
- //     Tone.Transport.schedule(time => {
- //         midiOutput.send([0x90, note.midi, vel]);
- //         console.log(`Note Number: ${note.midi}, Velocity: ${vel}, Scheduled Time: ${time}`);
- //     }, timeInSeconds);
- // }
- // function scheduleNoteWithTone(note, timeInTicks, index, msPerTick) {
- //     const timeInSeconds = timeInTicks * msPerTick / 1000;
- //     const vel = scaleValue(note.velocity, [0, 1], [0, 127]);
- //     Tone.Transport.schedule(time => {
- //         midiOutput.send([0x90, note.midi, vel]);
- //         console.log(`Note Number: ${note.midi}, Velocity: ${vel}`);
- //     }, `+${timeInSeconds}`);
- // }
- // // w Transport
- // async function loadMidiData(midiData) {
- //     isPlaying = true;
- //     const midi = new Midi(midiData);
- //     const track = midi.tracks[0];
- //     if (!midiOutput) {
- //         console.warn("MIDI output not available");
- //         return;
- //     }
- //     const tempo = (midi.header.tempos && midi.header.tempos[0]) ? midi.header.tempos[0].bpm : 120;
- //     const ticksPerBeat = midi.header.ppq;
- //     const msPerTick = (60 * 1000 / tempo) / ticksPerBeat;
- //     // Reset any previous schedules on Tone.Transport
- //     Tone.Transport.cancel();
- //     track.notes.forEach((note, index) => {
- //         const timeInTicks = note.ticks;
- //         scheduleNoteWithTone(note, timeInTicks, index, msPerTick);
- //     });
- //     // Since you want it to loop indefinitely, let's schedule the re-loading of the MIDI data 
- //     // at the end of its duration.
- //     const totalTimeInTicks = track.durationTicks;
- //     Tone.Transport.scheduleOnce(() => {
- //         loopPlayback();
- //     }, `+${totalTimeInTicks * msPerTick / 1000}`);
- // }
 
 },{"./globalFetch.js":"hwnEt","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"6uEKS":[function(require,module,exports) {
 // Author: Çağrı Erdem, 2023

@@ -586,11 +586,12 @@ var _globalFetchJs = require("./globalFetch.js");
 var _interfaceJs = require("./interface.js");
 var _midiBroadcastJs = require("./midiBroadcast.js");
 var _pRollJs = require("./pRoll.js");
+var _samplesJs = require("./samples.js");
 var _workerAjaxJs = require("./workers/workerAjax.js");
 var _workerQueueJs = require("./workers/workerQueue.js"); // ----------------------------
  // ----------------------------
 
-},{"./drSampler.js":"9cCOD","./globalFetch.js":"hwnEt","./interface.js":"kBoq1","./midiBroadcast.js":"lFIIu","./pRoll.js":"6uEKS","./workers/workerAjax.js":"6ZafJ","./workers/workerQueue.js":"7u5lR"}],"9cCOD":[function(require,module,exports) {
+},{"./drSampler.js":"9cCOD","./globalFetch.js":"hwnEt","./interface.js":"kBoq1","./midiBroadcast.js":"lFIIu","./pRoll.js":"6uEKS","./samples.js":"50Rdi","./workers/workerAjax.js":"6ZafJ","./workers/workerQueue.js":"7u5lR"}],"9cCOD":[function(require,module,exports) {
 // Author: Çağrı Erdem, 2023
 // Description: MIDI Drum Sampler for 2groove web app.
 // import { delay, eq, reverb } from "./efx.js";

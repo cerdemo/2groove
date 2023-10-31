@@ -1,8 +1,9 @@
 {
   "name": "2groove",
+  "author": "Cagri Erdem",
   "version": "1.0.0",
   "description": "TBA",
-  "main": "./src/js/main.js",
+  "entryScript": "./src/js/main.js", 
   "scripts": {
     "dev": "parcel index.html",
     "build": "parcel build index.html"

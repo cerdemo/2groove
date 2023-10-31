@@ -1,7 +1,7 @@
 // Author: Çağrı Erdem, 2023
 // Description: MIDI Drum Sampler for 2groove web app.
 
-// import * as Tone from 'tone';
+import * as Tone from 'tone';
 // import { delay, eq, reverb } from "./efx.js";
 import { samples } from './samples.js';
 

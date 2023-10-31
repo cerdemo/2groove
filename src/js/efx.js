@@ -1,7 +1,7 @@
 // Author: Çağrı Erdem, 2023
 // Description: Global audio EFX module for 2groove web app.
 
-import { EQ3, Freeverb, PingPongDelay } from "tone";
+// import { EQ3, Freeverb, PingPongDelay } from "tone";
 
 // 3-band EQ
 const eq = new EQ3({

@@ -1,10 +1,6 @@
 // Author: Çağrı Erdem, 2023
 // Description: MIDI broadcasting script for 2groove web app.
 
-// TODO: Perhaps combine with drumApp.js ???
-
-import * as Tone from 'tone';
-import { Midi } from 'tone';
 import { globalFetch } from './globalFetch.js';
 
 const audioContext = new (window.AudioContext || window.webkitAudioContext)();

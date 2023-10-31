@@ -1,7 +1,6 @@
 // Author: Çağrı Erdem, 2023
 // Description: User interface for 2groove web app.
 
-import * as Tone from 'tone';
 import { globalFetch } from './globalFetch.js';
 
 // Initialize Web Audio API

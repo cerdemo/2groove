@@ -1,13 +1,8 @@
 // Author: Çağrı Erdem, 2023
 // Description: Interactive "piano roll" visualization for 2groove web app.
 
-// import { Midi } from '@tonejs/midi';
-import p5 from 'p5';
-import { Midi } from 'tone';
 import { getTappedRhythms } from './interface.js';
 import { getCurrentMidiForVisuals } from './midiBroadcast.js'; // import from broadcasting script instead of globalFetch.js
-
-
 
 // Wrap entire sketch inside a function and use p5 instance mode to adapt it for module-based bundling 
 // (functions become methods of the instance)

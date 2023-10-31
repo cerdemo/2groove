@@ -7,6 +7,7 @@
   
 .emphasized { font-weight: 900;
                 font-size: 15px;
+                font-style: italic;
             }
   
 body {
@@ -17,3 +18,5 @@ body {
     color: rgb(0, 0, 0);
     font-size: 13px;
     }
+
+

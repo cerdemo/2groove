@@ -1,0 +1,242 @@
+
+
+body, html {
+    height: 100%;  /* Make sure body takes full viewport height */
+    margin: 20px;
+}
+
+/* The container of the whole app is the div with class "app-container". 
+It has a pinkish background color and a border radius of 15px. 
+It also has a padding of 20px and a flexbox layout with column direction and center alignment. 
+The gap between child elements is 20px. */
+
+.app-container {
+    border-radius: 50px; /* curvature of the corners */
+    background-color: #fae; /* Pinkish color from your design or #FFC0CB */
+    display: inline-block;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px; /* space between child elements */
+    padding: 20px;
+    justify-content: space-between;
+}
+
+/* Aligning the elements in the top and bottom rows */
+.top-controls {
+    display: flex;
+    justify-content: space-around; 
+    align-items: center; 
+    gap: 25px;
+}
+.bottom-controls {
+    display: flex;
+    justify-content: space-around; 
+    align-items: center; 
+    gap: 25px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+
+
+/* Stylizing the knob containers at once */
+.knob1-container, .knob2-container, .knob3-container, .knob4-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+}
+
+
+
+
+/* Container for the click light and metro switch */
+.metro-feedback-container{
+    /* Any specific styles for the switch container */
+    display: flex;
+    flex-direction: column; /* If you want items inside this to stack vertically */
+    align-items: center; /* If you want items inside this to be centered horizontally */
+    gap: 15px; /* space between child elements */
+}
+
+.playback-container {
+    /* Any specific styles for the switch container */
+    display: flex;
+    flex-direction: column; /* If you want items inside this to stack vertically */
+    align-items: center; /* If you want items inside this to be centered horizontally */
+    gap: 15px; /* space between child elements */
+}
+
+
+
+/* The container for the piano roll 
+.piano-roll is the placeholder defined in index.html
+#pianoRollContainer is the id of the div that contains 
+the piano roll from the pRoll.js file
+*/
+.piano-roll {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 300px;
+    background-color: #FFF;
+}
+#pianoRollContainer {
+    /* Set dimensions or other styles for the piano roll container */
+    width: 600px;
+    height: 300px;
+    border: 1px solid #ccc;  /* Just for visualization */
+}
+
+
+
+/* this stylizes all knobs */
+.knob {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: #eee;
+}
+
+.knob-value, .recIndicator {
+    font-family: 'Roboto', monospace; 
+    font-size: 14px;
+    font-weight: normal;
+    color: #817f7f;
+    margin-top: 5px;
+}
+
+
+
+/* this stylizes the buttons */
+.control-btn img {
+    position: relative;
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+}
+
+
+
+
+
+
+
+/* === LIGHT STYLES === */
+/* this stylizes both click and tap lights */
+.light-base {
+    width: 20;
+    height: 20;
+    border-radius: 50%;
+    transition: background-color 0.01s;
+    display: inline-block;
+    vertical-align: middle;
+}
+  
+.light-off {
+    background-color: rgba(255, 151, 151, 0.213);
+    /* background-color: rgb(255, 203, 242); */
+}
+.light-on {
+    background-color: rgb(255, 0, 191);
+}
+
+
+/* Changing the color when 'A' pressed for recording rhythms */
+.recording {
+    color: red;
+}
+
+
+
+/* The switch - the box around the slider */
+:root {
+    /* Define the base size for the switch; default is 1 which means no scaling. Change this value to scale the switch. */
+    --switch-scale: 0.5;
+}
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: calc(60px * var(--switch-scale));
+    height: calc(34px * var(--switch-scale));
+
+  }
+  
+/* Hide default HTML checkbox */
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+  
+
+/* The slider start */
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+  
+.slider:before {
+    position: absolute;
+    content: "";
+    height: calc(26px * var(--switch-scale));
+    width: calc(26px * var(--switch-scale));
+    left: calc(4px * var(--switch-scale));
+    bottom: calc(4px * var(--switch-scale));
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+  
+  input:checked + .slider {
+    background-color: #21d227;
+  }
+  
+  input:focus + .slider {
+    box-shadow: 0 0 1px #21d227;
+  }
+  
+  input:checked + .slider:before {
+    -webkit-transform: translateX(calc(26px * var(--switch-scale)));
+    -ms-transform: translateX(calc(26px * var(--switch-scale)));
+    transform: translateX(calc(26px * var(--switch-scale)));
+}
+  
+  /* Rounded sliders */
+  .slider.round {
+    border-radius: 34px;
+  }
+  
+  .slider.round:before {
+    border-radius: 50%;
+  }
+    /* The slider ends */
+
+
+
+/* Container for the lists of tapped rhythm arrays */
+.arrayList-container, .reset-button {
+    display: none;
+    max-height: 150px;
+    overflow-y: scroll;
+    width: fit-content;
+    margin-bottom: 1px;
+  }
+
+/* Hiding the MIDI output list */
+.midiOutputList {
+    display: none;
+    font-family: 'Roboto', monospace; 
+    font-size: 14px;
+    font-weight: normal;
+    color: #817f7f;
+}

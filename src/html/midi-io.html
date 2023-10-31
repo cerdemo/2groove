@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <title>MIDI I/O Settings</title>
+    <!-- <script type="module" src="./../js/main.js"></script> -->
+  </head>
+  
+  <body>
+    <br>
+    <br>
+    <p><span class="emphasized">MIDI Output</span></p>
+    <button id="togglePlaybackButton" class="button toggle-button">Start MIDI Playback</button>
+    <br> 
+    <br> 
+    <b>MIDI output device<div class="tooltip circle"><sup><i>i</i></sup>
+        <span class="tooltiptext">Choose the MIDI output device</span>
+        </div></b><br>
+        <select id="midiOutputs"></select>
+    <br> 
+    <input type="file" id="fileInput" accept=".midi, .mid" style="margin: 20px;">
+    <br>
+    <br>
+    <h1>MIDI mappings</h1>
+    <br>
+    <b>MIDI device<div class="tooltip circle"><sup><i>i</i></sup>
+    <span class="tooltiptext">Choose the MIDI input device to receive data</span>
+    </div></b><br>
+    <select id="midiInputSelect"> <option value="-1"></option>
+        <!-- JS populates the options here -->
+    </select>
+    <b>On/Off<div class="tooltip circle"><sup><i>i</i></sup>
+    <span class="tooltiptext">Check box to receive stream of MIDI messages from the selected device</span>
+    </div></b><input id="midiToggle" type="checkbox"><br>
+    <hr>
+<!-- MIDI Note Section -->
+    <b>Trigger controls<div class="tooltip circle"><sup><i>i</i></sup>
+    <span class="tooltiptext">Receive triggers (bangs) via MIDI notes</span>
+    </div></b><br>
+<!-- Note map 1 -->
+    <label for="trig1Channel">Channel:<div class="tooltip circle"><sup><i>i</i></sup>
+    <span class="tooltiptext">1-16 channels</span>
+    </div>
+    </label>
+    <input type="number" id="trig1Channel" min="1" max="16" value="1"/>
+    <label for="trig1Controller">Note:<div class="tooltip circle"><sup><i>i</i></sup>
+    <span class="tooltiptext">0-127</span>
+    </div>
+    </label>
+    <input type="number" id="trig1Controller" min="0" max="127" value="36"/>
+    <label class="label"
+    for="trig1Input"></label>
+        <select name="trig1Input" id="trig1Input">
+        <option value="nan" selected>----</option>
+        <option value="tapRhythm">Tap rhythm</option>
+        <option value="tapTempo">Tap tempo</option>
+        <option value="changeGroove">Change</option>
+        <option value="pause">Pause/Resume</option>
+        </select><br>
+<!-- Note map 2 -->
+    <label for="trig2Channel">Channel:<div class="tooltip circle"><sup><i>i</i></sup>
+    <span class="tooltiptext">1-16 channels</span>
+    </div>
+    </label>
+    <input type="number" id="trig2Channel" min="1" max="16" value="2"/>
+    <label for="trig2Controller">Note:<div class="tooltip circle"><sup><i>i</i></sup>
+    <span class="tooltiptext">0-127</span>
+    </div>
+    </label>
+    <input type="number" id="trig2Controller" min="0" max="127" value="38"/>
+    <label class="label"
+    for="trig2Input"></label>
+        <select name="trig2Input" id="trig2Input">
+        <option value="nan" selected>----</option>
+        <option value="tapRhythm">Tap rhythm</option>
+        <option value="tapTempo">Tap tempo</option>
+        <option value="changeGroove">Change</option>
+        <option value="pause">Pause/Resume</option>
+        </select><br>
+<!-- Note map 3 -->
+    <label for="trig3Channel">Channel:<div class="tooltip circle"><sup><i>i</i></sup>
+    <span class="tooltiptext">1-16 channels</span>
+    </div>
+    </label>
+    <input type="number" id="trig3Channel" min="1" max="16" value="3"/>
+    <label for="trig3Controller">Note:<div class="tooltip circle"><sup><i>i</i></sup>
+    <span class="tooltiptext">0-127</span>
+    </div>
+    </label>
+    <input type="number" id="trig3Controller" min="0" max="127" value="40"/>
+    <label class="label"
+    for="trig3Input"></label>
+        <select name="trig3Input" id="trig3Input">
+        <option value="nan" selected>----</option>
+        <option value="tapRhythm">Tap rhythm</option>
+        <option value="tapTempo">Tap tempo</option>
+        <option value="changeGroove">Change</option>
+        <option value="pause">Pause/Resume</option>
+        </select><br>
+<!-- Note map 4 -->
+<label for="trig4Channel">Channel:<div class="tooltip circle"><sup><i>i</i></sup>
+    <span class="tooltiptext">1-16 channels</span>
+    </div>
+    </label>
+    <input type="number" id="trig4Channel" min="1" max="16" value="4"/>
+    <label for="trig4Controller">Note:<div class="tooltip circle"><sup><i>i</i></sup>
+    <span class="tooltiptext">0-127</span>
+    </div>
+    </label>
+    <input type="number" id="trig4Controller" min="0" max="127" value="42"/>
+    <label class="label"
+    for="trig4Input"></label>
+        <select name="trig4Input" id="trig4Input">
+        <option value="nan" selected>----</option>
+        <option value="tapRhythm">Tap rhythm</option>
+        <option value="tapTempo">Tap tempo</option>
+        <option value="changeGroove">Change</option>
+        <option value="pause">Pause/Resume</option>
+        </select><br>
+    <hr>
+
+<!-- MIDI CC Section -->
+    <b>Continous controls<div class="tooltip circle"><sup><i>i</i></sup>
+    <span class="tooltiptext">Receive MIDI CC</span>
+    </div></b><br>
+<!-- CC map 1 -->
+    <label for="cc1Channel">Channel:<div class="tooltip circle"><sup><i>i</i></sup>
+    <span class="tooltiptext">1-16 channels</span>
+    </div>
+    </label>
+    <input type="number" id="cc1Channel" min="1" max="16" value="1"/>
+    <label for="cc1Controller">CC:<div class="tooltip circle"><sup><i>i</i></sup>
+    <span class="tooltiptext">0-127</span>
+    </div>
+    </label>
+    <input type="number" id="cc1Controller" min="0" max="127" value="1"/>
+    <label class="label"
+    for="cc1Input"></label>
+      <select name="cc1Input" id="cc1Input">
+        <option value="nan" selected>----</option>
+        <option value="metro">Metronome</option>
+        <option value="temp">Temperature</option>
+        <option value="tol">Tolerance</option>
+        <option value="loopAmount">Loop amount</option>
+      </select><br>
+<!-- CC map 2 -->
+    <label for="cc2Channel">Channel:<div class="tooltip circle"><sup><i>i</i></sup>
+    <span class="tooltiptext">1-16 channels</span>
+    </div>
+    </label>
+    <input type="number" id="cc2Channel" min="1" max="16" value="2"/>
+    <label for="cc2Controller">CC:<div class="tooltip circle"><sup><i>i</i></sup>
+    <span class="tooltiptext">0-127</span>
+    </div>
+    </label>
+    <input type="number" id="cc2Controller" min="0" max="127" value="2"/>
+    <label class="label"
+    for="cc2Input"></label>
+        <select name="cc2Input" id="cc2Input">
+        <option value="nan" selected>----</option>
+        <option value="metro">Metronome</option>
+        <option value="temp">Temperature</option>
+        <option value="tol">Tolerance</option>
+        <option value="loopAmount">Loop amount</option>
+        </select><br>
+<!-- CC map 3 -->
+    <label for="cc3Channel">Channel:<div class="tooltip circle"><sup><i>i</i></sup>
+    <span class="tooltiptext">1-16 channels</span>
+    </div>
+    </label>
+    <input type="number" id="cc3Channel" min="1" max="16" value="3"/>
+    <label for="cc3Controller">CC:<div class="tooltip circle"><sup><i>i</i></sup>
+    <span class="tooltiptext">0-127</span>
+    </div>
+    </label>
+    <input type="number" id="cc3Controller" min="0" max="127" value="3"/>
+    <label class="label"
+    for="cc3Input"></label>
+        <select name="cc3Input" id="cc3Input">
+        <option value="nan" selected>----</option>
+        <option value="metro">Metronome</option>
+        <option value="temp">Temperature</option>
+        <option value="tol">Tolerance</option>
+        <option value="loopAmount">Loop amount</option>
+        </select><br>
+<!-- CC map 4 -->
+    <label for="cc4Channel">Channel:<div class="tooltip circle"><sup><i>i</i></sup>
+    <span class="tooltiptext">1-16 channels</span>
+    </div>
+    </label>
+    <input type="number" id="cc4Channel" min="1" max="16" value="4"/>
+    <label for="cc4Controller">CC:<div class="tooltip circle"><sup><i>i</i></sup>
+    <span class="tooltiptext">0-127</span>
+    </div>
+    </label>
+    <input type="number" id="cc4Controller" min="0" max="127" value="4"/>
+    <label class="label" for="cc4Input"></label>
+        <select name="cc4Input" id="cc4Input">
+        <option value="nan" selected>----</option>
+        <option value="metro">Metronome</option>
+        <option value="temp">Temperature</option>
+        <option value="tol">Tolerance</option>
+        <option value="loopAmount">Loop amount</option>
+        </select><br>
+    <hr>
+<!-- Mapping targets: -->
+    <br>
+    <div id="tapLight" class="light-base light-off"></div>
+    <style>
+        .light-on {
+            background-color: yellow;
+        }
+        .light-off {
+            background-color: grey;
+        }
+    </style>
+    <br>
+    <br>
+  </body>
+
+</html>

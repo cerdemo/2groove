@@ -1,0 +1,57 @@
+
+/*MIDI Inputs*/
+
+  /* Base style for lights */
+  .light-base {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    transition: background-color 0.01s;  /* smooth transition */
+    display: inline-block;
+    vertical-align: middle;  /* to align them vertically centered, if desired */
+  }
+  
+  /* Modifier classes for light states */
+  .light-off {
+    background-color: rgba(128, 128, 128, 0.084);
+  }
+  
+  .light-on {
+    background-color: rgb(255, 0, 191);
+  }
+
+  .tooltip {
+    position: relative;
+    display: inline-block;
+    color: grey;
+  }
+  
+  .tooltip .tooltiptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: darkgrey;
+    font-size: 11px;
+    color: #fff;
+    text-align: left;
+    border-radius: 6px;
+    padding: 5px 0;
+    line-height: 1em;
+    z-index: 1;
+  
+    /* Position the tooltip */
+    position: absolute;
+    z-index: 1;
+  }
+  
+  .tooltip:hover .tooltiptext {
+    visibility: visible;
+  }
+  
+  .circle{
+    border-radius: 50%;
+    width: 13px;
+    height: 13px;
+    background: lightgrey;
+    text-align: center;
+    line-height: 13px ;
+  }

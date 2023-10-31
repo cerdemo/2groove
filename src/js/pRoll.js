@@ -2,7 +2,7 @@
 // Description: Interactive "piano roll" visualization for 2groove web app.
 
 // import { Midi } from '@tonejs/midi';
-import p5 from 'p5';
+// import p5 from 'p5';
 // import { Midi } from 'tone';
 import { getTappedRhythms } from './interface.js';
 import { getCurrentMidiForVisuals } from './midiBroadcast.js'; // import from broadcasting script instead of globalFetch.js

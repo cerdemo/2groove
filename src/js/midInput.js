@@ -1,7 +1,7 @@
 // Author: Çağrı Erdem, 2023
 // Description: MIDI mapping script for 2groove web app.
 
-import * as Tone from "tone";
+// import * as Tone from "tone";
 import { WebMidi } from "webmidi";
 
 

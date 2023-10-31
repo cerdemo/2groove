@@ -6,7 +6,7 @@ import p5 from 'p5';
 import { getTappedRhythms } from './interface.js';
 import { getCurrentMidiForVisuals } from './midiBroadcast.js'; // import from broadcasting script instead of globalFetch.js
 // import { Midi } from 'tone';
-const { Midi } = require('@tonejs/midi')
+const Midi = require("tone").Midi;
 
 
 

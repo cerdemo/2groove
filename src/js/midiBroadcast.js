@@ -3,8 +3,8 @@
 
 // TODO: Perhaps combine with drumApp.js ???
 
-import { Midi } from '@tonejs/midi';
-import * as Tone from 'tone';
+// import { Midi } from '@tonejs/midi';
+// import * as Tone from 'tone';
 import { globalFetch } from './globalFetch.js';
 
 const audioContext = new (window.AudioContext || window.webkitAudioContext)();

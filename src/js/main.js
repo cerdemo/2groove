@@ -10,6 +10,7 @@ import "./globalFetch.js";
 import "./interface.js";
 import "./midiBroadcast.js";
 import "./pRoll.js";
+import "./samples.js";
 import "./workers/workerAjax.js";
 import "./workers/workerQueue.js";
 // ----------------------------

@@ -12,7 +12,8 @@ self.addEventListener('message', function(event) {
 function sendArrayToServer(array, bpm, temperatureValue, hitTolerance, isHttpConnected, httpIp, portInput, samplingStrategy) {
     if (!isHttpConnected) return;
 
-    const data_url = `https://${httpIp}:${portInput}/send_array`;
+    // const data_url = `https://${httpIp}:${portInput}/send_array`;
+    const data_url = `https://api.2groove.live/send_array`
     console.log("Sending request to:", data_url);
 
     const payload = {

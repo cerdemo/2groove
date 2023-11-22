@@ -475,7 +475,7 @@ resetButton.addEventListener('click', () => {
     arrayList.innerHTML = '';
 });
 
-const BASE_URL = 'http://2groove.live/assets/images/';
+const BASE_URL = 'https://2groove.live/assets/images/';
 
 const imageA = `${BASE_URL}A.png`;
 const imageB = `${BASE_URL}B.png`;

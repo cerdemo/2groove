@@ -23,8 +23,8 @@ let gateKeyActive = false;
 let currentArray = [];
 let recording = false;
 let recordingStartedAt = 0;
-let httpIp = [`158.39.200.82`, `127.0.0.1`];
-let httpPort = [`5002`, `5003`];
+// let httpIp = [`158.39.200.82`, `127.0.0.1`];
+// let httpPort = [`5002`, `5003`];
 let isHttpConnected = true; // we keep it true with the new UI
 let lastTapTime = 0; // for tap tempo
 let tappedRhythms = [];
@@ -243,8 +243,8 @@ function sendArrayToServer(array) {
         temperatureValue: tempVal, //parseFloat(document.getElementById('temperature').value),
         hitTolerance: threshVal, //parseFloat(document.getElementById('tolerance').value),
         isHttpConnected: isHttpConnected,  
-        httpIp: httpIp[0], //httpIp.value,             
-        portInput: httpPort[0], //portInput.value        
+        // httpIp: httpIp[0], //httpIp.value,             
+        // portInput: httpPort[0], //portInput.value        
         samplingStrategy: samplingStrategy['strategy'][samplingStrategyIndex]
     });
 }

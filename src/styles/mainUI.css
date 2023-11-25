@@ -240,3 +240,13 @@ the piano roll from the pRoll.js file
     font-weight: normal;
     color: #817f7f;
 }
+
+.instruction {
+    text-align: center;
+    font-family: 'Roboto', monospace;
+    font-weight: normal;
+    color: #817f7f;
+    padding: 15px;
+    padding-right: 85px;
+    white-space: nowrap;
+}

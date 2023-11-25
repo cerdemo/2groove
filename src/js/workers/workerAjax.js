@@ -4,16 +4,15 @@ self.addEventListener('message', function(event) {
     const data = event.data;
 
     if (data.cmd === 'sendArray') {
-        sendArrayToServer(data.array, data.bpm, data.temperatureValue, data.hitTolerance, data.isHttpConnected, data.httpIp, data.portInput, data.samplingStrategy);
+        sendArrayToServer(data.array, data.bpm, data.temperatureValue, data.hitTolerance, data.isHttpConnected, data.samplingStrategy);
     }
 });
 
 
-function sendArrayToServer(array, bpm, temperatureValue, hitTolerance, isHttpConnected, httpIp, portInput, samplingStrategy) {
+function sendArrayToServer(array, bpm, temperatureValue, hitTolerance, isHttpConnected, samplingStrategy) {
     if (!isHttpConnected) return;
 
-    // const data_url = `https://${httpIp}:${portInput}/send_array`;
-    const data_url = `https://api.2groove.live/send_array`
+    const data_url = `https://api.2groove.live/send_array`;
     console.log("Sending request to:", data_url);
 
     const payload = {

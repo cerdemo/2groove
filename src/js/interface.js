@@ -36,7 +36,7 @@ let threshVal = 0.3;
 let currentTick = 1;
 let clickTone = 1000;
 let samplingStrategy = {'strategy': ['epsilon', 'softmax_temp'],
-                        'tempRange': [[0.01, 10.0], [0.1, 2.0]],
+                        'tempRange': [[0.01, 100.0], [0.1, 2.0]],
                         'threshRange': [[0.15, 0.35], [0.1, 0.2]]};
 let samplingStrategyIndex = 0;
 

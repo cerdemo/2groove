@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>tap2groove</title>
+        <script type="module" src="./src/js/main.js"></script>
+        <script src="./src/js/utils/input.knobs.js"></script>
+        <link rel="icon" type="image/x-icon" href="data:image/x-icon;,">
+        <!-- TODO: generate an icon later -->
+    </head>
+
+    <body>
+        <div id="content">
+            <!-- Actual content after the password authentication -->
+            <div class="app-container" id="db_app">
+                <div class="stable-container" id="db_app2">
+
+                    <!-- Top Controls -->
+                    <div class="top-controls">
+                        <div class="knob1-container">
+                            <!-- Tempo knob -->
+                            <input type="range" class="input-knob" id="tempo" value="110" title="Adjust the tempo (BPM)"
+                                min="40" max="300" step="1" data-diameter="60" data-bgcolor="#f6f1ff" data-fgcolor="#ffa5e9"/>
+                            <!-- Display for metro bpm -->
+                            <div class="knob-value" id="knob1Value">110</div>
+                            
+                        </div>
+
+                        <div class="knob2-container">
+                            <!-- Click vol knob -->
+                            <input type="range" class="input-knob" id="metronomeVolume" value="0.4" title="Adjust the metronome volume 🔊" 
+                                min="0.1" max="1" step="0.1" data-diameter="60" data-bgcolor="#f6f1ff" data-fgcolor="#ffa5e9"/>
+                            <!-- Display for click vol -->
+                            <div class="knob-value" id="knob2Value">0.4</div>
+                        </div>
+
+                        <div class="metro-feedback-container" id="metroFeedback">
+                            <!-- Metronome click light -->
+                            <div class="light-base light-off" id="tapTempoLight" title="Tap the tempo on the key 'T'"></div>
+                            <!-- Rounded switch -->
+                            <label class="switch" id="toggleMetronome" title="Metronome on/off">
+                                <input type="checkbox">
+                                <span class="slider round"></span>
+                            </label>
+                            <div id="notification_tapping" class="notification_tapping">TAPPING INPUT SENT!</div>
+                        </div>
+            
+                        <div class="knob3-container">
+                            <!-- temp knob -->
+                            <input type="range" class="input-knob" id="temp" value="0.55" title="Adjust the Temperature to increase or decrease the randomness" 
+                                min="0.1" max="1" step="0.01" data-diameter="60" data-bgcolor="#f6f1ff" data-fgcolor="#ffa5e9"/>
+                            <!-- Display for tap vol -->
+                            <div class="knob-value" id="knob3Value">0.5</div>
+                        </div>
+
+                        <div class="knob4-container">
+                            <!-- Variety knob -->
+                            <input type="range" class="input-knob" id="tolerance" value="0.55" title="Adjust the Threshold to increase or decrease the rhythm density" 
+                                min="0.1" max="1" step="0.01" data-diameter="60" data-bgcolor="#f6f1ff" data-fgcolor="#ffa5e9"/>
+                            <!-- Display for click vol -->
+                            <div class="knob-value" id="knob4Value">0.5</div>
+                        </div>
+                    </div>
+                
+
+                    <!-- Piano Roll Visualization -->
+                    <div id="invisibleAnchor_pRoll"></div> <!-- Invisible item for reference -->
+                    <div class="piano-roll" id="pianoRollContainer"></div> <!-- Placeholder for your p5 visualization -->
+                
+
+                    <!-- Bottom Controls -->
+                    <div class="bottom-controls">
+                        <!-- <button class="control-btn" id="startButton"><img src="./assets/images/start.png" title="Start the audio!"></button> -->
+
+                        <!-- <button class="control-btn" id="efx-btn" onclick="openEfxPopup()">
+                            <img src="./assets/images/sound.png" title="Play/Pause">
+                        </button> -->
+
+                        <!-- <button class="control-btn" id="soundButton"><img src="./assets/images/sound.png" title="More audio & control parameters"></button> -->
+                        
+                        <button class="control-btn" id="changeButton"><img src="./assets/images/change.png" title="Generate new groove based on the last tapped rhythm"></button>
+
+
+                        <div class="playback-container">
+                            <!-- Rounded switch -->
+                            <div class="playback-subContainer" id="playbackSubContainer">
+                                <label class="switch" id="togglePlaybackButton" title="Playback on/off">
+                                    <input type="checkbox">
+                                    <span class="slider round"></span>
+                                </label>
+                            </div>
+                            <!-- Light indicator for tapped rhyhtms -->
+                            <div class="light-base light-off" id="tapLight" title="Tap rhythms on space bar while pressing the key 'A'"></div>
+                            <!-- Indicator for rec on/off -->
+                            <div class="recIndicator" id="recIndicator"> </div> 
+                            <!-- REC OFF var idi burda sonra kaldirdik-->
+
+                        </div>
+
+                        <!-- <button class="control-btn" id="midi-btn"><img src="./assets/images/midi-IO.png" title="Open MIDI I/O & EFX Configuration"></button> -->
+                        <!-- <button class="control-btn" id="play-pause-btn"><img src="./assets/images/play-pause.png" title="Play/Pause"></button> -->
+
+                        <button class="control-btn" id="download-btn"><img src="./assets/images/download.png" title="Download the MIDI file"></button>
+                        
+                    </div>                
+                </div>
+                <!-- <label class="theme-switch" for="themeToggleCheckbox">
+                    <input type="checkbox" id="themeToggleCheckbox" />
+                    <div class="themeSlider round"></div><label for="themeToggle" id="themeToggleText">Theme</label> 
+                </label> -->
+
+                <div class="theme-switch-container">
+                    <label class="theme-switch" for="themeToggleCheckbox">
+                        <input type="checkbox" id="themeToggleCheckbox" />
+                        <div class="themeSlider round"></div><label for="themeToggle" id="themeToggleText">Theme</label> 
+                    </label>
+                </div>
+
+            </div>
+            <!-- <p><span class="instruction">Tap rhythm using the space bar while pressing 'A' on the keyboard.</span></p>                -->
+            <div id="notificationContainer"></div>
+            <input type="checkbox" id="helpToggle" />
+            <label for="helpToggle" id="helpToggleText">How-to?</label>              
+            <div id="helpOverlay" class="help-overlay" style="display:none;">
+                <div id="helpContent" class="help-content">
+                    <!-- Dynamic help content goes here -->
+                    <div id="notificationForApp" class="notification">Welcome 2groove with dB!<br><br>dB is a drummer bot. You tap rhythms with your finger (I mean, most conveniently), and it creates a full drum groove.<br><br>Here, you will find the step-by-step instructions. This help window will move to the right side of each graphical user interface (GUI) item as you proceed from one to the other using the Prev and Next buttons or the arrow keys on your keyboard.<br><br>Now go ahead and click “Next” to begin.<br><br>NOTE: Google Chrome works the best, Mozilla Firefox is also fine. Good luck with the others. Unfortunately, touchscreens don't work yet (you need a physical keyboard).</div>
+                    <div id="notificationForApp2" class="notification">2groove immediately, turn on the metronome switch on the center top, and tap a rhythm using the space bar on your computer keyboard. You will see a blinking light on the bottom as you tap, but no sound yet.<br><br>Once you feel comfortable tapping along the metronome, press down the “A” key while tapping. You will then see an "ON AIR!" indicator and start hearing your input. When you release the "A" key, your input will be passed to the bot. From there, dB takes care of the rest.</div>
+
+                    <div id="notificationForplaybackSubContainer" class="notification"> Oh, also, do not forget to turn on the playback switch on the left to hear the groove ;)</div>
+                    
+                    <div id="notificationForTempo" class="notification">Adjust this knob on the left to change the tempo.<br><br>NOTE: Random value at the page load.</div>
+                    <div id="notificationForVolume" class="notification">Adjust the metronome volume with this one.<br><br>NOTE: Once a groove is generated and the metronome tone is disabled automatically, this knob becomes the main volume control of the playback.</div>
+                    <div id="notificationForTapTempoLight" class="notification">You can also tap the tempo!<br>As you hit the "T" key, you will see a blinking light here on the left, hear a click tone, and the tempo will be adjusted accordingly.</div>
+                    <div id="notificationForMetronomeToggle" class="notification">Turn on the metronome tone via this switch on the left.<br><br>NOTE: once a groove is generated, the click tone and the switch will be disabled automatically, and you will need to refresh the page to start again with a metronome click.</div>
+                    <div id="notificationForTempKnob" class="notification">Adjust this knob to change dB's sampling temperature. Increase it for more randomness or decrease it for stability.<br><br>HINT: this parameter's behavior highly depends on the following "Threshold" parameter.<br><br>NOTE: Random value at the page load.</div>
+                    <div id="notificationForToleranceKnob" class="notification">Adjust this knob to change dB's threshold level applied to the output probabilities.<br><br>Here, you determine how the generated (softmax) probabilities are translated into actual note-on events.<br>Thus, increase it for less notes or decrease it for denser rhythmic patterns.<br><br>HINT: this parameter's behavior is (also) highly dependent on the previous "Temperature" parameter. For example, a higher Threshold value combined with high temperature will result in a sparse rhythm (or even none!), while low Threshold & low Temperature can feel like "wooohooo" dense rhythms.<br><br>NOTE: Random value at the page load.</div>
+                    
+                    <div id="notificationForPianoRoll" class="notification">The piano roll visualization window is this one in the middle with vertical lines. You will see your tapped rhythms and the generated drum grooves there.<br><br>Green lines indicate the quantized grid locations for quarter notes, and the white ones, for 16th notes.<br><br>HINT: You can visually observe the microtiming deviations of the generated notes in relation to these vertical lines. Similarly, dynamics are expressed as the color transparencies.<br><br>HINT: Move your mouse cursor onto the generated hits to see the specific drum part name.<br><br>HINT: Click and drag the corners to change the window size of the piano roll.</div>
+
+                    <div id="notificationForChangeBtn" class="notification">Click this button to generate a new groove based on the last tapped rhythm you have played.<br><br>HINT: This can be an excellent opportunity to explore different Tempo, Temperature, and Threshold combinations.</div>
+                    <div id="notificationForTogglePlaybackBtn" class="notification">Turn the playback on and off.</div>
+                    <div id="notificationForTapLight" class="notification">As you hit the space bar, this light will blink, and you will hear a sound.<br><br>BUT, the tappings will not be passed to dB until you keep pressing the "A" button on your keyboard!</div>
+                    <div id="notificationForRecIndicator" class="notification">Here, you will see the "ON-AIR!" indicator while you press down the "A" key to create your tapped rhythm input, which will be passed to the drummer bot as soon as you release the "A" key.</div>
+                    <div id="notificationForDownloadBtn" class="notification">Did you like the groove?<br><br>Click this button to download the MIDI file and make it all yours!<br><br>NOTE: giving credit never hurts ;)</div>
+                    
+                    <div id="notificationForFinal" class="notification">That's all folks.<br><br>Happy grooving!<br><br><br>HINT: Just refresh the page if things go terribly wrong. Every restart comes with a new set of random parameters. Good luck!<br><br></div>
+                    <div class="help-nav">
+                        <button id="prevHelp" class="help-button">Prev</button>
+                        <button id="nextHelp" class="help-button">Next</button>
+                        <button id="closeHelp" class="help-button">Close</button>
+                    </div>
+                    <div id="helpDotsContainer" class="help-dots-container">
+                        <!-- Populate navigation tools here -->
+                    </div>
+                </div>
+            </div>
+            
+            <br>
+            <!-- TODO: Move this to midi-io.html !!! -->
+            <select id="midiOutputs" class="midiOutputList"></select>
+            
+            <!-- TODO: Embed this one in pRoll later! -->
+            <br>
+            <div class="arrayList-container">
+                <ul id="arrayList"> </ul>
+            </div>
+            <button id="resetButton" class="reset-button">Reset List</button>
+            <br>
+        </div>
+        
+
+
+
+    </body>
+</html>

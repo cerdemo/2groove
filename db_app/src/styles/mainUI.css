@@ -1,0 +1,540 @@
+/* STYLE SCRIPT FOR THE MAIN UI */
+
+/* LEFT_TOP POSITIONING: */
+body, html {
+    height: 100%;  /* Make sure body takes full viewport height */
+    margin: 20px;
+}
+
+/* The container of the whole app is the div with class "app-container". 
+It has a pinkish background color and a border radius of 15px. 
+It also has a padding of 20px and a flexbox layout with column direction and center alignment. 
+The gap between child elements is 20px. */
+
+/* Main pink color--- background-color: #fae;  */
+/* possible contrasting color: #B39DDB */
+
+.app-container {
+    border-radius: 50px; /* curvature of the corners */
+    /* background-color: #fae; */
+    background-color: var(--db-canvas, #fae); /* Fallback to white if not defined */
+    display: inline-block;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px; /* space between child elements */
+    padding: 20px;
+    justify-content: space-between;
+    position: relative;
+}
+
+
+
+.stable-container {
+    position: relative;
+    /* Other styling as needed */
+}
+
+
+/*///////////////////////////////////*/
+/*///////////////////////////////////*/
+/*///////////////////////////////////*/
+
+
+/* Aligning the elements in the top and bottom rows */
+.top-controls {
+    display: flex;
+    justify-content: space-around; 
+    align-items: center; 
+    gap: 25px;
+}
+.bottom-controls {
+    display: flex;
+    justify-content: space-around; 
+    align-items: center; 
+    gap: 25px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+
+/*///////////////////////////////////*/
+/*///////////////////////////////////*/
+/*///////////////////////////////////*/
+
+
+/* Stylizing the knob containers at once */
+.knob1-container, .knob2-container, .knob3-container, .knob4-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+}
+
+
+
+/* Container for the click light and metro switch */
+.metro-feedback-container{
+    /* Any specific styles for the switch container */
+    display: flex;
+    flex-direction: column; /* If you want items inside this to stack vertically */
+    align-items: center; /* If you want items inside this to be centered horizontally */
+    gap: 15px; /* space between child elements */
+}
+
+.playback-container {
+    /* Any specific styles for the switch container */
+    display: flex;
+    flex-direction: column; /* If you want items inside this to stack vertically */
+    align-items: center; /* If you want items inside this to be centered horizontally */
+    gap: 15px; /* space between child elements */
+}
+
+
+
+/* The container for the piano roll 
+.piano-roll is the placeholder defined in index.html
+#pianoRollContainer is the id of the div that contains 
+the piano roll from the pRoll.js file
+*/
+.piano-roll {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 300px;
+    background-color: #FFF;
+}
+#pianoRollContainer {
+    /* Set dimensions or other styles for the piano roll container */
+    width: 600px;
+    height: 300px;
+    border: 1px solid #ccc;  /* Just for visualization */
+}
+
+
+
+/* this stylizes all knobs */
+.knob {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: #eeeeeefe;
+}
+
+.knob-value, .recIndicator {
+    font-family: 'Roboto', monospace; 
+    font-size: 14px;
+    font-weight: normal;
+    color: #817f7fe3;
+    margin-top: 5px;
+}
+
+
+
+/* this stylizes the buttons */
+.control-btn img {
+    position: relative;
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+}
+
+
+/*///////////////////////////////////*/
+/*///////////////////////////////////*/
+/*///////////////////////////////////*/
+
+
+
+/* === LIGHT STYLES === */
+/* this stylizes both click and tap lights */
+.light-base {
+    width: 20;
+    height: 20;
+    border-radius: 50%;
+    transition: background-color 0.01s;
+    display: inline-block;
+    vertical-align: middle;
+}
+  
+.light-off {
+    background-color: rgba(249, 135, 220, 0.797);
+    /* background-color: rgb(255, 203, 242); */
+}
+.light-on {
+    background-color: rgb(255, 0, 191);
+}
+
+
+/* Changing the color when 'A' pressed for recording rhythms */
+.recording {
+    color: red;
+}
+
+
+
+/* The switch - the box around the slider */
+:root {
+    /* Define the base size for the switch; default is 1 which means no scaling. Change this value to scale the switch. */
+    --switch-scale: 0.5;
+}
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: calc(60px * var(--switch-scale));
+    height: calc(34px * var(--switch-scale));
+
+  }
+  
+/* Hide default HTML checkbox */
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+  
+
+/* The slider start */
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+  
+.slider:before {
+    position: absolute;
+    content: "";
+    height: calc(26px * var(--switch-scale));
+    width: calc(26px * var(--switch-scale));
+    left: calc(4px * var(--switch-scale));
+    bottom: calc(4px * var(--switch-scale));
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+  
+  input:checked + .slider {
+    background-color: #21d227;
+  }
+  
+  input:focus + .slider {
+    box-shadow: 0 0 1px #21d227;
+  }
+  
+  input:checked + .slider:before {
+    -webkit-transform: translateX(calc(26px * var(--switch-scale)));
+    -ms-transform: translateX(calc(26px * var(--switch-scale)));
+    transform: translateX(calc(26px * var(--switch-scale)));
+}
+  
+  /* Rounded sliders */
+  .slider.round {
+    border-radius: 34px;
+  }
+  
+  .slider.round:before {
+    border-radius: 50%;
+  }
+    /* The slider ends */
+
+
+
+/* Container for the lists of tapped rhythm arrays */
+.arrayList-container, .reset-button {
+    display: none;
+    max-height: 150px;
+    overflow-y: scroll;
+    width: fit-content;
+    margin-bottom: 1px;
+  }
+
+/* Hiding the MIDI output list */
+.midiOutputList {
+    display: none;
+    font-family: 'Roboto', monospace; 
+    font-size: 14px;
+    font-weight: normal;
+    color: #817f7f;
+}
+
+
+/*///////////////////////////////////*/
+/*///////////////////////////////////*/
+/*///////////////////////////////////*/
+
+
+/* Error durumunda uyari: */
+#notificationContainer {
+    position: fixed;
+    /* top: 20px;
+    right: 20px; */
+    z-index: 1000;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.error_notification {
+    background-color: #e736f4bd; /* Red */
+    color: white;
+    font-family: 'Roboto', monospace; 
+    padding: 14px;
+    margin-bottom: 20px;
+    border-radius: 15px; /* Adjust this value to control the curvature */
+    max-height: 200px;
+    max-width: 270px;
+}
+
+
+/*///////////////////////////////////*/
+/*///////////////////////////////////*/
+/*///////////////////////////////////*/
+
+
+/* Help */
+#helpToggle {
+    height: 1.1em;
+    width: 1.1em;
+}
+
+#helpToggleText {
+    color: #5d5d5de1; 
+    font-family: 'Roboto', monospace; 
+    font-size: 21px;
+    /* position: left; */
+    align-items: bottom;
+    top: 20px; /* You can adjust this later */
+    right: 20px; /* You can adjust this later */
+    cursor: pointer;
+    /* Add additional styling as needed */
+}
+
+
+.notification {
+    position: absolute;
+    display: none;
+    width: 250px; /* Adjust based on content */
+    padding: 10px;
+    background-color: #e736f4bd; /* Pink */
+    color: white;
+    font-family: 'Roboto', monospace; 
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    z-index: 100;
+}
+
+.notification_tapping {
+    display: none;
+    position: absolute;
+    bottom: 200px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 10px 20px;
+    background-color: #4CAF50; /* Green background for success */
+    color: white;
+    text-align: center;
+    border-radius: 5px;
+    z-index: 100;
+    font-family: 'Roboto', monospace; 
+}
+
+
+
+.help-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.help-content {
+    position: absolute; /* Or 'fixed' if you want it to stay in place on scroll */
+    background: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    /* Adjust width and max-height based on your content and design */
+    width: 300px;
+    max-height: 80%;
+    overflow: auto; /* Allows scrolling within the help content */
+    background-color: #e736f48a; /* Red */
+    border-radius: 15px; 
+    font-family: 'Roboto', monospace; 
+    color: white;
+}
+
+.help-nav {
+    position: sticky;
+    bottom: 0; /* Keeps navigation at the bottom of the '.help-content', even when scrolling */
+    background: #f1f1f1; /* Different background to distinguish nav area */
+    padding: 10px 0; /* Padding around buttons */
+    display: flex;
+    justify-content: center; /* Center the buttons horizontally */
+    gap: 5px; /* Space between buttons */
+    border-radius: 15px; 
+    background-color: #e497eaae; /* Red */
+}
+
+.help-button {
+    font-family: 'Roboto', monospace; 
+}
+
+.help-dots-container {
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+}
+
+.help-dot {
+    cursor: pointer;
+    height: 10px;
+    width: 10px;
+    margin: 0 5px;
+    background-color: #bbb;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.help-dot.active {
+    background-color: #717171; /* Active dot color */
+}
+
+#invisibleAnchor {
+    display: none; /* Completely removes the item from the document flow */
+}
+
+#invisibleAnchor_pRoll {
+    visibility: hidden; /* Makes the item invisible but still occupies space */
+    height: 0; /* Adjust if you want the anchor to occupy some space */
+    width: 0; /* Adjust if you want the anchor to occupy some space */
+}
+
+
+
+
+@keyframes blink {
+    0%, 100% { background-color: transparent; } /* Adjust the color as needed */
+    50% { background-color: #FFFF00; } /* Bright yellow for the "on" state */
+}
+
+.light-base.blink {
+    animation: blink 0.2s linear; /* Adjust duration as needed */
+}
+
+
+
+
+/* theme switch */
+.theme-switch-container {
+    position: absolute;
+    top: 10px; 
+    right: 10px; 
+}
+
+/* Container for the switch - sets position and size */
+.theme-switch {
+    position: absolute;
+    display: inline-block;
+    width: calc(60px * var(--switch-scale));
+    height: calc(34px * var(--switch-scale));
+    top: 30px;
+    right: -50px; 
+}
+
+/* Hide default checkbox */
+.theme-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+#themeToggleText {
+    position: absolute;
+    display: inline-block;
+    color: #5d5d5de1; 
+    font-family: 'Roboto', monospace; 
+    font-size: 17px;
+    align-items: bottom;
+    /* tam switch'in yanini manuel ayarlardim ama aslinda direk objeye maplenerek otomatize edebilirdim */
+    top: -1px; 
+    right: -55px; 
+    cursor: pointer;
+}
+
+/* Custom slider */
+.themeSlider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+  
+.themeSlider:before {
+    position: absolute;
+    content: "";
+    height: calc(26px * var(--switch-scale));
+    width: calc(26px * var(--switch-scale));
+    left: calc(4px * var(--switch-scale));
+    bottom: calc(4px * var(--switch-scale));
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+
+
+input:checked + .themeSlider {
+    background-color: #00000024;
+}
+
+input:checked + .themeSlider:before {
+    -webkit-transform: translateX(calc(26px * var(--switch-scale)));
+    -ms-transform: translateX(calc(26px * var(--switch-scale)));
+    transform: translateX(calc(26px * var(--switch-scale)));
+}
+
+/* Rounded sliders */
+.themeSlider.round {
+    border-radius: 34px;
+}
+
+.themeSlider.round:before {
+    border-radius: 50%; /* full makes the slider round */
+}
+
+
+
+
+.dark-theme {
+    --background-color: #333333; /* Darker bground */
+    --text-color: #ffffff; 
+    --db-canvas: #B39DDB;
+
+}
+
+/* Example element that changes with theme */
+/* TODO: move this to the body above */
+body {
+    background-color: var(--background-color, #ffffff); 
+    color: var(--text-color, #000000); 
+    transition: background-color 0.3s, color 0.3s; /* Smooth transition for theme change */
+}

@@ -1,0 +1,18 @@
+.container {
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+}
+
+#efxCanvasContainer {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+canvas {
+    border: 1px solid #ddd;
+    margin-bottom: 20px;
+}

@@ -135,3 +135,6 @@ dist
 node_modules/
 *.log
 .DS_Store
+db_vae/train/checkpoints/*
+db_vae/train/logs/*
+db_vae/train/models/*

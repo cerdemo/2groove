@@ -34,7 +34,7 @@ from tensorflow.keras.layers import (LSTM, BatchNormalization, Bidirectional,
 from tensorflow.keras.losses import Loss, binary_crossentropy
 from tensorflow.keras.models import Model
 from tensorflow.keras.utils import Sequence
-from tqdm import tqdm
+# from tqdm import tqdm
 
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 tf_logger = tf.get_logger()
@@ -160,8 +160,8 @@ def which_comp(laptop=True, extended=False):
         drum_data = f'/Users/cagrierdem/Desktop/ongoing/POSTDOC/dB_workspace/drumbot/dB_dat/{folder_name}_pulse'
         tap_data = f'/Users/cagrierdem/Desktop/ongoing/POSTDOC/dB_workspace/drumbot/dB_dat/{folder_name}_pulse_tap'
     else:
-        drum_data = f'/home/cagrie/Desktop/ongoing/projects/dB_dat/{folder_name}_pulse'
-        tap_data = f'/home/cagrie/Desktop/ongoing/projects/dB_dat/{folder_name}_pulse_tap'
+        drum_data = f'/home/cerdemo/Desktop/data/db/{folder_name}_pulse'
+        tap_data = f'/home/cerdemo/Desktop/data/db/{folder_name}_pulse_tap'
 
     return drum_data, tap_data
 

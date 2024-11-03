@@ -50,7 +50,6 @@ tf_logger.addHandler(handler)
 G = len(tf.config.experimental.list_physical_devices('GPU'))
 print("Num GPUs Available: ", G)
 print("tf version ", tf.__version__)
-print("keras version ", tf.keras.__version__)
 print("Built with CUDA:", tf.test.is_built_with_cuda())
 print("Built with GPU support:", tf.test.is_built_with_gpu_support())
 

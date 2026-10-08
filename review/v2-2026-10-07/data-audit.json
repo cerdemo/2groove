@@ -1,0 +1,168 @@
+{
+  "scope": "All base npy_pulse and npy_pulse_tap arrays; extended inventory only. Local copies are not proven to be the deployed training version.",
+  "root": "/Users/cagrierdem/Desktop/ongoing/POSTDOC/dB_workspace/drumbot/dB_dat",
+  "inventory": {
+    "npy_pulse": {
+      "m_matrices": 22978,
+      "v_matrices": 22978,
+      "h_matrices": 22978,
+      "o_matrices": 22978
+    },
+    "npy_pulse_tap": {
+      "h_matrices": 22978
+    },
+    "npy_pulse_extended": {
+      "m_matrices": 135564,
+      "v_matrices": 135564,
+      "h_matrices": 135564,
+      "o_matrices": 135564
+    },
+    "npy_tap_pulse_extended": {
+      "h_matrices": 135564
+    }
+  },
+  "base_pairing": {
+    "common_ids": 22978,
+    "missing_from_union": {
+      "h": 0,
+      "v": 0,
+      "o": 0,
+      "m": 0,
+      "tap": 0
+    }
+  },
+  "base_stats": {
+    "h_nonfinite": 0,
+    "v_nonfinite": 0,
+    "o_nonfinite": 0,
+    "m_nonfinite": 0,
+    "tap_nonfinite": 0,
+    "examples": 22978,
+    "empty_grooves": 177,
+    "empty_taps": 6538,
+    "hit_cells": 653740,
+    "all_cells": 6617664,
+    "polyphonic_steps": 176024,
+    "active_steps": 467430,
+    "all_steps": 735296,
+    "hit_with_zero_velocity": 0,
+    "tap_equals_cymbal_union": 22978,
+    "tap_equals_full_union": 1198
+  },
+  "shapes": {
+    "h": {
+      "(32, 9)": 22978
+    },
+    "v": {
+      "(32, 9)": 22978
+    },
+    "o": {
+      "(32, 9)": 22978
+    },
+    "m": {
+      "(3,)": 22978
+    },
+    "tap": {
+      "(32, 1)": 22978
+    }
+  },
+  "min": {
+    "h": 0.0,
+    "v": 0.0,
+    "o": -0.125,
+    "m": 0.0,
+    "tap": 0.0
+  },
+  "max": {
+    "h": 1.0,
+    "v": 1.0,
+    "o": 0.125,
+    "m": 1.0,
+    "tap": 1.0
+  },
+  "duplicates": {
+    "unique_hvom": 9953,
+    "excess_exact_hvom": 13025,
+    "unique_taps": 1306,
+    "tap_patterns_with_multiple_hvom": 583
+  },
+  "split_check": [
+    {
+      "training_iteration": 1,
+      "train_n": 3838,
+      "validation_n": 1914,
+      "overlap_n": 1914
+    },
+    {
+      "training_iteration": 2,
+      "train_n": 5752,
+      "validation_n": 1914,
+      "overlap_n": 1914
+    },
+    {
+      "training_iteration": 3,
+      "train_n": 7666,
+      "validation_n": 1914,
+      "overlap_n": 1914
+    },
+    {
+      "training_iteration": 4,
+      "train_n": 9580,
+      "validation_n": 1914,
+      "overlap_n": 1914
+    },
+    {
+      "training_iteration": 5,
+      "train_n": 11494,
+      "validation_n": 1914,
+      "overlap_n": 1914
+    },
+    {
+      "training_iteration": 6,
+      "train_n": 13408,
+      "validation_n": 1914,
+      "overlap_n": 1914
+    },
+    {
+      "training_iteration": 7,
+      "train_n": 15322,
+      "validation_n": 1914,
+      "overlap_n": 1914
+    },
+    {
+      "training_iteration": 8,
+      "train_n": 17236,
+      "validation_n": 1914,
+      "overlap_n": 1914
+    },
+    {
+      "training_iteration": 9,
+      "train_n": 19150,
+      "validation_n": 1914,
+      "overlap_n": 1914
+    },
+    {
+      "training_iteration": 10,
+      "train_n": 21064,
+      "validation_n": 1914,
+      "overlap_n": 1914
+    }
+  ],
+  "softmax_demo": {
+    "target": [
+      1,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "perfect_multihit_impossible": "sum(softmax)=1; target sum=2",
+    "silence_categorical_crossentropy": 0,
+    "second_softmax_max_at_temperature_1": 0.2536117142620283,
+    "default_threshold": 0.35
+  }
+}

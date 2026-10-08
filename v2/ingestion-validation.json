@@ -1,0 +1,66 @@
+{
+  "canonical_run": "/Users/cagrierdem/Desktop/ongoing/POSTDOC/2groove/v2/data/unified/runs/20261008T093044277269Z-5ba83ce0",
+  "canonical_report": {
+    "schema_version": "unified-midi-v1",
+    "run_id": "20261008T093044277269Z-5ba83ce0",
+    "config_hash": "5ba83ce0d1c7831dbd415ff98efda38dd40fa0980336be72ec65c34f33a34297",
+    "code_hash": "d897e8f27b1e025603f37674d7dbc00b19ca99ee35c5bf8f93a64c0fa9ee82ee",
+    "assets": 1150,
+    "status_counts": {
+      "accepted": 1150
+    },
+    "reason_counts": {},
+    "unique_raw_files": 1149,
+    "accepted_unique_percussion": 1149,
+    "accepted_splits": {
+      "test": 129,
+      "train": 897,
+      "validation": 124
+    },
+    "metadata_sources": {
+      "style": {
+        "source_manifest": 1150
+      },
+      "tempo": {
+        "midi_event": 1150
+      },
+      "meter": {
+        "midi_event": 1150
+      }
+    },
+    "web_status_counts": {},
+    "limitations": [
+      "Percussion scores are heuristic, not calibrated probabilities.",
+      "Full-file exact drum fingerprints and provenance groups are linked; near-duplicate audit is separate.",
+      "Web search is limited to configured providers; no-match does not prove absence on the entire web.",
+      "Canonical events preserve all tempos/meters; model exports impose explicit separate restrictions."
+    ]
+  },
+  "hvo_export": {
+    "adapter": "hvo32x9-v1",
+    "canonical_run": "/Users/cagrierdem/Desktop/ongoing/POSTDOC/2groove/v2/data/unified/runs/20261008T092515613474Z-43505972",
+    "statistics": {
+      "files_with_unknown_model_style": 276,
+      "candidate_windows": 10816,
+      "grid_collisions": 31210,
+      "collision_rejected_windows": 4544,
+      "empty_windows": 608,
+      "non_four_four_regions": 12,
+      "duplicate_files": 1
+    },
+    "splits": {
+      "train": 4516,
+      "validation": 579,
+      "test": 569
+    },
+    "cross_split_hvo_hashes": 0,
+    "structural_overlap_hashes": 5,
+    "hash_precision": "HVO values rounded to 4 decimal places for duplicate screening",
+    "structural_overlap_note": "Identical hit grids can be common rhythmic vocabulary; reported for near-duplicate audit, not automatically excluded.",
+    "collision_policy": "Strongest velocity per cell; reject windows above 5.0% collision rate. Canonical corpus is unquantized."
+  },
+  "pytest_passed": 52,
+  "live_musicbrainz_status": "ambiguous",
+  "brave_live_test": "not run: API key not configured",
+  "trained_on_new_data": false
+}

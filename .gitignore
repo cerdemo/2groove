@@ -171,5 +171,6 @@ Desktop.ini
 /db_vae/train/logs/
 /db_vae/train/models/
 /db_vm/models/
-/v2/data/
+/v2/data/*
+!/v2/data/.gitkeep
 /v2/artifacts/

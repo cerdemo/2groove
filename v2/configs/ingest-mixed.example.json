@@ -1,0 +1,10 @@
+{
+  "sources": [
+    {"id": "library-one", "path": "/absolute/path/to/midi-library", "adapter": "generic", "drum_map": "gm", "group_by": "parent"},
+    {"id": "library-two", "path": "/absolute/path/to/collection.zip", "adapter": "generic", "drum_map": "custom", "pitch_map": {"36": "kick", "38": "snare", "42": "closed-hihat"}}
+  ],
+  "output": "data/unified-mixed",
+  "policy": {"required_metadata": ["style", "tempo"], "conflict_policy": "quarantine"},
+  "web": {"mode": "musicbrainz", "cache": "data/metadata-web-cache", "max_requests": 100},
+  "seed": 42
+}

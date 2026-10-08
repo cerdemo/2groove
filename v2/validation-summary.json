@@ -1,0 +1,187 @@
+{
+  "checkpoint": {
+    "epoch": 12,
+    "validation_loss": 0.29651579284292506,
+    "seed": 42,
+    "dataset": "GMD official performance split; exact HVO dedup",
+    "status": "engineering baseline; not human-validated",
+    "unsupported_role": "complement uses untrained role embedding; use procedural for complement"
+  },
+  "split": "first 256 validation windows in manifest order; diagnostic subset, not test",
+  "prior_diagnostics": {
+    "matched": {
+      "micro_hit_f1": 0.48283832196925924,
+      "predicted_density": 3.64404296875,
+      "target_density": 4.80615234375
+    },
+    "shuffled_taps": {
+      "micro_hit_f1": 0.4100924364862508,
+      "predicted_density": 3.5927734375,
+      "target_density": 4.80615234375
+    },
+    "zero_taps": {
+      "micro_hit_f1": 0.12532016099524332,
+      "predicted_density": 0.53173828125,
+      "target_density": 4.80615234375
+    }
+  },
+  "search": [
+    {
+      "engine": "procedural",
+      "algorithm": "random",
+      "coverage": 0.25,
+      "qd_score": 0.206455781347268,
+      "unique_phenotypes": 232,
+      "seed": 11,
+      "seconds": 0.12035637500230223
+    },
+    {
+      "engine": "procedural",
+      "algorithm": "random",
+      "coverage": 0.265625,
+      "qd_score": 0.2312989464488416,
+      "unique_phenotypes": 246,
+      "seed": 22,
+      "seconds": 0.12073249998502433
+    },
+    {
+      "engine": "procedural",
+      "algorithm": "random",
+      "coverage": 0.25,
+      "qd_score": 0.2186170663328932,
+      "unique_phenotypes": 229,
+      "seed": 33,
+      "seconds": 0.1469803750514984
+    },
+    {
+      "engine": "procedural",
+      "algorithm": "map_elites",
+      "coverage": 0.453125,
+      "qd_score": 0.35829777275163355,
+      "unique_phenotypes": 225,
+      "seed": 11,
+      "seconds": 0.13506291690282524
+    },
+    {
+      "engine": "procedural",
+      "algorithm": "map_elites",
+      "coverage": 0.328125,
+      "qd_score": 0.2724424361125787,
+      "unique_phenotypes": 233,
+      "seed": 22,
+      "seconds": 0.11696633300743997
+    },
+    {
+      "engine": "procedural",
+      "algorithm": "map_elites",
+      "coverage": 0.46875,
+      "qd_score": 0.3845244430883315,
+      "unique_phenotypes": 233,
+      "seed": 33,
+      "seconds": 0.1314577501034364
+    },
+    {
+      "engine": "cvae",
+      "algorithm": "random",
+      "coverage": 0.03125,
+      "qd_score": 0.027635913793403497,
+      "unique_phenotypes": 256,
+      "seed": 11,
+      "seconds": 0.3185177081031725
+    },
+    {
+      "engine": "cvae",
+      "algorithm": "random",
+      "coverage": 0.03125,
+      "qd_score": 0.027686688810087078,
+      "unique_phenotypes": 256,
+      "seed": 22,
+      "seconds": 0.31890487507916987
+    },
+    {
+      "engine": "cvae",
+      "algorithm": "random",
+      "coverage": 0.046875,
+      "qd_score": 0.040748517265761945,
+      "unique_phenotypes": 256,
+      "seed": 33,
+      "seconds": 0.3049978750059381
+    },
+    {
+      "engine": "cvae",
+      "algorithm": "map_elites",
+      "coverage": 0.03125,
+      "qd_score": 0.02856615788270875,
+      "unique_phenotypes": 256,
+      "seed": 11,
+      "seconds": 0.30897808296140283
+    },
+    {
+      "engine": "cvae",
+      "algorithm": "map_elites",
+      "coverage": 0.03125,
+      "qd_score": 0.02877517271426043,
+      "unique_phenotypes": 256,
+      "seed": 22,
+      "seconds": 0.31885762501042336
+    },
+    {
+      "engine": "cvae",
+      "algorithm": "map_elites",
+      "coverage": 0.046875,
+      "qd_score": 0.04280710958438954,
+      "unique_phenotypes": 256,
+      "seed": 33,
+      "seconds": 0.3060556669952348
+    }
+  ],
+  "caveats": [
+    "Pseudo-taps are derived from target drums; no human tap validation.",
+    "F1 is reference overlap, not co-creative musical quality.",
+    "One fixed search context and three seeds are a smoke benchmark, not general superiority evidence.",
+    "Official test remains untouched; no drummer-disjoint claim."
+  ],
+  "dataset": {
+    "collisions": 31214,
+    "unknown_pitches": 0,
+    "skipped_meter": 12,
+    "skipped_short": 615,
+    "raw_segments": 10220,
+    "retained": 10208,
+    "cross_split_duplicate_hashes": 0,
+    "splits": {
+      "train": 8173,
+      "validation": 1016,
+      "test": 1019
+    },
+    "license": "CC BY 4.0",
+    "source": "https://storage.googleapis.com/magentadata/datasets/groove/groove-v1.0.0-midionly.zip",
+    "source_sha256": "651cbc524ffb891be1a3e46d89dc82a1cecb09a57c748c7b45b844c4841dcc1e",
+    "scope": "Official performance split, exact HVO dedup. Not a drummer-held-out benchmark; near-duplicate audit remains necessary."
+  },
+  "software_checks": {
+    "pytest_passed": 26,
+    "native_midi": {
+      "received_hits": 8,
+      "received_note_offs": 8,
+      "captured_taps": 8,
+      "bpm": 239.91507723630136,
+      "dropped": 0,
+      "scheduler_late_ms_p95": 0.06195146124805169,
+      "scope": "Native virtual-port loopback only; no physical interface, DAW or VST audio latency measurement",
+      "clean_shutdown": true
+    },
+    "browser": {
+      "checks": [
+        "Keyboard capture after focused Record button: 3 taps",
+        "Procedural 0.14 s \u00b7 233 unique \u00b7 QD score 0.287",
+        "Sample preview, stop, exact note edit and undo",
+        "CVAE 0.34 s \u00b7 256 unique \u00b7 QD score 0.055",
+        "NI-grid, session save/open, MIDI download",
+        "Native virtual-port connect/disconnect",
+        "390 px mobile layout; no uncaught JS errors"
+      ]
+    },
+    "checkpoint_sha256": "0c1302614fbbcc01c299afa5aa0c86547524fce79667e1063edf909fe6341e3d"
+  }
+}

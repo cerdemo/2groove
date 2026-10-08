@@ -1,0 +1,24 @@
+{
+  "sources": [{
+    "id": "gmd-official",
+    "path": "data/gmd/gmd/groove",
+    "adapter": "gmd",
+    "drum_map": "roland_td11",
+    "license": "CC BY 4.0",
+    "origin_url": "https://magenta.tensorflow.org/datasets/groove"
+  }],
+  "output": "data/unified",
+  "policy": {
+    "required_metadata": ["style", "tempo"],
+    "minimum_metadata_score": 0.8,
+    "minimum_percussion_score": 0.85,
+    "conflict_policy": "quarantine"
+  },
+  "web": {
+    "mode": "musicbrainz",
+    "cache": "data/metadata-web-cache",
+    "max_requests": 100,
+    "user_agent": "2groove/0.3 (https://github.com/cerdemo/2groove)"
+  },
+  "seed": 42
+}

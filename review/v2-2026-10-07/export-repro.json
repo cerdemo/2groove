@@ -1,0 +1,43 @@
+{
+  "method": "Isolate original arr2midi arithmetic via AST. Lightweight event containers replace\nMido; denorm=False avoids sklearn. This checks timing arithmetic, not MIDI serialization.",
+  "single_hit_at_tick_0": {
+    "expected_tick": 0,
+    "actual": {
+      "onsets": [
+        {
+          "note": 36,
+          "tick": 1920
+        }
+      ],
+      "duration_ticks": 3840.0
+    }
+  },
+  "silence": {
+    "exception": "ZeroDivisionError",
+    "message": "division by zero"
+  },
+  "offset_accumulation_isolated": {
+    "expected_onsets": [
+      0,
+      48,
+      120
+    ],
+    "actual": {
+      "onsets": [
+        {
+          "note": 36,
+          "tick": 0
+        },
+        {
+          "note": 38,
+          "tick": 49
+        },
+        {
+          "note": 36,
+          "tick": 169.0
+        }
+      ],
+      "duration_ticks": 3840.0
+    }
+  }
+}

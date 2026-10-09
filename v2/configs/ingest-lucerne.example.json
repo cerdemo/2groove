@@ -1,0 +1,9 @@
+{
+  "sources": [{
+    "id": "lucerne", "adapter": "lucerne",
+    "path": "/path/to/datasets/The_Lucerne_Groove_Library"
+  }],
+  "output": "data/lucerne-canonical",
+  "web": {"mode": "off"},
+  "policy": {"required_metadata": ["style", "tempo"], "conflict_policy": "quarantine"}
+}

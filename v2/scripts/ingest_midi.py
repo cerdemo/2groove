@@ -22,6 +22,7 @@ def main():
     parser.add_argument('--export-hvo',type=Path,help='Fresh directory; canonical corpus is always preserved separately')
     args=parser.parse_args()
     if args.max_files is not None and args.max_files<=0:parser.error('--max-files must be a positive integer')
+    if args.export_hvo is not None and args.export_hvo.exists():parser.error('--export-hvo must name a fresh directory')
     if args.input is not None:
         path=args.input.expanduser().resolve()
         if not path.exists():parser.error(f'Input does not exist: {path}')

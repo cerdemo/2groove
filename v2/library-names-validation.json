@@ -1,0 +1,2749 @@
+{
+  "date": "2026-10-09",
+  "test_suite": "137 passed",
+  "selection": "Two lowest SHA256(relative_path) files per catalog branch; GM and Superior Drummer catalogs stratified one level deeper. 566 + 46 files. Not a representative acceptance-rate estimate.",
+  "before": {
+    "run": "/Users/cagrierdem/Desktop/ongoing/POSTDOC/2groove/v2/artifacts/naming-check/canonical/runs/20261009T114404801537Z-f26e51ad",
+    "collections": {
+      "800000_Drum_Percussion_MIDI": {
+        "sampled": 566,
+        "statuses": {
+          "accepted": 33,
+          "quarantined": 515,
+          "discarded": 18
+        },
+        "fields": {
+          "style": 90,
+          "tempo": 467,
+          "role": 100
+        },
+        "reasons": {
+          "ambiguous_percussion_streams": 267,
+          "no_accepted_percussion": 269,
+          "missing_style": 474,
+          "web_deferred": 475,
+          "missing_tempo": 97,
+          "unverified_vendor_mapping": 11,
+          "metadata_conflict": 27,
+          "conflicting_tempo_events": 10,
+          "KeyError: 6": 2,
+          "conflicting_meter_events": 3,
+          "uninterpreted_sysex_requires_review": 4
+        }
+      },
+      "Almighty_pack": {
+        "sampled": 46,
+        "statuses": {
+          "accepted": 31,
+          "quarantined": 15
+        },
+        "fields": {
+          "style": 42,
+          "tempo": 38,
+          "role": 7
+        },
+        "reasons": {
+          "missing_tempo": 8,
+          "web_deferred": 10,
+          "ambiguous_percussion_streams": 3,
+          "no_accepted_percussion": 3,
+          "missing_style": 4,
+          "unverified_vendor_mapping": 2
+        }
+      }
+    }
+  },
+  "after": {
+    "run": "/Users/cagrierdem/Desktop/ongoing/POSTDOC/2groove/v2/artifacts/naming-check/canonical/runs/20261009T114642984361Z-f26e51ad",
+    "collections": {
+      "800000_Drum_Percussion_MIDI": {
+        "sampled": 566,
+        "statuses": {
+          "accepted": 61,
+          "quarantined": 485,
+          "discarded": 20
+        },
+        "fields": {
+          "style": 154,
+          "tempo": 467,
+          "role": 108
+        },
+        "reasons": {
+          "ambiguous_percussion_streams": 267,
+          "no_accepted_percussion": 269,
+          "missing_style": 410,
+          "web_deferred": 418,
+          "missing_tempo": 97,
+          "unverified_vendor_mapping": 11,
+          "conflicting_tempo_events": 10,
+          "metadata_conflict": 28,
+          "KeyError: 6": 2,
+          "conflicting_meter_events": 3,
+          "uninterpreted_sysex_requires_review": 4
+        }
+      },
+      "Almighty_pack": {
+        "sampled": 46,
+        "statuses": {
+          "accepted": 33,
+          "quarantined": 13
+        },
+        "fields": {
+          "style": 46,
+          "tempo": 38,
+          "role": 28
+        },
+        "reasons": {
+          "missing_tempo": 8,
+          "web_deferred": 8,
+          "ambiguous_percussion_streams": 3,
+          "no_accepted_percussion": 3,
+          "unverified_vendor_mapping": 2
+        }
+      }
+    }
+  },
+  "previously_accepted_now_excluded": [],
+  "changes": [
+    {
+      "source": "800000_Drum_Percussion_MIDI:Boogie/break 1.mid",
+      "before_status": "quarantined",
+      "after_status": "quarantined",
+      "before": {
+        "meter": [
+          4,
+          4
+        ]
+      },
+      "after": {
+        "meter": [
+          4,
+          4
+        ],
+        "style": [
+          "boogie"
+        ]
+      },
+      "reasons": [
+        "missing_tempo",
+        "web_deferred"
+      ]
+    },
+    {
+      "source": "800000_Drum_Percussion_MIDI:Boogie/break 2.mid",
+      "before_status": "quarantined",
+      "after_status": "quarantined",
+      "before": {
+        "meter": [
+          4,
+          4
+        ]
+      },
+      "after": {
+        "meter": [
+          4,
+          4
+        ],
+        "style": [
+          "boogie"
+        ]
+      },
+      "reasons": [
+        "ambiguous_percussion_streams",
+        "missing_tempo",
+        "no_accepted_percussion",
+        "web_deferred"
+      ]
+    },
+    {
+      "source": "800000_Drum_Percussion_MIDI:Cha cha/cha cha 1.mid",
+      "before_status": "quarantined",
+      "after_status": "quarantined",
+      "before": {
+        "meter": [
+          4,
+          4
+        ]
+      },
+      "after": {
+        "meter": [
+          4,
+          4
+        ],
+        "style": [
+          "cha-cha"
+        ]
+      },
+      "reasons": [
+        "ambiguous_percussion_streams",
+        "missing_tempo",
+        "no_accepted_percussion",
+        "web_deferred"
+      ]
+    },
+    {
+      "source": "800000_Drum_Percussion_MIDI:Cha cha/cha cha 2.mid",
+      "before_status": "quarantined",
+      "after_status": "quarantined",
+      "before": {
+        "meter": [
+          4,
+          4
+        ]
+      },
+      "after": {
+        "meter": [
+          4,
+          4
+        ],
+        "style": [
+          "cha-cha"
+        ]
+      },
+      "reasons": [
+        "ambiguous_percussion_streams",
+        "missing_tempo",
+        "no_accepted_percussion",
+        "web_deferred"
+      ]
+    },
+    {
+      "source": "800000_Drum_Percussion_MIDI:Electronic Dance/2013 - PBB - House MIDI/KICK_SNARE/MIDI_LHD_128_KICK_SNARE_02.mid",
+      "before_status": "quarantined",
+      "after_status": "quarantined",
+      "before": {
+        "meter": [
+          4,
+          4
+        ]
+      },
+      "after": {
+        "meter": [
+          4,
+          4
+        ],
+        "style": [
+          "electronic"
+        ]
+      },
+      "reasons": [
+        "missing_tempo",
+        "web_deferred"
+      ]
+    },
+    {
+      "source": "800000_Drum_Percussion_MIDI:Electronic Dance/2013 - PBB - Trap - MIDI/TFB_140_MINI_ROLL_002.mid",
+      "before_status": "quarantined",
+      "after_status": "quarantined",
+      "before": {
+        "meter": [
+          4,
+          4
+        ]
+      },
+      "after": {
+        "meter": [
+          4,
+          4
+        ],
+        "style": [
+          "electronic"
+        ]
+      },
+      "reasons": [
+        "ambiguous_percussion_streams",
+        "missing_tempo",
+        "no_accepted_percussion",
+        "web_deferred"
+      ]
+    },
+    {
+      "source": "800000_Drum_Percussion_MIDI:GM MIDI Pack [360,000 files]/GM - Electronic/GM - Electronic GM/Single Track/Breakbeat/080 Urban 04c.mid",
+      "before_status": "quarantined",
+      "after_status": "accepted",
+      "before": {
+        "tempo": 80.0,
+        "meter": [
+          4,
+          4
+        ],
+        "style": [
+          "breakbeat"
+        ]
+      },
+      "after": {
+        "tempo": 80.0,
+        "meter": [
+          4,
+          4
+        ],
+        "style": [
+          "breakbeat"
+        ]
+      },
+      "reasons": []
+    },
+    {
+      "source": "800000_Drum_Percussion_MIDI:GM MIDI Pack [360,000 files]/GM - Progressive/GM - Progressive FPC/4-4 Fills/200 4 Tom 2-Bar 03.mid",
+      "before_status": "quarantined",
+      "after_status": "quarantined",
+      "before": {
+        "tempo": 200.0,
+        "meter": [
+          4,
+          4
+        ],
+        "role": "fill"
+      },
+      "after": {
+        "tempo": 200.0,
+        "meter": [
+          4,
+          4
+        ],
+        "role": "fill",
+        "style": [
+          "progressive"
+        ]
+      },
+      "reasons": [
+        "unverified_vendor_mapping"
+      ]
+    },
+    {
+      "source": "800000_Drum_Percussion_MIDI:GM MIDI Pack [360,000 files]/GM - Progressive/GM - Progressive Studio Drummer/6-8 Fills/190 6-8 Fill 01.mid",
+      "before_status": "quarantined",
+      "after_status": "quarantined",
+      "before": {
+        "tempo": 190.0002850004275,
+        "meter": [
+          6,
+          8
+        ],
+        "role": "fill"
+      },
+      "after": {
+        "tempo": 190.0002850004275,
+        "meter": [
+          6,
+          8
+        ],
+        "role": "fill",
+        "style": [
+          "progressive"
+        ]
+      },
+      "reasons": [
+        "ambiguous_percussion_streams",
+        "no_accepted_percussion"
+      ]
+    },
+    {
+      "source": "800000_Drum_Percussion_MIDI:GM MIDI Pack [360,000 files]/GM - Punk/GM - Punk Reason/Drum Kits Refill/Song Loops/Song 02 150/150 Chorus Hybrid F5.mid",
+      "before_status": "quarantined",
+      "after_status": "accepted",
+      "before": {
+        "tempo": 150.0,
+        "meter": [
+          4,
+          4
+        ]
+      },
+      "after": {
+        "tempo": 150.0,
+        "meter": [
+          4,
+          4
+        ],
+        "style": [
+          "punk"
+        ]
+      },
+      "reasons": []
+    },
+    {
+      "source": "800000_Drum_Percussion_MIDI:GM MIDI Pack [360,000 files]/GM - Punk/GM - Punk SSD4/Groove Monkee Punk SSD.lib/Fills.sng/Straight Fills.prt/200 Fill 01.mid",
+      "before_status": "quarantined",
+      "after_status": "quarantined",
+      "before": {
+        "tempo": 200.0,
+        "meter": [
+          4,
+          4
+        ],
+        "role": "fill"
+      },
+      "after": {
+        "tempo": 200.0,
+        "meter": [
+          4,
+          4
+        ],
+        "role": "fill",
+        "style": [
+          "punk"
+        ]
+      },
+      "reasons": [
+        "ambiguous_percussion_streams",
+        "no_accepted_percussion",
+        "unverified_vendor_mapping"
+      ]
+    },
+    {
+      "source": "800000_Drum_Percussion_MIDI:GM MIDI Pack [360,000 files]/GM - RE2/GM - RE2 LS Ext/Fills/4-4 Fills/Shuffle/HT Shuffle Fills/135 HT Shuffle Flam Fill 03.mid",
+      "before_status": "quarantined",
+      "after_status": "quarantined",
+      "before": {
+        "tempo": 135.000135000135,
+        "meter": [
+          4,
+          4
+        ],
+        "role": "fill"
+      },
+      "after": {
+        "tempo": 135.000135000135,
+        "meter": [
+          4,
+          4
+        ],
+        "role": "fill"
+      },
+      "reasons": [
+        "ambiguous_percussion_streams",
+        "missing_style",
+        "no_accepted_percussion",
+        "web_deferred"
+      ]
+    },
+    {
+      "source": "800000_Drum_Percussion_MIDI:GM MIDI Pack [360,000 files]/GM - RE2/GM - RE2 MOR/Fills/4-4 Fills/Straight/120 Roll Fill 05.mid",
+      "before_status": "quarantined",
+      "after_status": "quarantined",
+      "before": {
+        "tempo": 120.0,
+        "meter": [
+          4,
+          4
+        ],
+        "role": "fill"
+      },
+      "after": {
+        "tempo": 120.0,
+        "meter": [
+          4,
+          4
+        ],
+        "role": "fill"
+      },
+      "reasons": [
+        "ambiguous_percussion_streams",
+        "missing_style",
+        "no_accepted_percussion",
+        "unverified_vendor_mapping",
+        "web_deferred"
+      ]
+    },
+    {
+      "source": "800000_Drum_Percussion_MIDI:GM MIDI Pack [360,000 files]/GM - World Beats/GM - World Beats GM/Single Track/Drumset/4-4 Grooves/109 Songo 05b.mid",
+      "before_status": "quarantined",
+      "after_status": "quarantined",
+      "before": {
+        "tempo": 109.99990833340972,
+        "meter": [
+          4,
+          4
+        ],
+        "role": "groove"
+      },
+      "after": {
+        "tempo": 109.99990833340972,
+        "meter": [
+          4,
+          4
+        ],
+        "role": "groove",
+        "style": [
+          "world"
+        ]
+      },
+      "reasons": [
+        "metadata_conflict"
+      ]
+    },
+    {
+      "source": "800000_Drum_Percussion_MIDI:March:Tango/TANGO_2.MID",
+      "before_status": "quarantined",
+      "after_status": "discarded",
+      "before": {},
+      "after": {
+        "style": [
+          "tango"
+        ]
+      },
+      "reasons": [
+        "missing_tempo"
+      ]
+    },
+    {
+      "source": "800000_Drum_Percussion_MIDI:Modern Drummer MIDI Files/White Kit/04 Nu Metal/09 Def 101BPM/19 Fill.mid",
+      "before_status": "quarantined",
+      "after_status": "quarantined",
+      "before": {
+        "meter": [
+          4,
+          4
+        ],
+        "role": "fill",
+        "tempo": 101.0
+      },
+      "after": {
+        "meter": [
+          4,
+          4
+        ],
+        "role": "fill",
+        "tempo": 101.0,
+        "style": [
+          "nu-metal"
+        ]
+      },
+      "reasons": [
+        "ambiguous_percussion_streams",
+        "no_accepted_percussion"
+      ]
+    },
+    {
+      "source": "800000_Drum_Percussion_MIDI:Paso:Charleston/Charleston/charleston 1.mid",
+      "before_status": "quarantined",
+      "after_status": "quarantined",
+      "before": {
+        "meter": [
+          4,
+          4
+        ]
+      },
+      "after": {
+        "meter": [
+          4,
+          4
+        ],
+        "style": [
+          "charleston"
+        ]
+      },
+      "reasons": [
+        "ambiguous_percussion_streams",
+        "missing_tempo",
+        "no_accepted_percussion",
+        "web_deferred"
+      ]
+    },
+    {
+      "source": "800000_Drum_Percussion_MIDI:Rock:Indie/95 4_4 Big Rock/BigRock_4_4_Grv_18.mid",
+      "before_status": "quarantined",
+      "after_status": "quarantined",
+      "before": {
+        "tempo": 95.00014250021376,
+        "meter": [
+          4,
+          4
+        ]
+      },
+      "after": {
+        "tempo": 95.00014250021376,
+        "meter": [
+          4,
+          4
+        ],
+        "style": [
+          "rock"
+        ]
+      },
+      "reasons": [
+        "ambiguous_percussion_streams",
+        "no_accepted_percussion"
+      ]
+    },
+    {
+      "source": "800000_Drum_Percussion_MIDI:Superior Drummer 2 Drum Midi [425,000 files]/000041@EZD_POP#ROCK/29@POP#ROCK/GROOVE 07/R@18._Ride_8th_Bell#Middle.mid",
+      "before_status": "quarantined",
+      "after_status": "quarantined",
+      "before": {
+        "tempo": 85.00004250002125,
+        "meter": [
+          6,
+          8
+        ]
+      },
+      "after": {
+        "tempo": 85.00004250002125,
+        "meter": [
+          6,
+          8
+        ],
+        "role": "groove"
+      },
+      "reasons": [
+        "ambiguous_percussion_streams",
+        "missing_style",
+        "no_accepted_percussion",
+        "web_deferred"
+      ]
+    },
+    {
+      "source": "800000_Drum_Percussion_MIDI:Superior Drummer 2 Drum Midi [425,000 files]/000041@EZD_POP#ROCK/29@POP#ROCK/GROOVE 26/D@04._Hats_8th_Tight_Closed.mid",
+      "before_status": "quarantined",
+      "after_status": "quarantined",
+      "before": {
+        "tempo": 85.00004250002125,
+        "meter": [
+          6,
+          8
+        ]
+      },
+      "after": {
+        "tempo": 85.00004250002125,
+        "meter": [
+          6,
+          8
+        ],
+        "role": "groove"
+      },
+      "reasons": [
+        "ambiguous_percussion_streams",
+        "missing_style",
+        "no_accepted_percussion",
+        "web_deferred"
+      ]
+    },
+    {
+      "source": "800000_Drum_Percussion_MIDI:Superior Drummer 2 Drum Midi [425,000 files]/000042@EZX_COCKTAIL/2@SAMBA/H@Samba_8.mid",
+      "before_status": "quarantined",
+      "after_status": "quarantined",
+      "before": {
+        "tempo": 110.00011000011,
+        "meter": [
+          4,
+          4
+        ]
+      },
+      "after": {
+        "tempo": 110.00011000011,
+        "meter": [
+          4,
+          4
+        ],
+        "style": [
+          "samba"
+        ]
+      },
+      "reasons": [
+        "ambiguous_percussion_streams",
+        "no_accepted_percussion"
+      ]
+    },
+    {
+      "source": "800000_Drum_Percussion_MIDI:Superior Drummer 2 Drum Midi [425,000 files]/000043@EZX_DRUMKIT_FROM_HELL/26@METAL_(1#4)/097@GROOVE_097/11._Main_Ride_-_Ride.mid",
+      "before_status": "quarantined",
+      "after_status": "quarantined",
+      "before": {
+        "tempo": 130.00013000013,
+        "meter": [
+          4,
+          4
+        ],
+        "role": "groove"
+      },
+      "after": {
+        "tempo": 130.00013000013,
+        "meter": [
+          4,
+          4
+        ],
+        "role": "groove",
+        "style": [
+          "metal"
+        ]
+      },
+      "reasons": [
+        "ambiguous_percussion_streams",
+        "no_accepted_percussion"
+      ]
+    },
+    {
+      "source": "800000_Drum_Percussion_MIDI:Superior Drummer 2 Drum Midi [425,000 files]/000044@EZXCOCKTAIL/3@FILLS/H@Fill_8.mid",
+      "before_status": "quarantined",
+      "after_status": "quarantined",
+      "before": {
+        "tempo": 110.00011000011,
+        "meter": [
+          4,
+          4
+        ],
+        "role": "fill"
+      },
+      "after": {
+        "tempo": 110.00011000011,
+        "meter": [
+          4,
+          4
+        ],
+        "role": "fill"
+      },
+      "reasons": [
+        "ambiguous_percussion_streams",
+        "missing_style",
+        "no_accepted_percussion",
+        "web_deferred"
+      ]
+    },
+    {
+      "source": "800000_Drum_Percussion_MIDI:Superior Drummer 2 Drum Midi [425,000 files]/000044@EZXCOCKTAIL/3@FILLS/L@Fill_12.mid",
+      "before_status": "quarantined",
+      "after_status": "quarantined",
+      "before": {
+        "tempo": 110.00011000011,
+        "meter": [
+          4,
+          4
+        ],
+        "role": "fill"
+      },
+      "after": {
+        "tempo": 110.00011000011,
+        "meter": [
+          4,
+          4
+        ],
+        "role": "fill"
+      },
+      "reasons": [
+        "ambiguous_percussion_streams",
+        "missing_style",
+        "no_accepted_percussion",
+        "web_deferred"
+      ]
+    },
+    {
+      "source": "800000_Drum_Percussion_MIDI:Superior Drummer 2 Drum Midi [425,000 files]/000046@EZXDRUMKIT_FROM_HELL/25@METAL_(1#2)/007@GROOVE_007/04._Hats_-_Open_4.mid",
+      "before_status": "quarantined",
+      "after_status": "quarantined",
+      "before": {
+        "tempo": 147.0000955500621,
+        "meter": [
+          4,
+          4
+        ],
+        "role": "groove"
+      },
+      "after": {
+        "tempo": 147.0000955500621,
+        "meter": [
+          4,
+          4
+        ],
+        "role": "groove",
+        "style": [
+          "metal"
+        ]
+      },
+      "reasons": [
+        "ambiguous_percussion_streams",
+        "no_accepted_percussion"
+      ]
+    },
+    {
+      "source": "800000_Drum_Percussion_MIDI:Superior Drummer 2 Drum Midi [425,000 files]/000047@EZXELECTRONIC/06@HIP HOP 98 BPM/06@Hip Hop MainBeat 6.mid",
+      "before_status": "quarantined",
+      "after_status": "accepted",
+      "before": {
+        "tempo": 98.00014373354415,
+        "meter": [
+          4,
+          4
+        ],
+        "role": "groove"
+      },
+      "after": {
+        "tempo": 98.00014373354415,
+        "meter": [
+          4,
+          4
+        ],
+        "role": "groove",
+        "style": [
+          "hiphop"
+        ]
+      },
+      "reasons": []
+    },
+    {
+      "source": "800000_Drum_Percussion_MIDI:Superior Drummer 2 Drum Midi [425,000 files]/000047@EZXELECTRONIC/11@MINIMAL MD 128BPM/24@Minimal BreakFill 4.mid",
+      "before_status": "quarantined",
+      "after_status": "quarantined",
+      "before": {
+        "tempo": 128.0,
+        "meter": [
+          4,
+          4
+        ]
+      },
+      "after": {
+        "tempo": 128.0,
+        "meter": [
+          4,
+          4
+        ],
+        "role": "fill"
+      },
+      "reasons": [
+        "missing_style",
+        "web_deferred"
+      ]
+    },
+    {
+      "source": "800000_Drum_Percussion_MIDI:Superior Drummer 2 Drum Midi [425,000 files]/000063@SEAN_REINERT/11@4-4/4-4 fill 001.MID",
+      "before_status": "quarantined",
+      "after_status": "quarantined",
+      "before": {
+        "tempo": 219.00128115749476,
+        "role": "fill"
+      },
+      "after": {
+        "tempo": 219.00128115749476,
+        "role": "fill"
+      },
+      "reasons": [
+        "missing_style",
+        "web_deferred"
+      ]
+    },
+    {
+      "source": "800000_Drum_Percussion_MIDI:Superior Drummer 2 Drum Midi [425,000 files]/000089@BLUES/209@STRAIGHT_6#8/076-S106@FILLS/Variation_01.mid",
+      "before_status": "quarantined",
+      "after_status": "quarantined",
+      "before": {
+        "tempo": 75.99996960001216,
+        "meter": [
+          4,
+          4
+        ]
+      },
+      "after": {
+        "tempo": 75.99996960001216,
+        "meter": [
+          4,
+          4
+        ],
+        "style": [
+          "blues"
+        ]
+      },
+      "reasons": [
+        "ambiguous_percussion_streams",
+        "no_accepted_percussion"
+      ]
+    },
+    {
+      "source": "800000_Drum_Percussion_MIDI:Superior Drummer 2 Drum Midi [425,000 files]/000089@BLUES/209@STRAIGHT_6#8/096-S046@FILLS/Variation_05.mid",
+      "before_status": "quarantined",
+      "after_status": "quarantined",
+      "before": {
+        "tempo": 96.0,
+        "meter": [
+          6,
+          8
+        ]
+      },
+      "after": {
+        "tempo": 96.0,
+        "meter": [
+          6,
+          8
+        ],
+        "style": [
+          "blues"
+        ]
+      },
+      "reasons": [
+        "ambiguous_percussion_streams",
+        "no_accepted_percussion"
+      ]
+    },
+    {
+      "source": "800000_Drum_Percussion_MIDI:Superior Drummer 2 Drum Midi [425,000 files]/000110@METAL/Bonus/Metal Bonus_V_4 Feel Triplet Kicks F1 R_C_Metal_F_.mid",
+      "before_status": "quarantined",
+      "after_status": "quarantined",
+      "before": {
+        "tempo": 123.99999173333389,
+        "meter": [
+          4,
+          4
+        ]
+      },
+      "after": {
+        "tempo": 123.99999173333389,
+        "meter": [
+          4,
+          4
+        ],
+        "style": [
+          "metal"
+        ]
+      },
+      "reasons": [
+        "ambiguous_percussion_streams",
+        "no_accepted_percussion"
+      ]
+    },
+    {
+      "source": "800000_Drum_Percussion_MIDI:Superior Drummer 2 Drum Midi [425,000 files]/000110@METAL/Fills/Metal Fills 180_V_ 1-Bar 12 T_C_Metal Misc_F_.mid",
+      "before_status": "quarantined",
+      "after_status": "quarantined",
+      "before": {
+        "tempo": 180.00018000018,
+        "meter": [
+          4,
+          4
+        ],
+        "role": "fill"
+      },
+      "after": {
+        "tempo": 180.00018000018,
+        "meter": [
+          4,
+          4
+        ],
+        "role": "fill",
+        "style": [
+          "metal"
+        ]
+      },
+      "reasons": [
+        "ambiguous_percussion_streams",
+        "no_accepted_percussion"
+      ]
+    },
+    {
+      "source": "800000_Drum_Percussion_MIDI:Superior Drummer 2 Drum Midi [425,000 files]/000110@PROGRESSIVE/3-4 Prog/3-4 Prog_V_180 02_C_Progressive.mid",
+      "before_status": "quarantined",
+      "after_status": "quarantined",
+      "before": {
+        "tempo": 180.00018000018,
+        "meter": [
+          3,
+          4
+        ]
+      },
+      "after": {
+        "tempo": 180.00018000018,
+        "meter": [
+          3,
+          4
+        ],
+        "style": [
+          "progressive"
+        ]
+      },
+      "reasons": [
+        "ambiguous_percussion_streams",
+        "no_accepted_percussion"
+      ]
+    },
+    {
+      "source": "800000_Drum_Percussion_MIDI:Superior Drummer 2 Drum Midi [425,000 files]/000110@PROGRESSIVE/5-8 Prog/5-8 Prog_V_160 03 E_C_Progressive.mid",
+      "before_status": "quarantined",
+      "after_status": "quarantined",
+      "before": {
+        "tempo": 160.0,
+        "meter": [
+          5,
+          8
+        ]
+      },
+      "after": {
+        "tempo": 160.0,
+        "meter": [
+          5,
+          8
+        ],
+        "style": [
+          "progressive"
+        ]
+      },
+      "reasons": [
+        "ambiguous_percussion_streams",
+        "no_accepted_percussion"
+      ]
+    },
+    {
+      "source": "800000_Drum_Percussion_MIDI:Superior Drummer 2 Drum Midi [425,000 files]/000110@ROCK/Intros/Rock Intros 120_V__C_Rock Misc_G_.mid",
+      "before_status": "quarantined",
+      "after_status": "discarded",
+      "before": {
+        "tempo": 120.0,
+        "meter": [
+          4,
+          4
+        ]
+      },
+      "after": {
+        "tempo": 120.0,
+        "meter": [
+          4,
+          4
+        ],
+        "style": [
+          "rock"
+        ]
+      },
+      "reasons": [
+        "no_accepted_percussion"
+      ]
+    },
+    {
+      "source": "800000_Drum_Percussion_MIDI:Superior Drummer 2 Drum Midi [425,000 files]/000210@BLUES/26@120 SHUFFLE A/120 Shuffle A Hats (8) F3 M.mid",
+      "before_status": "quarantined",
+      "after_status": "accepted",
+      "before": {
+        "tempo": 120.0,
+        "meter": [
+          4,
+          4
+        ]
+      },
+      "after": {
+        "tempo": 120.0,
+        "meter": [
+          4,
+          4
+        ],
+        "style": [
+          "blues"
+        ]
+      },
+      "reasons": []
+    },
+    {
+      "source": "800000_Drum_Percussion_MIDI:Superior Drummer 2 Drum Midi [425,000 files]/000210@BLUES/FILLS/101 - 120/120 Snare Short Hat 02.mid",
+      "before_status": "quarantined",
+      "after_status": "accepted",
+      "before": {
+        "tempo": 120.0,
+        "meter": [
+          4,
+          4
+        ],
+        "role": "fill"
+      },
+      "after": {
+        "tempo": 120.0,
+        "meter": [
+          4,
+          4
+        ],
+        "role": "fill",
+        "style": [
+          "blues"
+        ]
+      },
+      "reasons": []
+    },
+    {
+      "source": "800000_Drum_Percussion_MIDI:Superior Drummer 2 Drum Midi [425,000 files]/000210@COUNTRY/BONUS/Shuffle 120 01 A.mid",
+      "before_status": "quarantined",
+      "after_status": "accepted",
+      "before": {
+        "tempo": 120.0,
+        "meter": [
+          4,
+          4
+        ]
+      },
+      "after": {
+        "tempo": 120.0,
+        "meter": [
+          4,
+          4
+        ],
+        "style": [
+          "country"
+        ]
+      },
+      "reasons": []
+    },
+    {
+      "source": "800000_Drum_Percussion_MIDI:Superior Drummer 2 Drum Midi [425,000 files]/000210@COUNTRY/INTROS/Intro 140 01 Short.mid",
+      "before_status": "quarantined",
+      "after_status": "quarantined",
+      "before": {
+        "tempo": 140.00014000014,
+        "meter": [
+          4,
+          4
+        ]
+      },
+      "after": {
+        "tempo": 140.00014000014,
+        "meter": [
+          4,
+          4
+        ],
+        "style": [
+          "country"
+        ]
+      },
+      "reasons": [
+        "ambiguous_percussion_streams",
+        "no_accepted_percussion"
+      ]
+    },
+    {
+      "source": "800000_Drum_Percussion_MIDI:Superior Drummer 2 Drum Midi [425,000 files]/000210@ELECTRONIC/Garage/135 Grime 01b.mid",
+      "before_status": "quarantined",
+      "after_status": "accepted",
+      "before": {
+        "tempo": 135.000135000135,
+        "meter": [
+          4,
+          4
+        ]
+      },
+      "after": {
+        "tempo": 135.000135000135,
+        "meter": [
+          4,
+          4
+        ],
+        "style": [
+          "electronic"
+        ]
+      },
+      "reasons": []
+    },
+    {
+      "source": "800000_Drum_Percussion_MIDI:Superior Drummer 2 Drum Midi [425,000 files]/000210@FUNK_HIP_HOP_RB/31@EAST COAST/096 East Coast 06 Fill.mid",
+      "before_status": "quarantined",
+      "after_status": "quarantined",
+      "before": {
+        "tempo": 96.99995311668933,
+        "meter": [
+          4,
+          4
+        ]
+      },
+      "after": {
+        "tempo": 96.99995311668933,
+        "meter": [
+          4,
+          4
+        ],
+        "role": "fill"
+      },
+      "reasons": [
+        "ambiguous_percussion_streams",
+        "missing_style",
+        "no_accepted_percussion",
+        "web_deferred"
+      ]
+    },
+    {
+      "source": "800000_Drum_Percussion_MIDI:Superior Drummer 2 Drum Midi [425,000 files]/000210@JAZZ/04@BLUESY/123 Bluesy Jazz 04 Fill.mid",
+      "before_status": "quarantined",
+      "after_status": "quarantined",
+      "before": {
+        "tempo": 123.99999173333389,
+        "meter": [
+          4,
+          4
+        ]
+      },
+      "after": {
+        "tempo": 123.99999173333389,
+        "meter": [
+          4,
+          4
+        ],
+        "role": "fill",
+        "style": [
+          "jazz"
+        ]
+      },
+      "reasons": [
+        "ambiguous_percussion_streams",
+        "no_accepted_percussion"
+      ]
+    },
+    {
+      "source": "800000_Drum_Percussion_MIDI:Superior Drummer 2 Drum Midi [425,000 files]/000210@JAZZ/95@PERCUSSION BITS/120 Bomba Cowbell 3.mid",
+      "before_status": "quarantined",
+      "after_status": "accepted",
+      "before": {
+        "tempo": 120.0,
+        "meter": [
+          4,
+          4
+        ]
+      },
+      "after": {
+        "tempo": 120.0,
+        "meter": [
+          4,
+          4
+        ],
+        "style": [
+          "jazz"
+        ]
+      },
+      "reasons": []
+    },
+    {
+      "source": "800000_Drum_Percussion_MIDI:Superior Drummer 2 Drum Midi [425,000 files]/000210@METAL/140 DRIVE/Drive 140 (8) F2 S.mid",
+      "before_status": "quarantined",
+      "after_status": "accepted",
+      "before": {
+        "tempo": 140.00014000014,
+        "meter": [
+          4,
+          4
+        ]
+      },
+      "after": {
+        "tempo": 140.00014000014,
+        "meter": [
+          4,
+          4
+        ],
+        "style": [
+          "metal"
+        ]
+      },
+      "reasons": []
+    },
+    {
+      "source": "800000_Drum_Percussion_MIDI:Superior Drummer 2 Drum Midi [425,000 files]/000210@METAL/140 DRIVE/Drive 140 (8) F5 C.mid",
+      "before_status": "quarantined",
+      "after_status": "accepted",
+      "before": {
+        "tempo": 140.00014000014,
+        "meter": [
+          4,
+          4
+        ]
+      },
+      "after": {
+        "tempo": 140.00014000014,
+        "meter": [
+          4,
+          4
+        ],
+        "style": [
+          "metal"
+        ]
+      },
+      "reasons": []
+    },
+    {
+      "source": "800000_Drum_Percussion_MIDI:Superior Drummer 2 Drum Midi [425,000 files]/000210@PROGRESSIVE/210@DFH/21@4-4 GROOVES/140 4-4 01 F4.mid",
+      "before_status": "quarantined",
+      "after_status": "accepted",
+      "before": {
+        "tempo": 140.00014000014,
+        "meter": [
+          4,
+          4
+        ],
+        "role": "groove"
+      },
+      "after": {
+        "tempo": 140.00014000014,
+        "meter": [
+          4,
+          4
+        ],
+        "role": "groove",
+        "style": [
+          "progressive"
+        ]
+      },
+      "reasons": []
+    },
+    {
+      "source": "800000_Drum_Percussion_MIDI:Superior Drummer 2 Drum Midi [425,000 files]/000210@PROGRESSIVE/210@EZD/51@6-4 GROOVES/190 6-4 02 F4.mid",
+      "before_status": "quarantined",
+      "after_status": "quarantined",
+      "before": {
+        "tempo": 190.0002850004275,
+        "meter": [
+          6,
+          4
+        ],
+        "role": "groove"
+      },
+      "after": {
+        "tempo": 190.0002850004275,
+        "meter": [
+          6,
+          4
+        ],
+        "role": "groove",
+        "style": [
+          "progressive"
+        ]
+      },
+      "reasons": [
+        "ambiguous_percussion_streams",
+        "no_accepted_percussion"
+      ]
+    },
+    {
+      "source": "800000_Drum_Percussion_MIDI:Superior Drummer 2 Drum Midi [425,000 files]/000210@ROCK/14@POP/137 Pop 01a.mid",
+      "before_status": "quarantined",
+      "after_status": "quarantined",
+      "before": {
+        "tempo": 137.99987580011177,
+        "meter": [
+          4,
+          4
+        ]
+      },
+      "after": {
+        "tempo": 137.99987580011177,
+        "meter": [
+          4,
+          4
+        ],
+        "style": [
+          "pop"
+        ]
+      },
+      "reasons": [
+        "ambiguous_percussion_streams",
+        "no_accepted_percussion"
+      ]
+    },
+    {
+      "source": "800000_Drum_Percussion_MIDI:Superior Drummer 2 Drum Midi [425,000 files]/000210@ROCK/14@POP/150 pop 07c fill.mid",
+      "before_status": "quarantined",
+      "after_status": "accepted",
+      "before": {
+        "tempo": 150.0,
+        "meter": [
+          4,
+          4
+        ]
+      },
+      "after": {
+        "tempo": 150.0,
+        "meter": [
+          4,
+          4
+        ],
+        "role": "fill",
+        "style": [
+          "pop"
+        ]
+      },
+      "reasons": []
+    },
+    {
+      "source": "800000_Drum_Percussion_MIDI:Superior Drummer 2 Drum Midi [425,000 files]/000340@ODDGROOVES_FILL_PACK/41@80 BPM/1 Bar Fills/Fill 002.mid",
+      "before_status": "quarantined",
+      "after_status": "quarantined",
+      "before": {
+        "tempo": 80.0,
+        "meter": [
+          7,
+          4
+        ],
+        "role": "fill"
+      },
+      "after": {
+        "tempo": 80.0,
+        "meter": [
+          7,
+          4
+        ],
+        "role": "fill"
+      },
+      "reasons": [
+        "missing_style",
+        "web_deferred"
+      ]
+    },
+    {
+      "source": "800000_Drum_Percussion_MIDI:Superior Drummer 2 Drum Midi [425,000 files]/000340@ODDGROOVES_FILL_PACK/86@70 BPM/1 Bar Fills/Fill 007.mid",
+      "before_status": "quarantined",
+      "after_status": "quarantined",
+      "before": {
+        "tempo": 70.00007000007,
+        "meter": [
+          9,
+          8
+        ],
+        "role": "fill"
+      },
+      "after": {
+        "tempo": 70.00007000007,
+        "meter": [
+          9,
+          8
+        ],
+        "role": "fill"
+      },
+      "reasons": [
+        "missing_style",
+        "web_deferred"
+      ]
+    },
+    {
+      "source": "800000_Drum_Percussion_MIDI:Superior Drummer 2 Drum Midi [425,000 files]/000410@BLUES/011@GROOVE/shuf_c04.MID",
+      "before_status": "quarantined",
+      "after_status": "accepted",
+      "before": {
+        "tempo": 120.0,
+        "meter": [
+          4,
+          4
+        ],
+        "role": "groove"
+      },
+      "after": {
+        "tempo": 120.0,
+        "meter": [
+          4,
+          4
+        ],
+        "role": "groove",
+        "style": [
+          "blues"
+        ]
+      },
+      "reasons": []
+    },
+    {
+      "source": "800000_Drum_Percussion_MIDI:Superior Drummer 2 Drum Midi [425,000 files]/000410@BLUES/012@FILLS/shuf_F09.MID",
+      "before_status": "quarantined",
+      "after_status": "accepted",
+      "before": {
+        "tempo": 120.0,
+        "meter": [
+          4,
+          4
+        ],
+        "role": "fill"
+      },
+      "after": {
+        "tempo": 120.0,
+        "meter": [
+          4,
+          4
+        ],
+        "role": "fill",
+        "style": [
+          "blues"
+        ]
+      },
+      "reasons": []
+    },
+    {
+      "source": "800000_Drum_Percussion_MIDI:Superior Drummer 2 Drum Midi [425,000 files]/000410@COUNTRY/021@GROOVE/240bpm_brush_07.mid",
+      "before_status": "quarantined",
+      "after_status": "accepted",
+      "before": {
+        "tempo": 240.0,
+        "meter": [
+          4,
+          4
+        ],
+        "role": "groove"
+      },
+      "after": {
+        "tempo": 240.0,
+        "meter": [
+          4,
+          4
+        ],
+        "role": "groove",
+        "style": [
+          "country"
+        ]
+      },
+      "reasons": []
+    },
+    {
+      "source": "800000_Drum_Percussion_MIDI:Superior Drummer 2 Drum Midi [425,000 files]/000410@COUNTRY/022@FILLS/240bpm_brush_F03.mid",
+      "before_status": "quarantined",
+      "after_status": "accepted",
+      "before": {
+        "tempo": 240.0,
+        "meter": [
+          4,
+          4
+        ],
+        "role": "fill"
+      },
+      "after": {
+        "tempo": 240.0,
+        "meter": [
+          4,
+          4
+        ],
+        "role": "fill",
+        "style": [
+          "country"
+        ]
+      },
+      "reasons": []
+    },
+    {
+      "source": "800000_Drum_Percussion_MIDI:Superior Drummer 2 Drum Midi [425,000 files]/000410@FUNK/081@GROOVES/retrobreaks_H/rb_H_09.MID",
+      "before_status": "quarantined",
+      "after_status": "accepted",
+      "before": {
+        "tempo": 120.0,
+        "meter": [
+          4,
+          4
+        ],
+        "role": "groove"
+      },
+      "after": {
+        "tempo": 120.0,
+        "meter": [
+          4,
+          4
+        ],
+        "role": "groove",
+        "style": [
+          "funk"
+        ]
+      },
+      "reasons": []
+    },
+    {
+      "source": "800000_Drum_Percussion_MIDI:Superior Drummer 2 Drum Midi [425,000 files]/000410@FUNK/091@GROOVES/bonusfunk_J/bf_J_03.MID",
+      "before_status": "quarantined",
+      "after_status": "accepted",
+      "before": {
+        "tempo": 120.0,
+        "meter": [
+          4,
+          4
+        ],
+        "role": "groove"
+      },
+      "after": {
+        "tempo": 120.0,
+        "meter": [
+          4,
+          4
+        ],
+        "role": "groove",
+        "style": [
+          "funk"
+        ]
+      },
+      "reasons": []
+    },
+    {
+      "source": "800000_Drum_Percussion_MIDI:Superior Drummer 2 Drum Midi [425,000 files]/000410@HIP HOP/011@GROOVES/breakin_08.MID",
+      "before_status": "quarantined",
+      "after_status": "accepted",
+      "before": {
+        "tempo": 120.0,
+        "meter": [
+          4,
+          4
+        ],
+        "role": "groove"
+      },
+      "after": {
+        "tempo": 120.0,
+        "meter": [
+          4,
+          4
+        ],
+        "role": "groove",
+        "style": [
+          "hiphop"
+        ]
+      },
+      "reasons": []
+    },
+    {
+      "source": "800000_Drum_Percussion_MIDI:Superior Drummer 2 Drum Midi [425,000 files]/000410@HIP HOP/021@GROOVES/hiphop1b_95bpm_03.mid",
+      "before_status": "quarantined",
+      "after_status": "accepted",
+      "before": {
+        "tempo": 94.99999208333399,
+        "meter": [
+          4,
+          4
+        ],
+        "role": "groove"
+      },
+      "after": {
+        "tempo": 94.99999208333399,
+        "meter": [
+          4,
+          4
+        ],
+        "role": "groove",
+        "style": [
+          "hiphop"
+        ]
+      },
+      "reasons": []
+    },
+    {
+      "source": "800000_Drum_Percussion_MIDI:Superior Drummer 2 Drum Midi [425,000 files]/000410@JAZZ/032@FILLS/js_A_F08.MID",
+      "before_status": "quarantined",
+      "after_status": "quarantined",
+      "before": {
+        "tempo": 120.0,
+        "meter": [
+          4,
+          4
+        ],
+        "role": "fill"
+      },
+      "after": {
+        "tempo": 120.0,
+        "meter": [
+          4,
+          4
+        ],
+        "role": "fill",
+        "style": [
+          "jazz"
+        ]
+      },
+      "reasons": [
+        "ambiguous_percussion_streams"
+      ]
+    },
+    {
+      "source": "800000_Drum_Percussion_MIDI:Superior Drummer 2 Drum Midi [425,000 files]/000410@JAZZ/061@GROOVES/EB_Jazz_Nice_4.mid",
+      "before_status": "quarantined",
+      "after_status": "accepted",
+      "before": {
+        "tempo": 120.0,
+        "meter": [
+          4,
+          4
+        ],
+        "role": "groove"
+      },
+      "after": {
+        "tempo": 120.0,
+        "meter": [
+          4,
+          4
+        ],
+        "role": "groove",
+        "style": [
+          "jazz"
+        ]
+      },
+      "reasons": []
+    },
+    {
+      "source": "800000_Drum_Percussion_MIDI:Superior Drummer 2 Drum Midi [425,000 files]/000410@LATIN/011@GROOVES/bossa_B_07.MID",
+      "before_status": "quarantined",
+      "after_status": "accepted",
+      "before": {
+        "tempo": 120.0,
+        "meter": [
+          4,
+          4
+        ],
+        "role": "groove"
+      },
+      "after": {
+        "tempo": 120.0,
+        "meter": [
+          4,
+          4
+        ],
+        "role": "groove",
+        "style": [
+          "latin"
+        ]
+      },
+      "reasons": []
+    },
+    {
+      "source": "800000_Drum_Percussion_MIDI:Superior Drummer 2 Drum Midi [425,000 files]/000410@LATIN/012@FILLS/bossa_F03.MID",
+      "before_status": "quarantined",
+      "after_status": "accepted",
+      "before": {
+        "tempo": 120.0,
+        "meter": [
+          4,
+          4
+        ],
+        "role": "fill"
+      },
+      "after": {
+        "tempo": 120.0,
+        "meter": [
+          4,
+          4
+        ],
+        "role": "fill",
+        "style": [
+          "latin"
+        ]
+      },
+      "reasons": []
+    },
+    {
+      "source": "800000_Drum_Percussion_MIDI:Superior Drummer 2 Drum Midi [425,000 files]/000410@METAL/022@FILLS A/metal1a_120bpm_F01.mid",
+      "before_status": "quarantined",
+      "after_status": "accepted",
+      "before": {
+        "tempo": 120.0,
+        "meter": [
+          4,
+          4
+        ]
+      },
+      "after": {
+        "tempo": 120.0,
+        "meter": [
+          4,
+          4
+        ],
+        "style": [
+          "metal"
+        ]
+      },
+      "reasons": []
+    },
+    {
+      "source": "800000_Drum_Percussion_MIDI:Superior Drummer 2 Drum Midi [425,000 files]/000410@METAL/041@GROOVES/numetal1b_02.mid",
+      "before_status": "quarantined",
+      "after_status": "accepted",
+      "before": {
+        "tempo": 100.0,
+        "meter": [
+          4,
+          4
+        ],
+        "role": "groove"
+      },
+      "after": {
+        "tempo": 100.0,
+        "meter": [
+          4,
+          4
+        ],
+        "role": "groove",
+        "style": [
+          "metal"
+        ]
+      },
+      "reasons": []
+    },
+    {
+      "source": "800000_Drum_Percussion_MIDI:Superior Drummer 2 Drum Midi [425,000 files]/000410@POP/0112@LIL' G/lg-8.mid",
+      "before_status": "quarantined",
+      "after_status": "accepted",
+      "before": {
+        "tempo": 90.00009000009,
+        "meter": [
+          4,
+          4
+        ]
+      },
+      "after": {
+        "tempo": 90.00009000009,
+        "meter": [
+          4,
+          4
+        ],
+        "style": [
+          "pop"
+        ]
+      },
+      "reasons": []
+    },
+    {
+      "source": "800000_Drum_Percussion_MIDI:Superior Drummer 2 Drum Midi [425,000 files]/000410@POP/0501@GROOVES/ridin_08.MID",
+      "before_status": "quarantined",
+      "after_status": "accepted",
+      "before": {
+        "tempo": 120.0,
+        "meter": [
+          4,
+          4
+        ],
+        "role": "groove"
+      },
+      "after": {
+        "tempo": 120.0,
+        "meter": [
+          4,
+          4
+        ],
+        "role": "groove",
+        "style": [
+          "pop"
+        ]
+      },
+      "reasons": []
+    },
+    {
+      "source": "800000_Drum_Percussion_MIDI:Superior Drummer 2 Drum Midi [425,000 files]/000410@PUNK/021@GROOVES/punk1_140bpm_03.mid",
+      "before_status": "quarantined",
+      "after_status": "quarantined",
+      "before": {
+        "tempo": 140.00014000014,
+        "meter": [
+          4,
+          4
+        ],
+        "role": "groove"
+      },
+      "after": {
+        "tempo": 140.00014000014,
+        "meter": [
+          4,
+          4
+        ],
+        "role": "groove",
+        "style": [
+          "punk"
+        ]
+      },
+      "reasons": [
+        "ambiguous_percussion_streams",
+        "no_accepted_percussion"
+      ]
+    },
+    {
+      "source": "800000_Drum_Percussion_MIDI:Superior Drummer 2 Drum Midi [425,000 files]/000410@PUNK/021@GROOVES/punk1_140bpm_12.mid",
+      "before_status": "quarantined",
+      "after_status": "quarantined",
+      "before": {
+        "tempo": 140.00014000014,
+        "meter": [
+          4,
+          4
+        ],
+        "role": "groove"
+      },
+      "after": {
+        "tempo": 140.00014000014,
+        "meter": [
+          4,
+          4
+        ],
+        "role": "groove",
+        "style": [
+          "punk"
+        ]
+      },
+      "reasons": [
+        "ambiguous_percussion_streams",
+        "no_accepted_percussion"
+      ]
+    },
+    {
+      "source": "800000_Drum_Percussion_MIDI:Superior Drummer 2 Drum Midi [425,000 files]/000410@R&B/011@GROOVES/rnb1_85bpm_03.mid",
+      "before_status": "quarantined",
+      "after_status": "quarantined",
+      "before": {
+        "tempo": 82.99995020002989,
+        "meter": [
+          4,
+          4
+        ],
+        "role": "groove"
+      },
+      "after": {
+        "tempo": 82.99995020002989,
+        "meter": [
+          4,
+          4
+        ],
+        "role": "groove",
+        "style": [
+          "rnb"
+        ]
+      },
+      "reasons": [
+        "metadata_conflict"
+      ]
+    },
+    {
+      "source": "800000_Drum_Percussion_MIDI:Superior Drummer 2 Drum Midi [425,000 files]/000410@R&B/022@FILLS/rnb2_95bpm_F03.mid",
+      "before_status": "quarantined",
+      "after_status": "quarantined",
+      "before": {
+        "tempo": 96.0,
+        "meter": [
+          4,
+          4
+        ],
+        "role": "fill"
+      },
+      "after": {
+        "tempo": 96.0,
+        "meter": [
+          4,
+          4
+        ],
+        "role": "fill",
+        "style": [
+          "rnb"
+        ]
+      },
+      "reasons": [
+        "metadata_conflict"
+      ]
+    },
+    {
+      "source": "800000_Drum_Percussion_MIDI:Superior Drummer 2 Drum Midi [425,000 files]/000410@ROCK/121@GROOVES/br_A_01.MID",
+      "before_status": "quarantined",
+      "after_status": "quarantined",
+      "before": {
+        "tempo": 120.0,
+        "meter": [
+          4,
+          4
+        ],
+        "role": "groove"
+      },
+      "after": {
+        "tempo": 120.0,
+        "meter": [
+          4,
+          4
+        ],
+        "role": "groove",
+        "style": [
+          "rock"
+        ]
+      },
+      "reasons": [
+        "ambiguous_percussion_streams",
+        "no_accepted_percussion"
+      ]
+    },
+    {
+      "source": "800000_Drum_Percussion_MIDI:Superior Drummer 2 Drum Midi [425,000 files]/000410@ROCK/121@GROOVES/br_D_09.MID",
+      "before_status": "quarantined",
+      "after_status": "quarantined",
+      "before": {
+        "tempo": 120.0,
+        "meter": [
+          4,
+          4
+        ],
+        "role": "groove"
+      },
+      "after": {
+        "tempo": 120.0,
+        "meter": [
+          4,
+          4
+        ],
+        "role": "groove",
+        "style": [
+          "rock"
+        ]
+      },
+      "reasons": [
+        "ambiguous_percussion_streams",
+        "no_accepted_percussion"
+      ]
+    },
+    {
+      "source": "800000_Drum_Percussion_MIDI:Superior Drummer 2 Drum Midi [425,000 files]/000610@Pop_Drums/Pop Drums Basics/Fill 2 Var F.mid",
+      "before_status": "quarantined",
+      "after_status": "quarantined",
+      "before": {
+        "tempo": 100.0,
+        "meter": [
+          4,
+          4
+        ],
+        "role": "fill"
+      },
+      "after": {
+        "tempo": 100.0,
+        "meter": [
+          4,
+          4
+        ],
+        "role": "fill",
+        "style": [
+          "pop"
+        ]
+      },
+      "reasons": [
+        "ambiguous_percussion_streams",
+        "no_accepted_percussion"
+      ]
+    },
+    {
+      "source": "800000_Drum_Percussion_MIDI:Superior Drummer 2 Drum Midi [425,000 files]/000610@Pop_Drums/Pop Drums Funk/Fill 1 Var E.MID",
+      "before_status": "quarantined",
+      "after_status": "quarantined",
+      "before": {
+        "tempo": 126.000126000126,
+        "meter": [
+          4,
+          4
+        ],
+        "role": "fill"
+      },
+      "after": {
+        "tempo": 126.000126000126,
+        "meter": [
+          4,
+          4
+        ],
+        "role": "fill",
+        "style": [
+          "pop"
+        ]
+      },
+      "reasons": [
+        "ambiguous_percussion_streams",
+        "no_accepted_percussion",
+        "uninterpreted_sysex_requires_review"
+      ]
+    },
+    {
+      "source": "800000_Drum_Percussion_MIDI:Superior Drummer 2 Drum Midi [425,000 files]/000705@ODDGROOVES_FILL_PACK/53@110 BPM/1 Bar Fills/Fill 011.mid",
+      "before_status": "quarantined",
+      "after_status": "quarantined",
+      "before": {
+        "tempo": 70.00007000007,
+        "meter": [
+          5,
+          8
+        ],
+        "role": "fill"
+      },
+      "after": {
+        "tempo": 70.00007000007,
+        "meter": [
+          5,
+          8
+        ],
+        "role": "fill"
+      },
+      "reasons": [
+        "conflicting_tempo_events",
+        "metadata_conflict",
+        "missing_style",
+        "web_deferred"
+      ]
+    },
+    {
+      "source": "800000_Drum_Percussion_MIDI:Superior Drummer 2 Drum Midi [425,000 files]/000705@ODDGROOVES_FILL_PACK/92@70 BPM/1 Bar Fills/Fill 005.mid",
+      "before_status": "quarantined",
+      "after_status": "quarantined",
+      "before": {
+        "tempo": 70.00007000007,
+        "meter": [
+          11,
+          8
+        ],
+        "role": "fill"
+      },
+      "after": {
+        "tempo": 70.00007000007,
+        "meter": [
+          11,
+          8
+        ],
+        "role": "fill"
+      },
+      "reasons": [
+        "missing_style",
+        "web_deferred"
+      ]
+    },
+    {
+      "source": "800000_Drum_Percussion_MIDI:Superior Drummer 2 Drum Midi [425,000 files]/000755@GENE_HOGLAN_DEATH/200 BPM/4-4 bar fill 6.MID",
+      "before_status": "quarantined",
+      "after_status": "quarantined",
+      "before": {
+        "tempo": 140.00014000014,
+        "role": "fill"
+      },
+      "after": {
+        "tempo": 140.00014000014,
+        "role": "fill"
+      },
+      "reasons": [
+        "metadata_conflict",
+        "missing_style",
+        "web_deferred"
+      ]
+    },
+    {
+      "source": "800000_Drum_Percussion_MIDI:Superior Drummer 2 Drum Midi [425,000 files]/000767@STEVEN SLATE#JERRY LYONS/Rock Simple/100_Rock_Fill_01.mid",
+      "before_status": "accepted",
+      "after_status": "accepted",
+      "before": {
+        "tempo": 120.0,
+        "meter": [
+          4,
+          4
+        ],
+        "role": "fill",
+        "style": [
+          "rock"
+        ]
+      },
+      "after": {
+        "tempo": 120.0,
+        "meter": [
+          4,
+          4
+        ],
+        "role": "fill",
+        "style": [
+          "rock"
+        ]
+      },
+      "reasons": []
+    },
+    {
+      "source": "800000_Drum_Percussion_MIDI:Superior Drummer 2 Drum Midi [425,000 files]/00081@Vol.1/Dry Studio Kit/Hoppin Fill 7.mid",
+      "before_status": "quarantined",
+      "after_status": "quarantined",
+      "before": {
+        "tempo": 100.0,
+        "meter": [
+          4,
+          4
+        ]
+      },
+      "after": {
+        "tempo": 100.0,
+        "meter": [
+          4,
+          4
+        ],
+        "role": "fill"
+      },
+      "reasons": [
+        "missing_style",
+        "web_deferred"
+      ]
+    },
+    {
+      "source": "800000_Drum_Percussion_MIDI:Superior Drummer 2 Drum Midi [425,000 files]/00081@Vol.1/Percussion Kit/Timbales Fill 12.mid",
+      "before_status": "quarantined",
+      "after_status": "quarantined",
+      "before": {
+        "tempo": 100.0,
+        "meter": [
+          4,
+          4
+        ]
+      },
+      "after": {
+        "tempo": 100.0,
+        "meter": [
+          4,
+          4
+        ],
+        "role": "fill"
+      },
+      "reasons": [
+        "missing_style",
+        "web_deferred"
+      ]
+    },
+    {
+      "source": "800000_Drum_Percussion_MIDI:Superior Drummer 2 Drum Midi [425,000 files]/00091@Rock Compound/100_Rock_Fill_01.mid",
+      "before_status": "accepted",
+      "after_status": "accepted",
+      "before": {
+        "tempo": 120.0,
+        "meter": [
+          4,
+          4
+        ],
+        "role": "fill",
+        "style": [
+          "rock"
+        ]
+      },
+      "after": {
+        "tempo": 120.0,
+        "meter": [
+          4,
+          4
+        ],
+        "role": "fill",
+        "style": [
+          "rock"
+        ]
+      },
+      "reasons": []
+    },
+    {
+      "source": "800000_Drum_Percussion_MIDI:Vintage Drummer MIDI Files/08 Indie/03 Moon 137BPM/09 Fill 2.mid",
+      "before_status": "quarantined",
+      "after_status": "accepted",
+      "before": {
+        "meter": [
+          4,
+          4
+        ],
+        "role": "fill",
+        "tempo": 137.0
+      },
+      "after": {
+        "meter": [
+          4,
+          4
+        ],
+        "role": "fill",
+        "tempo": 137.0,
+        "style": [
+          "indie"
+        ]
+      },
+      "reasons": []
+    },
+    {
+      "source": "Almighty_pack:Black Metal Essentials (Ron D. Rock)/Beats/122bpmFreezingBeat1.mid",
+      "before_status": "accepted",
+      "after_status": "accepted",
+      "before": {
+        "tempo": 122.0,
+        "role": "groove",
+        "style": [
+          "metal"
+        ]
+      },
+      "after": {
+        "tempo": 122.0,
+        "role": "groove",
+        "style": [
+          "metal"
+        ]
+      },
+      "reasons": []
+    },
+    {
+      "source": "Almighty_pack:Death Metal Anthology MIDI Pack/141bpmDeadBeat10.mid",
+      "before_status": "accepted",
+      "after_status": "accepted",
+      "before": {
+        "tempo": 141.0,
+        "style": [
+          "metal"
+        ]
+      },
+      "after": {
+        "tempo": 141.0,
+        "role": "groove",
+        "style": [
+          "metal"
+        ]
+      },
+      "reasons": []
+    },
+    {
+      "source": "Almighty_pack:Djentastic (Ron D. Rock)/Djentastic (Ron D. Rock)/SickGroove13.mid",
+      "before_status": "quarantined",
+      "after_status": "quarantined",
+      "before": {},
+      "after": {
+        "role": "groove",
+        "style": [
+          "djent"
+        ]
+      },
+      "reasons": [
+        "missing_tempo",
+        "web_deferred"
+      ]
+    },
+    {
+      "source": "Almighty_pack:Djentastic (Ron D. Rock)/Djentastic (Ron D. Rock)/SickGroove31.mid",
+      "before_status": "quarantined",
+      "after_status": "quarantined",
+      "before": {},
+      "after": {
+        "role": "groove",
+        "style": [
+          "djent"
+        ]
+      },
+      "reasons": [
+        "missing_tempo",
+        "web_deferred"
+      ]
+    },
+    {
+      "source": "Almighty_pack:Doom Metal Anthology (Ron D. Rock)/120bpmLazyGroove7.mid",
+      "before_status": "quarantined",
+      "after_status": "quarantined",
+      "before": {
+        "tempo": 120.0,
+        "style": [
+          "metal"
+        ]
+      },
+      "after": {
+        "tempo": 120.0,
+        "role": "groove",
+        "style": [
+          "metal"
+        ]
+      },
+      "reasons": [
+        "ambiguous_percussion_streams",
+        "no_accepted_percussion"
+      ]
+    },
+    {
+      "source": "Almighty_pack:Emocore Essentials (Ron D. Rock)/Fill15.mid",
+      "before_status": "quarantined",
+      "after_status": "quarantined",
+      "before": {
+        "role": "fill",
+        "style": [
+          "emocore"
+        ]
+      },
+      "after": {
+        "role": "fill",
+        "style": [
+          "emocore"
+        ]
+      },
+      "reasons": [
+        "missing_tempo",
+        "web_deferred"
+      ]
+    },
+    {
+      "source": "Almighty_pack:Grindcore Essentials (Ron D. Rock)/177bpmFilthyAnimalBeat5.mid",
+      "before_status": "accepted",
+      "after_status": "accepted",
+      "before": {
+        "tempo": 177.0,
+        "style": [
+          "grindcore"
+        ]
+      },
+      "after": {
+        "tempo": 177.0,
+        "role": "groove",
+        "style": [
+          "grindcore"
+        ]
+      },
+      "reasons": []
+    },
+    {
+      "source": "Almighty_pack:Grunge Rock Essentials (Ron D. Rock)/148bpmBacktoSkoolBeat17.mid",
+      "before_status": "accepted",
+      "after_status": "accepted",
+      "before": {
+        "tempo": 148.0,
+        "style": [
+          "grunge-rock"
+        ]
+      },
+      "after": {
+        "tempo": 148.0,
+        "role": "groove",
+        "style": [
+          "grunge-rock"
+        ]
+      },
+      "reasons": []
+    },
+    {
+      "source": "Almighty_pack:Hardcore Essentials (Ron D. Rock)/Fill12.mid",
+      "before_status": "quarantined",
+      "after_status": "quarantined",
+      "before": {
+        "role": "fill",
+        "style": [
+          "hardcore"
+        ]
+      },
+      "after": {
+        "role": "fill",
+        "style": [
+          "hardcore"
+        ]
+      },
+      "reasons": [
+        "missing_tempo",
+        "web_deferred"
+      ]
+    },
+    {
+      "source": "Almighty_pack:Heartland Rock Essentials (Ron D. Rock)/127bpmTinytownBeat1.mid",
+      "before_status": "accepted",
+      "after_status": "accepted",
+      "before": {
+        "tempo": 127.0,
+        "style": [
+          "heartland-rock"
+        ]
+      },
+      "after": {
+        "tempo": 127.0,
+        "role": "groove",
+        "style": [
+          "heartland-rock"
+        ]
+      },
+      "reasons": []
+    },
+    {
+      "source": "Almighty_pack:Industrial Metal Essentials (Ron D. Rock)/164bpmGroove14-16.mid",
+      "before_status": "accepted",
+      "after_status": "accepted",
+      "before": {
+        "role": "groove",
+        "tempo": 164.0,
+        "style": [
+          "industrial-metal"
+        ]
+      },
+      "after": {
+        "role": "groove",
+        "tempo": 164.0,
+        "style": [
+          "industrial-metal"
+        ]
+      },
+      "reasons": []
+    },
+    {
+      "source": "Almighty_pack:Industrial Metal Essentials (Ron D. Rock)/164bpmGroove14-9.mid",
+      "before_status": "accepted",
+      "after_status": "accepted",
+      "before": {
+        "role": "groove",
+        "tempo": 164.0,
+        "style": [
+          "industrial-metal"
+        ]
+      },
+      "after": {
+        "role": "groove",
+        "tempo": 164.0,
+        "style": [
+          "industrial-metal"
+        ]
+      },
+      "reasons": []
+    },
+    {
+      "source": "Almighty_pack:KVLT2 - Black Metal MIDI Pack/120bpmTripletDbBassBackBeat10.mid",
+      "before_status": "quarantined",
+      "after_status": "accepted",
+      "before": {
+        "tempo": 120.0
+      },
+      "after": {
+        "tempo": 120.0,
+        "role": "groove",
+        "style": [
+          "metal"
+        ]
+      },
+      "reasons": []
+    },
+    {
+      "source": "Almighty_pack:KVLT2 - Black Metal MIDI Pack/128bpmPaganBeat4.mid",
+      "before_status": "quarantined",
+      "after_status": "accepted",
+      "before": {
+        "tempo": 128.0
+      },
+      "after": {
+        "tempo": 128.0,
+        "role": "groove",
+        "style": [
+          "metal"
+        ]
+      },
+      "reasons": []
+    },
+    {
+      "source": "Almighty_pack:Melodeath Essentials (Ron D. Rock)/178bpmDbBackBeat11.mid",
+      "before_status": "accepted",
+      "after_status": "accepted",
+      "before": {
+        "tempo": 178.0,
+        "style": [
+          "melodeath"
+        ]
+      },
+      "after": {
+        "tempo": 178.0,
+        "role": "groove",
+        "style": [
+          "melodeath"
+        ]
+      },
+      "reasons": []
+    },
+    {
+      "source": "Almighty_pack:Metalcore Essentials (Ron D. Rock)/171bpmElementBeat5.mid",
+      "before_status": "accepted",
+      "after_status": "accepted",
+      "before": {
+        "tempo": 171.0,
+        "style": [
+          "metal"
+        ]
+      },
+      "after": {
+        "tempo": 171.0,
+        "role": "groove",
+        "style": [
+          "metal"
+        ]
+      },
+      "reasons": []
+    },
+    {
+      "source": "Almighty_pack:NWOBHM Essentials (Ron D. Rock)/178bpmMinutestoMidnightBeat3.mid",
+      "before_status": "accepted",
+      "after_status": "accepted",
+      "before": {
+        "tempo": 178.0,
+        "style": [
+          "nwobhm"
+        ]
+      },
+      "after": {
+        "tempo": 178.0,
+        "role": "groove",
+        "style": [
+          "nwobhm"
+        ]
+      },
+      "reasons": []
+    },
+    {
+      "source": "Almighty_pack:NWOBHM Essentials (Ron D. Rock)/97bpmSlowHillBeat2.mid",
+      "before_status": "quarantined",
+      "after_status": "quarantined",
+      "before": {
+        "tempo": 97.0,
+        "style": [
+          "nwobhm"
+        ]
+      },
+      "after": {
+        "tempo": 97.0,
+        "role": "groove",
+        "style": [
+          "nwobhm"
+        ]
+      },
+      "reasons": [
+        "ambiguous_percussion_streams",
+        "no_accepted_percussion"
+      ]
+    },
+    {
+      "source": "Almighty_pack:Post Metal Essentials (Ron D. Rock)/111bpmDoublerinoBeat10.mid",
+      "before_status": "accepted",
+      "after_status": "accepted",
+      "before": {
+        "tempo": 111.0,
+        "style": [
+          "post-metal"
+        ]
+      },
+      "after": {
+        "tempo": 111.0,
+        "role": "groove",
+        "style": [
+          "post-metal"
+        ]
+      },
+      "reasons": []
+    },
+    {
+      "source": "Almighty_pack:Post Metal Essentials (Ron D. Rock)/145bpm14-4CrazyBeat8.mid",
+      "before_status": "accepted",
+      "after_status": "accepted",
+      "before": {
+        "tempo": 14.0,
+        "style": [
+          "post-metal"
+        ]
+      },
+      "after": {
+        "tempo": 14.0,
+        "role": "groove",
+        "style": [
+          "post-metal"
+        ]
+      },
+      "reasons": []
+    },
+    {
+      "source": "Almighty_pack:Progressive Death Metal Essentials (Ron D. Rock)/Progressive Death Metal Essentials (Ron D. Rock)/135bpm4-4PluggingtheBeat12.mid",
+      "before_status": "quarantined",
+      "after_status": "quarantined",
+      "before": {
+        "style": [
+          "progressive-death-metal"
+        ]
+      },
+      "after": {
+        "role": "groove",
+        "style": [
+          "progressive-death-metal"
+        ]
+      },
+      "reasons": [
+        "missing_tempo",
+        "web_deferred"
+      ]
+    },
+    {
+      "source": "Almighty_pack:Rock Anthology (Ron D. Rock)/138bpmDiscoFill 3.mid",
+      "before_status": "accepted",
+      "after_status": "accepted",
+      "before": {
+        "role": "fill",
+        "tempo": 138.0,
+        "style": [
+          "rock"
+        ]
+      },
+      "after": {
+        "role": "fill",
+        "tempo": 138.0,
+        "style": [
+          "rock"
+        ]
+      },
+      "reasons": []
+    },
+    {
+      "source": "Almighty_pack:Rock Anthology (Ron D. Rock)/174bpmPretenderBeat 6.mid",
+      "before_status": "accepted",
+      "after_status": "accepted",
+      "before": {
+        "tempo": 174.0,
+        "style": [
+          "rock"
+        ]
+      },
+      "after": {
+        "tempo": 174.0,
+        "role": "groove",
+        "style": [
+          "rock"
+        ]
+      },
+      "reasons": []
+    },
+    {
+      "source": "Almighty_pack:Skate Punk Essentials (Ron D. Rock)/181bpmIdiotBeat11.mid",
+      "before_status": "accepted",
+      "after_status": "accepted",
+      "before": {
+        "tempo": 181.0,
+        "style": [
+          "punk"
+        ]
+      },
+      "after": {
+        "tempo": 181.0,
+        "role": "groove",
+        "style": [
+          "punk"
+        ]
+      },
+      "reasons": []
+    },
+    {
+      "source": "Almighty_pack:Street Punk Essentials (Ron D. Rock)/157bpmCrossStickBeat2.mid",
+      "before_status": "accepted",
+      "after_status": "accepted",
+      "before": {
+        "tempo": 157.0,
+        "style": [
+          "street-punk"
+        ]
+      },
+      "after": {
+        "tempo": 157.0,
+        "role": "groove",
+        "style": [
+          "street-punk"
+        ]
+      },
+      "reasons": []
+    },
+    {
+      "source": "Almighty_pack:Thrash Metal Anthology (Ron D. Rock)/SD3/182bpmDoubleSkankBeat3-midi-remap-com.mid",
+      "before_status": "quarantined",
+      "after_status": "quarantined",
+      "before": {
+        "tempo": 182.0,
+        "style": [
+          "thrash-metal"
+        ]
+      },
+      "after": {
+        "tempo": 182.0,
+        "role": "groove",
+        "style": [
+          "thrash-metal"
+        ]
+      },
+      "reasons": [
+        "unverified_vendor_mapping"
+      ]
+    },
+    {
+      "source": "Almighty_pack:Thrash Metal Anthology (Ron D. Rock)/Ugritone Drums/205bpmInsaneThrashBeat13-midi-remap-com.mid",
+      "before_status": "quarantined",
+      "after_status": "quarantined",
+      "before": {
+        "tempo": 205.0,
+        "style": [
+          "thrash-metal"
+        ]
+      },
+      "after": {
+        "tempo": 205.0,
+        "role": "groove",
+        "style": [
+          "thrash-metal"
+        ]
+      },
+      "reasons": [
+        "unverified_vendor_mapping"
+      ]
+    }
+  ],
+  "limitations": [
+    "All sample runs used web=off.",
+    "This measures parser and pipeline coverage, not human-annotated accuracy.",
+    "Missing tempo is not filled from Theme/Variation/index numbers or BPM ranges.",
+    "Drum routing and vendor mapping were not relaxed.",
+    "The whole archives were inventoried for sampling, not fully parsed."
+  ]
+}

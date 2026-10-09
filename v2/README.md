@@ -3,6 +3,24 @@
 **MIDI preprocessing kullanım rehberi (Türkçe):** [scripts/README.md](scripts/README.md)
 — tek dosya, ZIP veya tüm alt klasörleriyle bir MIDI arşivini işleme.
 
+**Dataset exploration:** [notebooks/explore_ingest.ipynb](notebooks/explore_ingest.ipynb)
+— select train/validation/test examples, view piano rolls, listen to synthesized
+previews and inspect canonical/HVO rejection reasons. [Usage](notebooks/README.md).
+
+**Groove/fill preprocessing:** role evidence, split-safe composition and conditioning
+arrays are available; see [the preprocessing contract](PREPROCESSING.md#groovefill-roles-and-composition-2026-10-09)
+and [multi-source config](configs/ingest-groove-fill.example.json). Existing CVAE
+training/inference does not yet consume the new fill-conditioning fields.
+
+The [validation report](fill-preprocessing-validation.json) records the full GMD
+run, 242 sampled files from local collections, and unresolved adapters/mappings.
+Sample acceptance is not a whole-library readiness or classifier accuracy claim.
+
+**GigaMIDI / Lucerne adapters:** [configuration and decoding details](PREPROCESSING.md#gigamidi-and-lucerne-adapters)
+and [adapter validation](dataset-adapters-validation.json). Lucerne separates the
+300 BPM carrier, count-in and bass from musical drum events; GigaMIDI joins verified
+MIDI byte hashes to an indexed metadata CSV. Unknown groove/fill roles remain unknown.
+
 **Preprocessing update (2026-10-08):** the generalized, provenance-aware MIDI pipeline
 is documented in [PREPROCESSING.md](PREPROCESSING.md). It supersedes the GMD-only
 preparation path for new experiments. Earlier training/evaluation below describes

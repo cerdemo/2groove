@@ -1,0 +1,346 @@
+{
+  "date": "2026-10-09",
+  "unit_tests": {
+    "command": ".venv/bin/python -m pytest -q",
+    "passed": 122
+  },
+  "scope": {
+    "lucerne": "All 444 local MIDI files",
+    "gigamidi": "12 prior stratified samples + 9 targeted curated/channel-10 fixtures; not all 1,285,911 local MIDI files",
+    "giga_metadata": "Entire 2,136,218-row CSV indexed"
+  },
+  "results": {
+    "lucerne": {
+      "canonical_run": "/Users/cagrierdem/Desktop/ongoing/POSTDOC/2groove/v2/data/lucerne-canonical/runs/20261009T110927775017Z-ea38420a",
+      "report": {
+        "schema_version": "unified-midi-v1",
+        "run_id": "20261009T110927775017Z-ea38420a",
+        "config_hash": "ea38420af29039153ca31d2c7f22f634c8d9636482633d66a570569666dee3eb",
+        "code_hash": "582d46750555982a6accacf73d5acbcba0a5f20494594e2f9d298044b357dc2b",
+        "assets": 444,
+        "max_files": null,
+        "limit_reached": false,
+        "status_counts": {
+          "accepted": 442,
+          "discarded": 2
+        },
+        "reason_counts": {
+          "no_accepted_percussion": 2
+        },
+        "unique_raw_files": 444,
+        "accepted_unique_percussion": 442,
+        "accepted_splits": {
+          "train": 344,
+          "validation": 53,
+          "test": 45
+        },
+        "metadata_sources": {
+          "style": {
+            "source_manifest": 442
+          },
+          "tempo": {
+            "source_manifest": 442
+          },
+          "meter": {
+            "source_manifest": 442
+          },
+          "role": {
+            "source_manifest": 442
+          }
+        },
+        "role_counts": {
+          "unknown": 442
+        },
+        "web_status_counts": {},
+        "limitations": [
+          "Percussion scores are heuristic, not calibrated probabilities.",
+          "Full-file exact drum fingerprints and provenance groups are linked; near-duplicate audit is separate.",
+          "Web search is limited to configured providers; no-match does not prove absence on the entire web.",
+          "Canonical events preserve all tempos/meters; model exports impose explicit separate restrictions."
+        ]
+      },
+      "hvo_path": "data/lucerne-hvo",
+      "hvo": {
+        "adapter": "hvo32x9-fill-v2",
+        "canonical_run": "/Users/cagrierdem/Desktop/ongoing/POSTDOC/2groove/v2/data/lucerne-canonical/runs/20261009T110927775017Z-ea38420a",
+        "statistics": {
+          "role_unknown_files": 442,
+          "files_with_unknown_model_style": 273,
+          "candidate_windows": 1768,
+          "grid_collisions": 1254,
+          "collision_rejected_windows": 241,
+          "outside_nine_voice_windows": 190,
+          "unsupported_or_changing_tempo_windows": 4,
+          "excluded_discarded": 2,
+          "compatible_pairs": 0,
+          "duplicate_or_conflicting_windows_removed": 0,
+          "original_kept": 1333
+        },
+        "config": {
+          "combine_fills": true,
+          "fill_boundary": "next_bar",
+          "pair_scope": "source",
+          "tempo_policy": "groove",
+          "max_tempo_ratio": 1.25,
+          "tempo_tolerance_bpm": 1.0,
+          "max_combinations": 1000000
+        },
+        "splits": {
+          "train": 1034,
+          "validation": 151,
+          "test": 148
+        },
+        "fill_labels": {
+          "train": {
+            "-1": 1034
+          },
+          "validation": {
+            "-1": 151
+          },
+          "test": {
+            "-1": 148
+          }
+        },
+        "conditioning": {
+          "has_fill": "int8: -1 unknown, 0 groove-labelled, 1 fill present; file labels are not event-level ground truth",
+          "fill_mask": "int8 [N,32]: -1 unknown, 0 groove region, 1 fill region; not a hit mask",
+          "fill_hit_mask": "int8 [N,32,9]: fill membership at decoded onsets; ignore inactive cells",
+          "decode_beats": "((step + offset) / 4) % 8; terminal pickups may occupy grid step zero with negative offset",
+          "absent_boundary": "NaN for groove-only or unknown"
+        },
+        "cross_split_hvo_hashes": 0,
+        "conflicting_fill_label_hashes": 0,
+        "structural_overlap_hashes": 3,
+        "hash_precision": "HVO values rounded to 4 decimal places for duplicate screening",
+        "structural_overlap_note": "Identical hit grids can be common vocabulary; audit separately.",
+        "collision_policy": "Strongest velocity per cell; reject above 5.0%; periodic offsets preserve terminal pickup timing.",
+        "limits": [
+          "File role labels do not prove absence of embedded fills in long performances.",
+          "Unknown/mixed roles remain unconditioned; synthetic quality needs listening evaluation.",
+          "Pairing is deterministic and exhaustive within configured source/split/style/tempo constraints.",
+          "Current CVAE does not consume fill conditioning yet."
+        ]
+      }
+    },
+    "gigamidi-labelled": {
+      "canonical_run": "/Users/cagrierdem/Desktop/ongoing/POSTDOC/2groove/v2/data/gigamidi-labelled-canonical/runs/20261009T110939849831Z-fb9e1239",
+      "report": {
+        "schema_version": "unified-midi-v1",
+        "run_id": "20261009T110939849831Z-fb9e1239",
+        "config_hash": "fb9e1239a06d31195d5f06184ebbac072a730f4cb0f0edeb524bb9a0ce658b65",
+        "code_hash": "582d46750555982a6accacf73d5acbcba0a5f20494594e2f9d298044b357dc2b",
+        "assets": 9,
+        "max_files": null,
+        "limit_reached": false,
+        "status_counts": {
+          "quarantined": 3,
+          "accepted": 6
+        },
+        "reason_counts": {
+          "ambiguous_percussion_streams": 2,
+          "no_accepted_percussion": 2,
+          "uninterpreted_sysex_requires_review": 1
+        },
+        "unique_raw_files": 9,
+        "accepted_unique_percussion": 6,
+        "accepted_splits": {
+          "test": 1,
+          "train": 5
+        },
+        "metadata_sources": {
+          "style": {
+            "source_manifest": 6
+          },
+          "tempo": {
+            "midi_event": 6
+          },
+          "meter": {
+            "midi_event": 3
+          },
+          "role": {
+            "source_manifest": 6
+          }
+        },
+        "role_counts": {
+          "unknown": 6
+        },
+        "web_status_counts": {},
+        "limitations": [
+          "Percussion scores are heuristic, not calibrated probabilities.",
+          "Full-file exact drum fingerprints and provenance groups are linked; near-duplicate audit is separate.",
+          "Web search is limited to configured providers; no-match does not prove absence on the entire web.",
+          "Canonical events preserve all tempos/meters; model exports impose explicit separate restrictions."
+        ]
+      },
+      "hvo_path": "data/gigamidi-labelled-hvo",
+      "hvo": {
+        "adapter": "hvo32x9-fill-v2",
+        "canonical_run": "/Users/cagrierdem/Desktop/ongoing/POSTDOC/2groove/v2/data/gigamidi-labelled-canonical/runs/20261009T110939849831Z-fb9e1239",
+        "statistics": {
+          "excluded_quarantined": 3,
+          "missing_initial_tempo_or_meter": 3,
+          "role_unknown_files": 3,
+          "files_with_unknown_model_style": 3,
+          "candidate_windows": 97,
+          "empty_windows": 10,
+          "outside_nine_voice_windows": 27,
+          "grid_collisions": 162,
+          "collision_rejected_windows": 25,
+          "non_four_four_regions": 3,
+          "unsupported_or_changing_tempo_windows": 1,
+          "compatible_pairs": 0,
+          "duplicate_or_conflicting_windows_removed": 1,
+          "original_kept": 33
+        },
+        "config": {
+          "combine_fills": true,
+          "fill_boundary": "next_bar",
+          "pair_scope": "source",
+          "tempo_policy": "groove",
+          "max_tempo_ratio": 1.25,
+          "tempo_tolerance_bpm": 1.0,
+          "max_combinations": 1000000
+        },
+        "splits": {
+          "train": 33,
+          "validation": 0,
+          "test": 0
+        },
+        "fill_labels": {
+          "train": {
+            "-1": 33
+          },
+          "validation": {},
+          "test": {}
+        },
+        "conditioning": {
+          "has_fill": "int8: -1 unknown, 0 groove-labelled, 1 fill present; file labels are not event-level ground truth",
+          "fill_mask": "int8 [N,32]: -1 unknown, 0 groove region, 1 fill region; not a hit mask",
+          "fill_hit_mask": "int8 [N,32,9]: fill membership at decoded onsets; ignore inactive cells",
+          "decode_beats": "((step + offset) / 4) % 8; terminal pickups may occupy grid step zero with negative offset",
+          "absent_boundary": "NaN for groove-only or unknown"
+        },
+        "cross_split_hvo_hashes": 0,
+        "conflicting_fill_label_hashes": 0,
+        "structural_overlap_hashes": 0,
+        "hash_precision": "HVO values rounded to 4 decimal places for duplicate screening",
+        "structural_overlap_note": "Identical hit grids can be common vocabulary; audit separately.",
+        "collision_policy": "Strongest velocity per cell; reject above 5.0%; periodic offsets preserve terminal pickup timing.",
+        "limits": [
+          "File role labels do not prove absence of embedded fills in long performances.",
+          "Unknown/mixed roles remain unconditioned; synthetic quality needs listening evaluation.",
+          "Pairing is deterministic and exhaustive within configured source/split/style/tempo constraints.",
+          "Current CVAE does not consume fill conditioning yet."
+        ]
+      }
+    },
+    "gigamidi-original-sample": {
+      "canonical_run": "/Users/cagrierdem/Desktop/ongoing/POSTDOC/2groove/v2/artifacts/adapters-validation/gigamidi-original-final/runs/20261009T110940429152Z-d152a3f5",
+      "report": {
+        "schema_version": "unified-midi-v1",
+        "run_id": "20261009T110940429152Z-d152a3f5",
+        "config_hash": "d152a3f5d777c56740076163e52ad0c873854890ca5e3fdf28e33b63611ecbac",
+        "code_hash": "582d46750555982a6accacf73d5acbcba0a5f20494594e2f9d298044b357dc2b",
+        "assets": 12,
+        "max_files": null,
+        "limit_reached": false,
+        "status_counts": {
+          "discarded": 10,
+          "quarantined": 2
+        },
+        "reason_counts": {
+          "missing_style": 12,
+          "no_accepted_percussion": 8,
+          "missing_tempo": 3,
+          "web_deferred": 2,
+          "ambiguous_percussion_streams": 1
+        },
+        "unique_raw_files": 12,
+        "accepted_unique_percussion": 0,
+        "accepted_splits": {},
+        "metadata_sources": {
+          "style": {},
+          "tempo": {},
+          "meter": {},
+          "role": {}
+        },
+        "role_counts": {},
+        "web_status_counts": {
+          "deferred": 2
+        },
+        "limitations": [
+          "Percussion scores are heuristic, not calibrated probabilities.",
+          "Full-file exact drum fingerprints and provenance groups are linked; near-duplicate audit is separate.",
+          "Web search is limited to configured providers; no-match does not prove absence on the entire web.",
+          "Canonical events preserve all tempos/meters; model exports impose explicit separate restrictions."
+        ]
+      }
+    }
+  },
+  "checks": {
+    "lucerne": {
+      "array_counts": {
+        "train": 1034,
+        "validation": 151,
+        "test": 148
+      },
+      "finite_hvo": true,
+      "unknown_fill_labels_preserved": true,
+      "parent_splits_match": true
+    },
+    "gigamidi-labelled": {
+      "array_counts": {
+        "train": 33,
+        "validation": 0,
+        "test": 0
+      },
+      "finite_hvo": true,
+      "unknown_fill_labels_preserved": true,
+      "parent_splits_match": true
+    }
+  },
+  "lucerne_timing_audit": {
+    "matched_physical_drum_triggers": 59774,
+    "associated_csv_rows": 59888,
+    "max_linear_roundtrip_error_seconds": 2.0833333335801285e-05,
+    "song_groups": 439,
+    "cross_split_song_groups": 0
+  },
+  "notebook_checks": [
+    {
+      "dataset": "data/lucerne-hvo",
+      "rejection_stage": "canonical",
+      "rendered_figures": 4,
+      "generated_audio_previews": 3,
+      "mode": "Notebook code cells executed with Agg; no live Jupyter kernel or listening evaluation"
+    },
+    {
+      "dataset": "data/lucerne-hvo",
+      "rejection_stage": "hvo",
+      "rendered_figures": 4,
+      "generated_audio_previews": 4,
+      "mode": "Notebook code cells executed with Agg; no live Jupyter kernel or listening evaluation"
+    },
+    {
+      "dataset": "data/gigamidi-labelled-hvo",
+      "rejection_stage": "canonical",
+      "rendered_figures": 4,
+      "generated_audio_previews": 3,
+      "mode": "Notebook code cells executed with Agg; no live Jupyter kernel or listening evaluation"
+    },
+    {
+      "dataset": "data/gigamidi-labelled-hvo",
+      "rejection_stage": "hvo",
+      "rendered_figures": 4,
+      "generated_audio_previews": 3,
+      "mode": "Notebook code cells executed with Agg; no live Jupyter kernel or listening evaluation"
+    }
+  ],
+  "limitations": [
+    "Automated metadata/routing/timing checks do not establish perceptual quality.",
+    "Lucerne uses RPP reference meter, not independently verified score-level meter.",
+    "Role labels remain unknown; no groove/fill claims inferred from corpus names.",
+    "GigaMIDI metadata/subset labels are not sufficient to establish percussion identity.",
+    "Canonical ingestion success is separate from current nine-voice HVO export coverage."
+  ]
+}

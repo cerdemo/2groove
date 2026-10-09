@@ -1,0 +1,85 @@
+{
+  "sources": [
+    {
+      "id": "gmd-official",
+      "path": "data/gmd/gmd/groove",
+      "adapter": "gmd",
+      "drum_map": "roland_td11"
+    },
+    {
+      "id": "egmd",
+      "path": "/datasets/e-gmd-v1.0.0",
+      "adapter": "egmd",
+      "drum_map": "roland_td11"
+    },
+    {
+      "id": "lucerne",
+      "path": "/datasets/The_Lucerne_Groove_Library",
+      "adapter": "lucerne"
+    },
+    {
+      "id": "doom-metal",
+      "path": "/datasets/Doom Metal Drums MIDI Pack",
+      "adapter": "generic"
+    },
+    {
+      "id": "goran",
+      "path": "/datasets/goran_grooves",
+      "adapter": "generic"
+    },
+    {
+      "id": "almighty",
+      "path": "/datasets/Almighty_pack",
+      "adapter": "generic"
+    },
+    {
+      "id": "drum-percussion-800k",
+      "path": "/datasets/800000_Drum_Percussion_MIDI",
+      "adapter": "generic"
+    },
+    {
+      "id": "groove-monkee-doom",
+      "path": "/datasets/Groove Monkee Doom",
+      "adapter": "generic"
+    },
+    {
+      "id": "lakeside",
+      "path": "/datasets/lakeside_v1",
+      "adapter": "generic"
+    },
+    {
+      "id": "pantteri",
+      "path": "/datasets/pantteri_v1",
+      "adapter": "generic"
+    },
+    {
+      "id": "variety-metal",
+      "path": "/datasets/varietyOfMetal_devinJames",
+      "adapter": "generic"
+    },
+    {
+      "id": "gigamidi",
+      "path": "/datasets/GigaMIDI_drumsOnly",
+      "adapter": "gigamidi",
+      "metadata_path": "/datasets/GigaMIDI_drumsOnly/Final-Metadata-Extended-GigaMIDI-Dataset-updated.csv",
+      "metadata_cache": "data/metadata-index"
+    }
+  ],
+  "output": "data/remote-canonical",
+  "policy": {
+    "required_metadata": [
+      "style",
+      "tempo"
+    ],
+    "conflict_policy": "quarantine"
+  },
+  "web": {
+    "mode": "off"
+  },
+  "hvo": {
+    "combine_fills": true,
+    "pair_scope": "source",
+    "max_combinations": 1000000
+  },
+  "seed": 42
+}

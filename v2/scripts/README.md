@@ -178,6 +178,9 @@ data/my-midi-corpus/
 
 Hızlı rapor görüntüleme:
 
+Grafikler ve tekil groove incelemesi için [dataset exploration notebook'unu](../notebooks/README.md)
+açabilirsin; `DATASET` değerini bu çalışmanın output klasörüne ayarla.
+
 ```sh
 .venv/bin/python -m json.tool data/my-midi-corpus/latest.json
 ```
@@ -234,3 +237,60 @@ Tüm CLI seçenekleri:
 ```sh
 .venv/bin/python scripts/ingest_midi.py --help
 ```
+
+## 8. Groove + fill veri üretimi
+
+Yeni exporter, rolü bilinen groove ve fill'leri aynı split, stil ve varsayılan olarak
+aynı kaynak içinde eşleştirir. 8 beat hedefte, örneğin 2 beat fill için groove'un ilk
+6 beat'i tutulur. `has_fill`, fill maskeleri ve iki kaynağın ID'leri çıktıya eklenir.
+Rolü bilinmeyen örnekte `has_fill=-1` olur; bilinmeyen veri “fill yok” diye etiketlenmez.
+
+Çoklu dataset config örneği: `configs/ingest-groove-fill.example.json`.
+İçindeki yolları/eşlemeleri düzenleyip:
+
+```sh
+.venv/bin/python scripts/ingest_midi.py \
+  --config configs/my-remote-datasets.json \
+  --export-hvo data/my-fill-aware-hvo
+```
+
+Varsayılan phrase sınırı, fill'in son onset'inden sonraki 4-beat bar çizgisinden
+**türetilir ve bu varsayım kaydedilir**. İki beat gibi doğrulanmış özel uzunluklar
+sidecar'da `"phrase_beats": 2` ile verilebilir. `hvo.fill_boundary="strict"` seçilirse
+çıkarım yapılmaz. Rol için `"role": "groove"` / `"fill"` / `"mixed"` kullanılabilir.
+Uzun fill'ler sessizce kesilmez; son notanın sonraki barın downbeat'i olması kısa
+fill kombinasyonunu engelleyebilir. Tempo uyarlaması ve kombinasyon sayısı sınırı
+config'de açıkça tanımlıdır.
+
+[Detaylı kurallar ve remote kullanım](../PREPROCESSING.md#groovefill-roles-and-composition-2026-10-09)
+ve [sade exploration notebook'u](../notebooks/README.md) ile sonuçları kontrol et.
+Bu preprocessing güncellemesi mevcut modelin fill conditioning eğitimini yapmaz.
+
+### GigaMIDI / Lucerne
+
+GigaMIDI dahil toplu remote kaynak listesi:
+[`configs/ingest-remote.example.json`](../configs/ingest-remote.example.json).
+`/datasets` yolunu remote konumuyla değiştir; GMD yolunu ayrıca kontrol et.
+GigaMIDI için `train_80/`, `validation_10/`, `test_10/` ve metadata CSV'sini aktar.
+İlk boyut/kaynak kullanımı kontrolünü aşağıdaki tek kaynak config'iyle yap;
+toplu config'de `--max-files` yalnızca ilk kaynaklara ulaşabilir. Henüz mapping
+profili tamamlanmayan diğer kaynakların inceleme/dışlama kuralları korunur.
+
+Bu iki dataset için `--input` tek başına generic adapter kullanır. Dataset'e özgü
+metadata ve timing işlemleri için `--config` kullan:
+
+```sh
+# v2 içinden; önce config'deki /path/to/datasets yolunu değiştir.
+.venv/bin/python scripts/ingest_midi.py --config configs/ingest-gigamidi.example.json --max-files 40
+.venv/bin/python scripts/ingest_midi.py --config configs/ingest-lucerne.example.json --export-hvo data/lucerne-hvo
+```
+
+GigaMIDI ilk çalışmada CSV'nin tamamını SQLite'a indeksler; `--max-files` bu ilk
+indekslemeyi değil, işlenen MIDI sayısını sınırlar. Sonraki çalışmalarda indeks
+kullanılır. Lucerne için `stimuli.csv`, `events.csv` ve meter için `RPP/` klasörünü
+koru. Ayrı örnek klasörü kullanıyorsan source içindeki `metadata_path`, GigaMIDI'de
+CSV dosyasına, Lucerne'de asıl dataset klasörüne işaret etmeli.
+
+Notebook'ta `DATASET_DIR = 'data/lucerne-hvo'` seçerek çıktıyı açabilirsin.
+HVO dışlamalarının nedenleri de aynı notebook'tan incelenebilir.
+Ayrıntılar ve kısıtlar: [dataset adapter'ları](../PREPROCESSING.md#gigamidi-and-lucerne-adapters).

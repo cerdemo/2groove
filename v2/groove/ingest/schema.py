@@ -10,8 +10,11 @@ class StrictModel(BaseModel):
 class Source(StrictModel):
     id: str
     path: str
-    adapter: Literal['generic', 'gmd'] = 'generic'
+    adapter: Literal['generic', 'gmd', 'egmd', 'gigamidi', 'lucerne'] = 'generic'
+    metadata_path: str | None = None
+    metadata_cache: str = 'data/metadata-index'
     drum_map: Literal['gm', 'roland_td11', 'custom'] = 'gm'
+    mapping_verified: bool = False
     pitch_map: dict[int, str] = Field(default_factory=dict)
     defaults: dict = Field(default_factory=dict)
     license: str | None = None
@@ -38,11 +41,22 @@ class WebConfig(StrictModel):
     user_agent: str = '2groove/0.3 (https://github.com/cerdemo/2groove)'
 
 
+class HVOConfig(StrictModel):
+    combine_fills: bool = True
+    fill_boundary: Literal['strict','next_bar'] = 'next_bar'
+    pair_scope: Literal['source','corpus'] = 'source'
+    tempo_policy: Literal['groove','match'] = 'groove'
+    max_tempo_ratio: float = Field(default=1.25,ge=1,le=4)
+    tempo_tolerance_bpm: float = Field(default=1,ge=0,le=20)
+    max_combinations: int | None = Field(default=1_000_000,gt=0,strict=True)
+
+
 class Config(StrictModel):
     sources: list[Source] = Field(min_length=1)
     output: str = 'data/unified'
     policy: Policy = Field(default_factory=Policy)
     web: WebConfig = Field(default_factory=WebConfig)
+    hvo: HVOConfig = Field(default_factory=HVOConfig)
     annotations: str | None = None
     max_files: int | None = Field(default=None,gt=0,strict=True)
     seed: int = 42

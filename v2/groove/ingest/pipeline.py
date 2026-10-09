@@ -6,6 +6,7 @@ from datetime import datetime,timezone
 from pathlib import Path
 import importlib.metadata
 import sys
+import re
 from . import VERSION
 from .discover import discover
 from .metadata import SourceMetadata,collect,resolve,search_identity
@@ -67,7 +68,7 @@ def run(config,resolver=None,progress=print):
     resolver=resolver or WebResolver(config.web);rows=[];requests=[];seen_assets=set();annotation_requests=[]
     for source in config.sources:
         if config.max_files is not None and len(rows)>=config.max_files:break
-        adapter=SourceMetadata(source)
+        adapter=SourceMetadata(source,progress)
         for asset in discover(source.path,config.policy,excluded=[root,Path(config.web.cache).resolve()]):
             locator=source.id+':'+asset.relative
             if locator in seen_assets:continue
@@ -82,8 +83,18 @@ def run(config,resolver=None,progress=print):
                 row['raw_object']='objects/'+sha
                 parsed=parse(raw,config.policy);details['midi']=parsed
                 annotation=annotations.get(sha,annotations.get(locator,{}))
-                values=adapter.get(asset)
-                candidates,issues=collect(parsed,asset,source,values,annotation)
+                values=adapter.get(asset,raw)
+                details['source_metadata']=values
+                metadata_midi=parsed;decoded=None;adapter_issues=values.get('adapter_issues',[])
+                if source.adapter=='lucerne':
+                    streams,drums,timeline,decode_issues,audit=adapter.delegate.decode(parsed,values)
+                    decoded=(streams,drums);adapter_issues+=decode_issues
+                    details['adapter_audit']=audit
+                    if timeline:details['event_timeline']=timeline
+                    # Keep the carrier MIDI untouched; its 300 BPM is not musical tempo.
+                    metadata_midi=dict(parsed,tempo_map=[],meter_map=[])
+                candidates,issues=collect(metadata_midi,asset,source,values,annotation)
+                issues+=adapter_issues
                 metadata,conflicts=resolve(candidates,config.policy)
                 missing=[f for f in config.policy.required_metadata if f not in metadata]
                 lookup=None
@@ -95,7 +106,9 @@ def run(config,resolver=None,progress=print):
                             if field not in metadata:candidates.setdefault(field,[]).extend(items)
                         metadata,conflicts=resolve(candidates,config.policy)
                     else:lookup={'status':'unsearchable','reason':'No usable song/track identity'}
-                streams,drums=assess(parsed,source,config.policy,annotation)
+                streams,drums=decoded if decoded is not None else assess(parsed,source,config.policy,annotation)
+                if decoded is not None and annotation.get('streams'):
+                    issues.append('lucerne_stream_annotation_requires_adapter_review')
                 missing=[f for f in config.policy.required_metadata if f not in metadata]
                 reasons=[];quarantine=[]
                 if missing:
@@ -103,8 +116,20 @@ def run(config,resolver=None,progress=print):
                     if lookup and lookup['status'] in ('error','deferred','ambiguous'):quarantine.append('web_'+lookup['status'])
                 if conflicts and config.policy.conflict_policy=='quarantine':quarantine.append('metadata_conflict')
                 if issues:quarantine.extend(issues)
-                if 'uninterpreted_sysex' in parsed['warnings'] and source.adapter=='generic' and not config.policy.allow_uninterpreted_sysex and not annotation.get('reason'):
+                if 'uninterpreted_sysex' in parsed['warnings'] and source.adapter not in ('gmd','egmd') and not config.policy.allow_uninterpreted_sysex and not annotation.get('reason'):
                     quarantine.append('uninterpreted_sysex_requires_review')
+                # Real collections ship parallel vendor mappings. GM pitch coverage alone
+                # cannot prove that e.g. an SSD/IMAP file uses GM instrument semantics.
+                vendor_names=r'(?:SD3|SSD(?:\s*\d+(?:\.\d+)?)?|IMAP|FPC|BFD|DFH|MOR|Addictive Drums|Ugritone Drums)'
+                vendor_hint=any(re.fullmatch(vendor_names,part,re.I) or
+                                (part.lower().startswith(('gm -','doom ')) and re.search(r'\b'+vendor_names+r'$',part,re.I))
+                                for part in asset.path.parts)
+                if asset.member:
+                    vendor_hint=vendor_hint or any(re.fullmatch(vendor_names,part,re.I) or
+                        (part.lower().startswith(('gm -','doom ')) and re.search(r'\b'+vendor_names+r'$',part,re.I))
+                        for part in Path(asset.member).parts)
+                if source.drum_map=='gm' and not source.mapping_verified and vendor_hint and not (annotation.get('mapping_verified') is True and annotation.get('reason')):
+                    quarantine.append('unverified_vendor_mapping')
                 ambiguous=[s['id'] for s in streams if s['decision']=='ambiguous']
                 if ambiguous:quarantine.append('ambiguous_percussion_streams')
                 if not drums:reasons.append('no_accepted_percussion')
@@ -116,14 +141,20 @@ def run(config,resolver=None,progress=print):
                 row['counts']=dict(all_notes=len(parsed['notes']),percussion_notes=len(drums),streams=len(streams),
                                    ambiguous_streams=len(ambiguous),unmapped_instruments=sum(n['instrument'] is None for n in drums),
                                    outside_nine_voice_map=sum(n['voice'] is None for n in drums))
-                row['duration_beats']=parsed['duration_beats'];row['official_split']=values.get('split')
+                row['duration_beats']=details.get('event_timeline',parsed)['duration_beats'];row['official_split']=values.get('split')
                 row['license']=source.license or source.defaults.get('license');row['origin_url']=source.origin_url
                 group=values.get('group_id') or source.defaults.get('group_id')
                 if not group:
                     path=Path(asset.relative)
                     group=str(path.parent if source.group_by=='parent' else path.parent.parent) if source.group_by!='file' else sha
-                pattern_hash=digest([(round(n['onset_beat'],7),n['pitch'],n['voice'],n['velocity']) for n in drums]) if drums else sha
+                # Link vendor-map aliases before splitting, including short fills that
+                # never become standalone HVO windows. Track order/raw MIDI pitch is
+                # not musical identity once a normalized voice has been established.
+                pattern_hash=digest(sorted((round(n['onset_beat'],7),
+                    'voice:'+n['voice'] if n['voice'] else 'instrument:'+n['instrument'] if n['instrument'] else 'pitch:'+str(n['pitch']),
+                    n['velocity']) for n in drums)) if drums else sha
                 row['percussion_hash']=pattern_hash
+                row['percussion_hash_basis']='sorted_normalized_voice_onset_velocity_v2'
                 row['group_keys']=['source:'+source.id+':'+str(group),'bytes:'+sha,'percussion:'+pattern_hash]
                 if lookup and lookup.get('recording_id'):row['group_keys'].append('recording:'+lookup['recording_id'])
                 details.update(metadata=metadata,metadata_candidates=candidates,metadata_conflicts=conflicts,
@@ -162,7 +193,8 @@ def run(config,resolver=None,progress=print):
         unique_raw_files=len({r['sha256'] for r in rows if 'sha256' in r}),
         accepted_unique_percussion=len({r['percussion_hash'] for r in accepted}),
         accepted_splits=dict(Counter(r['split'] for r in accepted)),
-        metadata_sources={field:dict(Counter(r['metadata'][field]['kind'] for r in accepted if field in r['metadata'])) for field in ('style','tempo','meter')},
+        metadata_sources={field:dict(Counter(r['metadata'][field]['kind'] for r in accepted if field in r['metadata'])) for field in ('style','tempo','meter','role')},
+        role_counts=dict(Counter(r.get('metadata',{}).get('role',{}).get('value','unknown') for r in accepted)),
         web_status_counts=dict(Counter(r['status'] for r in requests)),
         limitations=['Percussion scores are heuristic, not calibrated probabilities.',
                     'Full-file exact drum fingerprints and provenance groups are linked; near-duplicate audit is separate.',

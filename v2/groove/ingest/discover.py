@@ -3,6 +3,7 @@ from dataclasses import dataclass
 from collections import Counter
 from pathlib import Path, PurePosixPath
 import zipfile
+import os
 
 EXTENSIONS={'.mid','.midi','.kar','.smf','.rmi','.rmid'}
 SKIP={'.git','.venv','node_modules','__pycache__'}
@@ -32,7 +33,17 @@ class Asset:
 def discover(root,policy,excluded=()):
     root=Path(root).resolve()
     if not root.exists():raise FileNotFoundError(root)
-    paths=[root] if root.is_file() else sorted(root.rglob('*'))
+    def walk(directory):
+        # Deterministic traversal without materializing a million-file collection;
+        # max-files can now stop discovery as well as MIDI decoding early.
+        with os.scandir(directory) as entries:children=sorted(entries,key=lambda e:e.name)
+        for entry in children:
+            if entry.is_symlink() or entry.name in SKIP:continue
+            path=Path(entry.path)
+            if any(path.is_relative_to(x) for x in excluded):continue
+            if entry.is_dir(follow_symlinks=False):yield from walk(path)
+            elif entry.is_file(follow_symlinks=False):yield path
+    paths=[root] if root.is_file() else walk(root)
     for p in paths:
         if not p.is_file() or p.is_symlink():continue
         if any(part in SKIP for part in p.parts):continue

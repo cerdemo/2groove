@@ -1,0 +1,556 @@
+{
+  "date": "2026-10-09",
+  "pytest": "101 passed; one existing Starlette/httpx deprecation warning",
+  "inventory_root": "/Users/cagrierdem/Documents/datasets",
+  "inventory_midi_candidates": 2132397,
+  "sampled_candidates": 242,
+  "sampling": "12 smallest SHA256(relative_path) ranks per fill-like/non-fill-like stratum; copied bytes verified by SHA256",
+  "local_sample_audit": {
+    "canonical_run": "artifacts/dataset-sample-check-20261009/canonical-final/runs/20261009T095937044164Z-f45c5b65",
+    "export": "artifacts/dataset-sample-check-20261009/hvo-final-v3",
+    "inventory": "artifacts/dataset-sample-check-20261009/inventory.json",
+    "report": {
+      "schema_version": "unified-midi-v1",
+      "run_id": "20261009T095937044164Z-f45c5b65",
+      "config_hash": "f45c5b65ee28e494d244ff5d701b2ed6811672adc080230fb32b0a907abfa707",
+      "code_hash": "ef0184bdc4660ce9e32b574ca0f58ccb3e31a74f43742064db9469a95d1280f2",
+      "assets": 242,
+      "max_files": null,
+      "limit_reached": false,
+      "status_counts": {
+        "quarantined": 142,
+        "accepted": 82,
+        "discarded": 18
+      },
+      "reason_counts": {
+        "ambiguous_percussion_streams": 92,
+        "no_accepted_percussion": 103,
+        "unverified_vendor_mapping": 20,
+        "missing_style": 129,
+        "web_deferred": 83,
+        "metadata_conflict": 2,
+        "missing_tempo": 62
+      },
+      "unique_raw_files": 242,
+      "accepted_unique_percussion": 82,
+      "accepted_splits": {
+        "validation": 15,
+        "train": 60,
+        "test": 7
+      },
+      "metadata_sources": {
+        "style": {
+          "parent_folder": 50,
+          "source_manifest": 24,
+          "track_name": 8
+        },
+        "tempo": {
+          "midi_event": 71,
+          "filename": 11
+        },
+        "meter": {
+          "midi_event": 64
+        },
+        "role": {
+          "parent_folder": 13,
+          "filename": 2,
+          "track_name": 31,
+          "source_manifest": 24
+        }
+      },
+      "role_counts": {
+        "fill": 38,
+        "unknown": 12,
+        "groove": 32
+      },
+      "web_status_counts": {
+        "deferred": 83
+      },
+      "limitations": [
+        "Percussion scores are heuristic, not calibrated probabilities.",
+        "Full-file exact drum fingerprints and provenance groups are linked; near-duplicate audit is separate.",
+        "Web search is limited to configured providers; no-match does not prove absence on the entire web.",
+        "Canonical events preserve all tempos/meters; model exports impose explicit separate restrictions."
+      ]
+    },
+    "hvo": {
+      "adapter": "hvo32x9-fill-v2",
+      "canonical_run": "/Users/cagrierdem/Desktop/ongoing/POSTDOC/2groove/v2/artifacts/dataset-sample-check-20261009/canonical-final/runs/20261009T095937044164Z-f45c5b65",
+      "statistics": {
+        "excluded_quarantined": 142,
+        "role_fill_files": 30,
+        "fill_clips": 15,
+        "short_region_no_original_window": 36,
+        "role_unknown_files": 2,
+        "candidate_windows": 243,
+        "grid_collisions": 983,
+        "collision_rejected_windows": 129,
+        "non_four_four_regions": 3,
+        "excluded_discarded": 18,
+        "missing_initial_tempo_or_meter": 18,
+        "role_groove_files": 32,
+        "files_with_unknown_model_style": 45,
+        "groove_clips": 217,
+        "fill_not_shorter_than_window": 15,
+        "outside_nine_voice_windows": 23,
+        "compatible_pairs": 14,
+        "duplicate_or_conflicting_windows_removed": 0,
+        "original_kept": 98,
+        "synthetic_kept": 7
+      },
+      "config": {
+        "combine_fills": true,
+        "fill_boundary": "next_bar",
+        "pair_scope": "source",
+        "tempo_policy": "groove",
+        "max_tempo_ratio": 1.25,
+        "tempo_tolerance_bpm": 1.0,
+        "max_combinations": 1000000
+      },
+      "splits": {
+        "train": 93,
+        "validation": 3,
+        "test": 9
+      },
+      "fill_labels": {
+        "train": {
+          "0": 85,
+          "1": 8
+        },
+        "validation": {
+          "0": 3
+        },
+        "test": {
+          "0": 9
+        }
+      },
+      "conditioning": {
+        "has_fill": "int8: -1 unknown, 0 groove-labelled, 1 fill present; file labels are not event-level ground truth",
+        "fill_mask": "int8 [N,32]: -1 unknown, 0 groove region, 1 fill region; not a hit mask",
+        "fill_hit_mask": "int8 [N,32,9]: fill membership at decoded onsets; ignore inactive cells",
+        "decode_beats": "((step + offset) / 4) % 8; terminal pickups may occupy grid step zero with negative offset",
+        "absent_boundary": "NaN for groove-only or unknown"
+      },
+      "cross_split_hvo_hashes": 0,
+      "conflicting_fill_label_hashes": 0,
+      "structural_overlap_hashes": 0,
+      "hash_precision": "HVO values rounded to 4 decimal places for duplicate screening",
+      "structural_overlap_note": "Identical hit grids can be common vocabulary; audit separately.",
+      "collision_policy": "Strongest velocity per cell; reject above 5.0%; periodic offsets preserve terminal pickup timing.",
+      "limits": [
+        "File role labels do not prove absence of embedded fills in long performances.",
+        "Unknown/mixed roles remain unconditioned; synthetic quality needs listening evaluation.",
+        "Pairing is deterministic and exhaustive within configured source/split/style/tempo constraints.",
+        "Current CVAE does not consume fill conditioning yet."
+      ]
+    }
+  },
+  "collections": [
+    {
+      "dataset": "800000_Drum_Percussion_MIDI",
+      "inventory_midi_candidates": 774268,
+      "sampled": 24,
+      "pipeline_statuses": {
+        "quarantined": 16,
+        "accepted": 3,
+        "discarded": 5
+      },
+      "roles_all_sampled": {
+        "groove": 9,
+        "unknown": 6,
+        "fill": 9
+      },
+      "reasons": {
+        "ambiguous_percussion_streams": 11,
+        "no_accepted_percussion": 12,
+        "unverified_vendor_mapping": 6,
+        "missing_style": 16,
+        "web_deferred": 11,
+        "metadata_conflict": 1,
+        "missing_tempo": 5
+      },
+      "finding": "Heterogeneous library. Partial genre templates recognized; many missing styles/tempos, ambiguous streams and vendor mappings remain."
+    },
+    {
+      "dataset": "Almighty_pack",
+      "inventory_midi_candidates": 4654,
+      "sampled": 24,
+      "pipeline_statuses": {
+        "accepted": 11,
+        "quarantined": 13
+      },
+      "roles_all_sampled": {
+        "unknown": 16,
+        "fill": 8
+      },
+      "reasons": {
+        "ambiguous_percussion_streams": 3,
+        "no_accepted_percussion": 3,
+        "missing_tempo": 7,
+        "web_deferred": 7,
+        "unverified_vendor_mapping": 4
+      },
+      "finding": "Collection genre templates and camel-case filename BPM work for some files; missing meter/role and vendor-specific maps still block HVO."
+    },
+    {
+      "dataset": "Doom Metal Drums MIDI Pack",
+      "inventory_midi_candidates": 80,
+      "sampled": 24,
+      "pipeline_statuses": {
+        "accepted": 23,
+        "quarantined": 1
+      },
+      "roles_all_sampled": {
+        "groove": 12,
+        "fill": 12
+      },
+      "reasons": {
+        "metadata_conflict": 1
+      },
+      "finding": "Local style/role/tempo works for most samples; inspect the conflicting BPM example rather than overriding it automatically."
+    },
+    {
+      "dataset": "GigaMIDI_drumsOnly",
+      "inventory_midi_candidates": 1285911,
+      "sampled": 12,
+      "pipeline_statuses": {
+        "quarantined": 12
+      },
+      "roles_all_sampled": {
+        "unknown": 12
+      },
+      "reasons": {
+        "missing_style": 12,
+        "no_accepted_percussion": 8,
+        "web_deferred": 12,
+        "missing_tempo": 3,
+        "ambiguous_percussion_streams": 1
+      },
+      "finding": "No GigaMIDI CSV adapter yet; hashed filenames lack reliable style/identity. Drum inference alone is insufficient."
+    },
+    {
+      "dataset": "Groove Monkee Doom",
+      "inventory_midi_candidates": 19394,
+      "sampled": 24,
+      "pipeline_statuses": {
+        "quarantined": 24
+      },
+      "roles_all_sampled": {
+        "groove": 13,
+        "fill": 11
+      },
+      "reasons": {
+        "ambiguous_percussion_streams": 5,
+        "missing_style": 24,
+        "no_accepted_percussion": 5,
+        "web_deferred": 24,
+        "unverified_vendor_mapping": 10
+      },
+      "finding": "Role/tempo labels often available; source style and per-vendor drum mapping need explicit profiles."
+    },
+    {
+      "dataset": "The_Lucerne_Groove_Library",
+      "inventory_midi_candidates": 444,
+      "sampled": 12,
+      "pipeline_statuses": {
+        "quarantined": 12
+      },
+      "roles_all_sampled": {
+        "unknown": 12
+      },
+      "reasons": {
+        "ambiguous_percussion_streams": 12,
+        "missing_style": 12,
+        "no_accepted_percussion": 12,
+        "web_deferred": 12
+      },
+      "finding": "Requires a stimuli.csv adapter and a verified channel/pitch/time interpretation; generic GM assumptions are insufficient."
+    },
+    {
+      "dataset": "Toontrack",
+      "inventory_midi_candidates": 0,
+      "sampled": 0,
+      "pipeline_statuses": {},
+      "roles_all_sampled": {},
+      "reasons": {},
+      "finding": "Only DMG installers present; no directly discoverable MIDI. Install/extract using the vendor workflow first."
+    },
+    {
+      "dataset": "e-gmd-v1.0.0",
+      "inventory_midi_candidates": 45537,
+      "sampled": 24,
+      "pipeline_statuses": {
+        "accepted": 24
+      },
+      "roles_all_sampled": {
+        "fill": 12,
+        "groove": 12
+      },
+      "reasons": {},
+      "finding": "E-GMD manifest adapter supplies style, role, performance grouping and official splits. Short fills compose; long fills/resolution hits are not silently cut."
+    },
+    {
+      "dataset": "goran_grooves",
+      "inventory_midi_candidates": 1030,
+      "sampled": 24,
+      "pipeline_statuses": {
+        "accepted": 20,
+        "quarantined": 4
+      },
+      "roles_all_sampled": {
+        "fill": 12,
+        "groove": 12
+      },
+      "reasons": {
+        "ambiguous_percussion_streams": 4
+      },
+      "finding": "Most sampled files pass canonical checks; ambiguous streams remain. Fills often include the next downbeat, making the inferred boundary 8 beats and preventing a groove prefix."
+    },
+    {
+      "dataset": "lakeside_v1",
+      "inventory_midi_candidates": 548,
+      "sampled": 24,
+      "pipeline_statuses": {
+        "discarded": 7,
+        "quarantined": 17
+      },
+      "roles_all_sampled": {
+        "unknown": 12,
+        "fill": 12
+      },
+      "reasons": {
+        "missing_style": 24,
+        "missing_tempo": 24,
+        "no_accepted_percussion": 21,
+        "ambiguous_percussion_streams": 17
+      },
+      "finding": "Fills folder overrides generic Groove NN filename. Missing exact tempo/style and nonstandard routing/mapping remain blockers; BPM ranges are not converted to exact tempos."
+    },
+    {
+      "dataset": "misc",
+      "inventory_midi_candidates": 2,
+      "sampled": 2,
+      "pipeline_statuses": {
+        "quarantined": 2
+      },
+      "roles_all_sampled": {
+        "unknown": 2
+      },
+      "reasons": {
+        "missing_style": 2,
+        "web_deferred": 2,
+        "ambiguous_percussion_streams": 1,
+        "no_accepted_percussion": 1
+      },
+      "finding": "Song MIDI needs identity metadata and drum review; filename words are not used as genre truth."
+    },
+    {
+      "dataset": "pantteri_v1",
+      "inventory_midi_candidates": 450,
+      "sampled": 24,
+      "pipeline_statuses": {
+        "quarantined": 19,
+        "discarded": 5
+      },
+      "roles_all_sampled": {
+        "fill": 12,
+        "unknown": 12
+      },
+      "reasons": {
+        "ambiguous_percussion_streams": 19,
+        "missing_style": 24,
+        "missing_tempo": 23,
+        "no_accepted_percussion": 20
+      },
+      "finding": "Same Groove NN/Fills naming issue handled; exact tempo/style and verified routing/mapping still needed."
+    },
+    {
+      "dataset": "varietyOfMetal_devinJames",
+      "inventory_midi_candidates": 79,
+      "sampled": 24,
+      "pipeline_statuses": {
+        "quarantined": 22,
+        "discarded": 1,
+        "accepted": 1
+      },
+      "roles_all_sampled": {
+        "fill": 12,
+        "groove": 12
+      },
+      "reasons": {
+        "ambiguous_percussion_streams": 19,
+        "missing_style": 15,
+        "no_accepted_percussion": 21,
+        "web_deferred": 15
+      },
+      "finding": "Some explicit metalcore folders work; other labels/style scope and nonstandard percussion remain unresolved."
+    }
+  ],
+  "notebook_validation": {
+    "cases": [
+      "old HVO",
+      "full GMD HVO",
+      "synthetic fill",
+      "canonical rejection",
+      "HVO collision rejection",
+      "empty dataset"
+    ],
+    "real_jupyter_kernel": true,
+    "piano_roll_render_inspected": true,
+    "embedded_audio_generated": true,
+    "audio_note": "Synthesized timing/velocity audition, not original VST timbre"
+  },
+  "limitations": [
+    "Pipeline outcomes are not human-annotated classifier accuracy.",
+    "All-dataset sampling used web=off; no web resolution success is claimed by this audit.",
+    "File-level groove labels do not guarantee absence of embedded fills in natural performances.",
+    "next_bar phrase length is an explicitly recorded inference; use strict or verified phrase_beats when appropriate.",
+    "Generic ingestion retains discovery/manifest/grouping state in RAM; 2.1-million-file end-to-end resource use has not been tested.",
+    "No training was run and the existing CVAE does not consume fill conditioning.",
+    "Exhaustive pairing heavily overrepresents synthetic fills; use balancing/weighting during future training."
+  ],
+  "full_gmd": {
+    "canonical_report": {
+      "schema_version": "unified-midi-v1",
+      "run_id": "20261009T095937044394Z-ebf156e7",
+      "config_hash": "ebf156e7f244c59fc8fc720920310d585a4ab75dd0d8a1c06720edefe3390030",
+      "code_hash": "ef0184bdc4660ce9e32b574ca0f58ccb3e31a74f43742064db9469a95d1280f2",
+      "assets": 1150,
+      "max_files": null,
+      "limit_reached": false,
+      "status_counts": {
+        "accepted": 1150
+      },
+      "reason_counts": {},
+      "unique_raw_files": 1149,
+      "accepted_unique_percussion": 1149,
+      "accepted_splits": {
+        "test": 129,
+        "train": 897,
+        "validation": 124
+      },
+      "metadata_sources": {
+        "style": {
+          "source_manifest": 1150
+        },
+        "tempo": {
+          "midi_event": 1150
+        },
+        "meter": {
+          "midi_event": 1150
+        },
+        "role": {
+          "source_manifest": 1150
+        }
+      },
+      "role_counts": {
+        "groove": 503,
+        "fill": 647
+      },
+      "web_status_counts": {},
+      "limitations": [
+        "Percussion scores are heuristic, not calibrated probabilities.",
+        "Full-file exact drum fingerprints and provenance groups are linked; near-duplicate audit is separate.",
+        "Web search is limited to configured providers; no-match does not prove absence on the entire web.",
+        "Canonical events preserve all tempos/meters; model exports impose explicit separate restrictions."
+      ]
+    },
+    "export": {
+      "adapter": "hvo32x9-fill-v2",
+      "canonical_run": "/Users/cagrierdem/Desktop/ongoing/POSTDOC/2groove/v2/data/unified-fill-aware/runs/20261009T095937044394Z-ebf156e7",
+      "statistics": {
+        "role_groove_files": 502,
+        "files_with_unknown_model_style": 276,
+        "candidate_windows": 10816,
+        "grid_collisions": 639595,
+        "collision_rejected_windows": 111712,
+        "groove_clips": 10123,
+        "empty_windows": 608,
+        "role_fill_files": 647,
+        "fill_clips": 509,
+        "short_region_no_original_window": 615,
+        "fill_not_shorter_than_window": 138,
+        "non_four_four_regions": 12,
+        "duplicate_files": 1,
+        "compatible_pairs": 205378,
+        "empty_groove_prefix_pairs": 100,
+        "duplicate_or_conflicting_windows_removed": 0,
+        "original_kept": 5664,
+        "synthetic_kept": 98110
+      },
+      "config": {
+        "combine_fills": true,
+        "fill_boundary": "next_bar",
+        "pair_scope": "source",
+        "tempo_policy": "groove",
+        "max_tempo_ratio": 1.25,
+        "tempo_tolerance_bpm": 1.0,
+        "max_combinations": 1000000
+      },
+      "splits": {
+        "train": 99463,
+        "validation": 2914,
+        "test": 1397
+      },
+      "fill_labels": {
+        "train": {
+          "0": 4482,
+          "1": 94981
+        },
+        "validation": {
+          "0": 575,
+          "1": 2339
+        },
+        "test": {
+          "0": 567,
+          "1": 830
+        }
+      },
+      "conditioning": {
+        "has_fill": "int8: -1 unknown, 0 groove-labelled, 1 fill present; file labels are not event-level ground truth",
+        "fill_mask": "int8 [N,32]: -1 unknown, 0 groove region, 1 fill region; not a hit mask",
+        "fill_hit_mask": "int8 [N,32,9]: fill membership at decoded onsets; ignore inactive cells",
+        "decode_beats": "((step + offset) / 4) % 8; terminal pickups may occupy grid step zero with negative offset",
+        "absent_boundary": "NaN for groove-only or unknown"
+      },
+      "cross_split_hvo_hashes": 0,
+      "conflicting_fill_label_hashes": 0,
+      "structural_overlap_hashes": 5,
+      "hash_precision": "HVO values rounded to 4 decimal places for duplicate screening",
+      "structural_overlap_note": "Identical hit grids can be common vocabulary; audit separately.",
+      "collision_policy": "Strongest velocity per cell; reject above 5.0%; periodic offsets preserve terminal pickup timing.",
+      "limits": [
+        "File role labels do not prove absence of embedded fills in long performances.",
+        "Unknown/mixed roles remain unconditioned; synthetic quality needs listening evaluation.",
+        "Pairing is deterministic and exhaustive within configured source/split/style/tempo constraints.",
+        "Current CVAE does not consume fill conditioning yet."
+      ]
+    },
+    "array_audit": {
+      "examples": 103774,
+      "parent_split_links": "all checked",
+      "tensor_shapes_ranges_and_finite": "all checked",
+      "synthetic_fill_membership": "all checked",
+      "canonical_timing_samples": [
+        {
+          "split": "train",
+          "index": 4550,
+          "collisions": 0,
+          "fill_onsets": 10
+        },
+        {
+          "split": "validation",
+          "index": 583,
+          "collisions": 0,
+          "fill_onsets": 12
+        },
+        {
+          "split": "test",
+          "index": 570,
+          "collisions": 0,
+          "fill_onsets": 12
+        }
+      ]
+    }
+  }
+}

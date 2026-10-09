@@ -1,0 +1,10 @@
+{
+  "sources": [{
+    "id": "gigamidi", "adapter": "gigamidi",
+    "path": "/path/to/datasets/GigaMIDI_drumsOnly",
+    "metadata_cache": "data/metadata-index"
+  }],
+  "output": "data/gigamidi-canonical",
+  "web": {"mode": "off"},
+  "policy": {"required_metadata": ["style", "tempo"], "conflict_policy": "quarantine"}
+}

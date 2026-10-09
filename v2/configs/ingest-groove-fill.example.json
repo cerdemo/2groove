@@ -1,0 +1,19 @@
+{
+  "sources": [
+    {"id": "library-a", "path": "/datasets/library-a", "adapter": "generic", "drum_map": "gm", "group_by": "parent"},
+    {"id": "egmd", "path": "/datasets/e-gmd-v1.0.0", "adapter": "egmd", "drum_map": "roland_td11"}
+  ],
+  "output": "data/combined-canonical",
+  "policy": {"required_metadata": ["style", "tempo"], "conflict_policy": "quarantine"},
+  "web": {"mode": "auto", "cache": "data/metadata-web-cache", "max_requests": 100},
+  "hvo": {
+    "combine_fills": true,
+    "fill_boundary": "next_bar",
+    "pair_scope": "source",
+    "tempo_policy": "groove",
+    "max_tempo_ratio": 1.25,
+    "tempo_tolerance_bpm": 1.0,
+    "max_combinations": 1000000
+  },
+  "seed": 42
+}

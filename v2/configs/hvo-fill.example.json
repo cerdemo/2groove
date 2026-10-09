@@ -1,0 +1,9 @@
+{
+  "combine_fills": true,
+  "fill_boundary": "next_bar",
+  "pair_scope": "source",
+  "tempo_policy": "groove",
+  "max_tempo_ratio": 1.25,
+  "tempo_tolerance_bpm": 1.0,
+  "max_combinations": 1000000
+}

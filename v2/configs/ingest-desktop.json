@@ -1,0 +1,79 @@
+{
+  "sources": [
+    {
+      "id": "egmd",
+      "path": "/home/cerdemo/Desktop/data/2groove2/e-gmd-v1.0.0",
+      "adapter": "egmd",
+      "drum_map": "roland_td11"
+    },
+    {
+      "id": "lucerne",
+      "path": "/home/cerdemo/Desktop/data/2groove2/The_Lucerne_Groove_Library",
+      "adapter": "lucerne"
+    },
+    {
+      "id": "doom-metal",
+      "path": "/home/cerdemo/Desktop/data/2groove2/Doom Metal Drums MIDI Pack",
+      "adapter": "generic"
+    },
+    {
+      "id": "goran",
+      "path": "/home/cerdemo/Desktop/data/2groove2/goran_grooves",
+      "adapter": "generic"
+    },
+    {
+      "id": "almighty",
+      "path": "/home/cerdemo/Desktop/data/2groove2/Almighty_pack",
+      "adapter": "generic"
+    },
+    {
+      "id": "drum-percussion-800k",
+      "path": "/home/cerdemo/Desktop/data/2groove2/800000_Drum_Percussion_MIDI",
+      "adapter": "generic"
+    },
+    {
+      "id": "groove-monkee-doom",
+      "path": "/home/cerdemo/Desktop/data/2groove2/Groove Monkee Doom",
+      "adapter": "generic"
+    },
+    {
+      "id": "lakeside",
+      "path": "/home/cerdemo/Desktop/data/2groove2/lakeside_v1",
+      "adapter": "generic"
+    },
+    {
+      "id": "pantteri",
+      "path": "/home/cerdemo/Desktop/data/2groove2/pantteri_v1",
+      "adapter": "generic"
+    },
+    {
+      "id": "variety-metal",
+      "path": "/home/cerdemo/Desktop/data/2groove2/varietyOfMetal_devinJames",
+      "adapter": "generic"
+    },
+    {
+      "id": "gigamidi",
+      "path": "/home/cerdemo/Desktop/data/2groove2/GigaMIDI_drumsOnly",
+      "adapter": "gigamidi",
+      "metadata_path": "/home/cerdemo/Desktop/data/2groove2/GigaMIDI_drumsOnly/Final-Metadata-Extended-GigaMIDI-Dataset-updated.csv",
+      "metadata_cache": "data/metadata-index"
+    }
+  ],
+  "output": "data/2groove2-canonical",
+  "policy": {
+    "required_metadata": [
+      "style",
+      "tempo"
+    ],
+    "conflict_policy": "quarantine"
+  },
+  "web": {
+    "mode": "off"
+  },
+  "hvo": {
+    "combine_fills": true,
+    "pair_scope": "source",
+    "max_combinations": 1000000
+  },
+  "seed": 42
+}

@@ -301,6 +301,62 @@ frozen encoder for inference. All corpus embeddings must be regenerated through
 `model.project_grooves(encoder.encode(hvo))`; the old unprojected groove index cannot
 be queried with aligned tap vectors. Index/UI integration is a separate next step.
 
+## Alignment representation diagnostics
+
+When longer training or a lower learning rate does not improve validation retrieval,
+inspect existing checkpoints before changing the model. From `v2`, using the current
+remote pairs export (its name is `taptamdrum-pairs-raw-v1`, despite containing the HVO
+eligibility files):
+
+```bash
+python scripts/diagnose_tap_alignment.py \
+  --pairs data/taptamdrum-pairs-raw-v1 \
+  --checkpoints artifacts/tap-alignment-v1/best.pt \
+                artifacts/tap-alignment-lr1e4-seed42/best.pt \
+  --out artifacts/alignment-diagnostics-v1 \
+  --device cuda
+```
+
+No new dependencies or pretrained-groove path are needed: alignment checkpoints
+contain the frozen encoder. Each checkpoint must match the pairs fingerprint.
+The original training group subset is reproduced, including `--train-group-limit`.
+An output directory must be fresh; checkpoints and training files are read-only.
+The trainer/model source files are unchanged, so this addition does not invalidate
+their existing resume code fingerprints. Console output defaults to a compact
+summary; `--console quiet` saves files silently and `--console json` prints the report.
+
+The script fits three fixed ridge probes **only on train groups**, including their
+feature centering/scaling. Each group has equal aggregate weight. Each probe reads
+its own modality's velocity-weighted 32-bin onset profile from an embedding:
+
+- `frozen_groove`: the pretrained groove representation before alignment projection.
+- `projected_groove`: the same representation after the learned projection.
+- `tap`: the learned tap embedding, targeting that human tap's own onsets, not the
+  source groove's onsets. This is a diagnostic, not a new tap-compression objective.
+
+`--ridge-alpha 0.1` fixes the standardized-feature regression penalty, without
+validation tuning. `report.json` includes train/validation MSE, improvement relative
+to a constant train-mean predictor, cosine recovery and embedding geometry. A
+negative `mse_skill_vs_train_mean` means the probe is worse than that constant on the
+specified split. Probe predictions stay signed rather than clipping away errors.
+
+Retrieval comparisons use the same within-split gallery and conservative tie ranks
+as alignment training: the original `alignment` and `onset_baseline`, then human tap
+onsets against decoded frozen/projected groove profiles, and decoded tap profiles
+against original groove onsets. A drop specifically after projection suggests
+investigating the projection/loss; poor tap readout suggests investigating tap time
+features or pooling. These are hypotheses: weak linear recovery does not prove
+information loss, and cross-modal retrieval depends on both sides and the gallery.
+`validation-queries.jsonl` stores ranks, all tied top candidates, original tap source,
+participant and group, so disagreement cases can be inspected individually.
+
+No test examples are encoded or evaluated. Dataset-wide checksums and integrity
+checks still include the shared files. Validation checkpoints have already been
+selected on these same groups, and the pretraining-overlap/participant limitations
+still apply. Onset reconstruction and source retrieval cannot establish perceptual
+compatibility; these diagnostics do not replace listening evaluations or turn all
+unmatched grooves into perceptually invalid negatives.
+
 ## Progress and TensorBoard
 
 `train_groove_encoder.py` now enables TensorBoard logging by default. Install the

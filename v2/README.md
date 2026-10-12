@@ -165,6 +165,8 @@ The groove encoder trainer includes terminal progress bars and TensorBoard metri
 see [monitoring and existing-run visualization](CONTRASTIVE.md#progress-and-tensorboard).
 After groove pretraining, [train the human tap–groove alignment pilot](CONTRASTIVE.md#next-training-human-tapgroove-alignment)
 with `scripts/train_tap_alignment.py`; it freezes the pretrained groove encoder.
+If alignment stalls below onset similarity, run the [checkpoint diagnostics](CONTRASTIVE.md#alignment-representation-diagnostics)
+with `scripts/diagnose_tap_alignment.py` before starting another training run.
 
 For completed multi-source, fill-aware HVO exports, follow the
 [pretraining workflow](PRETRAINING.md): full-array/provenance audit, bounded

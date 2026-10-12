@@ -157,6 +157,11 @@ conditioning and tap-to-grid inference experiments.
 
 ## Model, data and search
 
+The next architecture targets **tap–groove compatibility retrieval**, with human
+TapTamDrum pairs as the bridge. See [CONTRASTIVE.md](CONTRASTIVE.md) for the full
+implementation sequence, remote groove-encoder training commands, raw human-pair
+adapter, current limitations and research gates. The existing CVAE stays a baseline.
+
 For completed multi-source, fill-aware HVO exports, follow the
 [pretraining workflow](PRETRAINING.md): full-array/provenance audit, bounded
 synthetic selection and sampling plan, MIDI/audio review, and memory-mapped cache.

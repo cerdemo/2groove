@@ -1,5 +1,14 @@
 # V2 implementation and research gates
 
+## Current priority: human-aligned compatibility retrieval (2026-10-12)
+
+The implementation sequence in [CONTRASTIVE.md](CONTRASTIVE.md) takes priority over
+expanding the tap-conditioned CVAE below: masked groove pretraining, TapTamDrum
+source/session reservation, multi-positive human alignment, retrieval, static
+diversity archive, then generative QD. Groove encoder training can run independently
+while the human-alignment and product layers are implemented. The previous model
+and procedural engine remain comparison baselines.
+
 ## Phase 1: co-creative production
 
 Implemented: two-bar tap recording (keyboard/pad/native MIDI), internal or DAW clock,

@@ -1,5 +1,8 @@
 # Eğitim öncesi kontrol ve veri hazırlığı
 
+Yeni groove encoder eğitimi ve TapTamDrum/contrastive geliştirme sırası için
+[CONTRASTIVE.md](CONTRASTIVE.md). Aşağıdaki audit, plan ve cache bu encoder'a girdi olur.
+
 Bu script'ler tamamlanmış `hvo32x9-fill-v2` export üzerinde çalışır. MIDI ingest veya
 kombinasyon üretimi tekrarlanmaz. Girdi dosyaları değiştirilmez, split'ler yeniden
 atanmaz. GPU gerekmez. Komutları **remote'da `v2` içinden** çalıştır.

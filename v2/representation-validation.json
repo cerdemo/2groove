@@ -1,0 +1,63 @@
+{
+  "date": "2026-10-12",
+  "tests": {
+    "passed": 167,
+    "warning": "Existing Starlette/httpx deprecation"
+  },
+  "local_cpu_pilot": {
+    "dataset": "Lucerne HVO",
+    "train_rows": 1034,
+    "validation_rows": 151,
+    "epochs": 5,
+    "hidden": 64,
+    "embedding": 64,
+    "layers": 2,
+    "validation": {
+      "loss": 0.5112614729071361,
+      "hit_bce": 0.4630432900370307,
+      "velocity": 0.023768667076917025,
+      "offset": 0.024449515793188374,
+      "hit_f1": 0.430867031608688,
+      "masked_hits": 1429,
+      "masked_rests": 11126,
+      "examples": 151
+    },
+    "constant_baseline": {
+      "loss": 0.7698054074429127,
+      "hit_bce": 0.6931472049238864,
+      "velocity": 0.05224964083116984,
+      "offset": 0.02440856168785656,
+      "hit_f1": 0.20437643020594964,
+      "masked_hits": 1429,
+      "masked_rests": 11126
+    },
+    "shuffled_input": {
+      "loss": 0.5198605518939641,
+      "hit_bce": 0.4708796821709637,
+      "velocity": 0.023664310981211252,
+      "offset": 0.025316558741789084,
+      "hit_f1": 0.4244031830238727,
+      "masked_hits": 1429,
+      "masked_rests": 11126
+    }
+  },
+  "taptamdrum": {
+    "patterns": 345,
+    "pairs": 1116,
+    "hvo_eligible_patterns": 224,
+    "hvo_eligible_pairs": 744,
+    "rejected": 0,
+    "splits": {
+      "train": 743,
+      "test": 201,
+      "validation": 172
+    },
+    "cross_split_hashes_quarantined": 0
+  },
+  "limitations": [
+    "CUDA has not been tested on this Mac; the remote smoke run is required.",
+    "No human contrastive alignment has been trained yet.",
+    "The small correct-vs-shuffled gap is preliminary context sensitivity, not perceptual validity.",
+    "TapTamDrum parent/session reservation against the pretraining corpus is pending."
+  ]
+}

@@ -23,9 +23,41 @@ from ..pretraining.audit import sha256
 
 def code_fingerprint():
     digest = hashlib.sha256()
-    for name in ('alignment.py', 'alignment_data.py', 'alignment_metrics.py', 'train_alignment.py', 'encoder.py'):
+    for name in ('alignment.py', 'alignment_data.py', 'alignment_metrics.py', 'train_alignment.py', 'encoder.py', 'rhythm.py'):
         digest.update((Path(__file__).parent/name).read_bytes())
     return digest.hexdigest()
+
+
+def repair_history(directory, checkpoint):
+    """An epoch checkpoint is committed before its JSONL row; recover that boundary."""
+    path = directory/'metrics.jsonl'
+    original = path.read_text() if path.exists() else ''
+    rows = []
+    for line in original.splitlines():
+        if len(rows) >= checkpoint['epoch'] - 1:
+            break  # The last row is authoritative in last.pt, including torn JSONL writes.
+        row = json.loads(line)
+        if row['epoch'] != len(rows) + 1:
+            raise ValueError('Cannot resume: incomplete earlier metrics history')
+        rows.append(row)
+    if len(rows) != checkpoint['epoch'] - 1:
+        raise ValueError('Cannot resume: incomplete earlier metrics history')
+    rows.append(checkpoint['metrics'])
+    restored = ''.join(json.dumps(r, allow_nan=False) + '\n' for r in rows)
+    if restored != original:
+        if path.exists():
+            (directory/f'metrics-recovery-{time.time_ns()}.jsonl').write_text(original)
+        temporary = directory/'metrics.jsonl.tmp'
+        temporary.write_text(restored)
+        temporary.replace(path)
+
+
+def complete_run(args, best_mrr):
+    path = args.out/'completed.json'
+    temporary = path.with_suffix('.json.tmp')
+    temporary.write_text(json.dumps(dict(epochs=args.epochs, best_mrr=best_mrr,
+        last_sha256=sha256(args.out/'last.pt')), indent=2) + '\n')
+    temporary.replace(path)
 
 
 def run(args):
@@ -60,7 +92,7 @@ def run(args):
     encoder, pretrained = load_encoder(args.groove_checkpoint, device)
     encoder.requires_grad_(False)
     config = AlignmentConfig(encoder.config.embedding, args.hidden, args.embedding,
-                             args.layers, args.heads, args.tap_view)
+                             args.layers, args.heads, args.tap_view, args.rhythm_branch)
     model = CompatibilityModel(config).to(device)
     optimizer = torch.optim.AdamW(model.parameters(), lr=args.lr, weight_decay=.01)
     settings = {k: v for k, v in vars(args).items() if k not in (
@@ -71,7 +103,7 @@ def run(args):
     checkpoint = None
     if args.resume:
         checkpoint = torch.load(args.resume, map_location='cpu', weights_only=True)
-        if checkpoint.get('format') != 'tap-groove-alignment-v1' or checkpoint['identity'] != identity:
+        if checkpoint.get('format') not in ('tap-groove-alignment-v1', 'tap-groove-alignment-v2') or checkpoint['identity'] != identity:
             raise ValueError('Resume requires identical pairs, groove checkpoint, code and settings')
         if args.out.resolve() != args.resume.parent.resolve() or args.resume.name != 'last.pt':
             raise ValueError('Resume from the same output directory / last.pt')
@@ -80,8 +112,18 @@ def run(args):
         start, best_mrr, best_loss = checkpoint['epoch'], checkpoint['best_mrr'], checkpoint['best_loss']
     elif args.out.exists():
         raise FileExistsError(f'Use a fresh --out directory: {args.out}')
-    if start >= args.epochs:
-        raise ValueError('--epochs must exceed the completed checkpoint epoch')
+    if start > args.epochs:
+        raise ValueError('--epochs must not precede the completed checkpoint epoch')
+    if checkpoint is not None:
+        repair_history(args.out, checkpoint)
+        if start == args.epochs:
+            best = torch.load(args.out/'best.pt', map_location='cpu', weights_only=True)
+            if (best['identity'] != identity or not 1 <= best['epoch'] <= start
+                    or best['metrics']['validation']['mrr'] != best_mrr
+                    or best['metrics']['validation']['loss'] != best_loss):
+                raise ValueError('Cannot finalize: best checkpoint disagrees with last checkpoint')
+            complete_run(args, best_mrr)
+            return checkpoint['metrics']
     disable = None if args.progress == 'auto' else args.progress == 'off'
     all_groups = train_groups + validation_groups
     features = {}
@@ -90,7 +132,7 @@ def run(args):
             groups = all_groups[offset:offset+128]
             rows = [corpus.groups[g]['index'] for g in groups]
             y = torch.from_numpy(np.array(corpus.grooves[rows], copy=True)).to(device)
-            z = encoder.encode(y).cpu()
+            z = model.groove_inputs(encoder.encode(y), y).cpu()
             if not torch.isfinite(z).all():
                 raise ValueError('Nonfinite frozen groove features')
             features.update(zip(groups, z))
@@ -165,7 +207,8 @@ def run(args):
             improved = mrr > best_mrr or (mrr == best_mrr and val_loss < best_loss)
             if improved:
                 best_mrr, best_loss = mrr, val_loss
-            state = dict(format='tap-groove-alignment-v1', identity=identity, architecture=asdict(config),
+            state = dict(format='tap-groove-alignment-v1' if config.rhythm_branch == 'none' else 'tap-groove-alignment-v2',
+                identity=identity, architecture=asdict(config),
                 groove_architecture=pretrained['architecture'], groove_encoder=frozen_state,
                 groove_pretraining_identity=pretrained['identity'], model=model.state_dict(),
                 optimizer=optimizer.state_dict(), epoch=epoch+1, best_mrr=best_mrr, best_loss=best_loss,
@@ -181,8 +224,7 @@ def run(args):
             epochs.set_postfix(val_mrr=f'{mrr:.3f}', best=f'{best_mrr:.3f}', refresh=False)
             epochs.update(1)
             console.epoch(log, args.epochs)
-    (args.out/'completed.json').write_text(json.dumps(dict(epochs=args.epochs, best_mrr=best_mrr,
-        last_sha256=sha256(args.out/'last.pt')), indent=2) + '\n')
+    complete_run(args, best_mrr)
     return log
 
 
@@ -205,6 +247,7 @@ def parser():
     p.add_argument('--layers', type=int, default=2)
     p.add_argument('--heads', type=int, default=4)
     p.add_argument('--tap-view', choices=('hand_agnostic', 'pad_aware'), default='hand_agnostic')
+    p.add_argument('--rhythm-branch', choices=('none', 'groove', 'tap', 'both'), default='none')
     p.add_argument('--train-group-limit', type=int)
     p.add_argument('--progress', choices=('auto', 'on', 'off'), default='auto')
     p.add_argument('--no-tensorboard', dest='tensorboard', action='store_false')

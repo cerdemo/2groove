@@ -167,6 +167,8 @@ After groove pretraining, [train the human tap–groove alignment pilot](CONTRAS
 with `scripts/train_tap_alignment.py`; it freezes the pretrained groove encoder.
 If alignment stalls below onset similarity, run the [checkpoint diagnostics](CONTRASTIVE.md#alignment-representation-diagnostics)
 with `scripts/diagnose_tap_alignment.py` before starting another training run.
+The [sequential ablation runner](CONTRASTIVE.md#one-command-rhythm-branch-ablation)
+trains the baseline and three rhythm-branch variants across paired seeds, then produces diagnostics and a comparison.
 
 For completed multi-source, fill-aware HVO exports, follow the
 [pretraining workflow](PRETRAINING.md): full-array/provenance audit, bounded

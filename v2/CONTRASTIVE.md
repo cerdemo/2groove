@@ -298,7 +298,8 @@ Before product use or formal evaluation we still need source overlap reservation
 participant-held-out tests, real one-finger taps and human compatibility judgments.
 `load_alignment()` in `groove/representation/alignment.py` loads the tap model and
 frozen encoder for inference. All corpus embeddings must be regenerated through
-`model.project_grooves(encoder.encode(hvo))`; the old unprojected groove index cannot
+`model.encode_grooves(encoder, hvo)`; this also supplies measured onset features when
+the groove rhythm branch is enabled. The old unprojected groove index cannot
 be queried with aligned tap vectors. Index/UI integration is a separate next step.
 
 ## Alignment representation diagnostics
@@ -321,8 +322,7 @@ No new dependencies or pretrained-groove path are needed: alignment checkpoints
 contain the frozen encoder. Each checkpoint must match the pairs fingerprint.
 The original training group subset is reproduced, including `--train-group-limit`.
 An output directory must be fresh; checkpoints and training files are read-only.
-The trainer/model source files are unchanged, so this addition does not invalidate
-their existing resume code fingerprints. Console output defaults to a compact
+The diagnostic command does not modify trainer/model files. Console output defaults to a compact
 summary; `--console quiet` saves files silently and `--console json` prints the report.
 
 The script fits three fixed ridge probes **only on train groups**, including their
@@ -356,6 +356,103 @@ selected on these same groups, and the pretraining-overlap/participant limitatio
 still apply. Onset reconstruction and source retrieval cannot establish perceptual
 compatibility; these diagnostics do not replace listening evaluations or turn all
 unmatched grooves into perceptually invalid negatives.
+
+## One-command rhythm-branch ablation
+
+From `v2`, run all four conditions sequentially on the remote GPU:
+
+```bash
+python scripts/run_alignment_ablation.py \
+  --pairs data/taptamdrum-pairs-raw-v1 \
+  --groove-checkpoint artifacts/groove-encoder-v1/best.pt \
+  --out artifacts/alignment-ablation-v1 \
+  --device cuda \
+  --epochs 500 \
+  --seeds 42 43 44 \
+  --progress on
+```
+
+Defaults are **four conditions × three seeds = 12 training runs**, followed by one
+diagnostic pass over every `best.pt`. `--epochs` is the budget **per run**. The
+learning rate defaults to `3e-4`; numeric architecture, temperature and batch options
+match `train_tap_alignment.py`. No new dependencies are needed. Each subprocess
+releases its GPU resources before the next run starts. Failures stop the sequence.
+
+The study names, in default execution order, are:
+
+- `baseline`: the original event tap encoder and frozen groove encoder/projection.
+- `groove_rhythm`: add the groove's velocity-weighted 32-bin onset profile.
+- `tap_rhythm`: add the human tap's own velocity-weighted 32-bin onset profile.
+- `both_rhythm`: enable both additions.
+
+Each added branch is `Linear(32, embedding, bias=False)`, added to the normalized
+base embedding and normalized again. Its weights start at zero. The base weights,
+post-initialization RNG state and group/tap sampling match across conditions for a
+given seed; branches learn only through the existing human contrastive loss. They
+do not generate synthetic tap targets. Frozen groove weights remain unchanged.
+At embedding size 128, each branch adds 4,096 parameters: this is not a
+parameter-count-matched control. Groove rhythm branches require actual groove HVO,
+so an old index containing only frozen embeddings is insufficient.
+
+Choose any subset and any unique seed list, for example:
+
+```bash
+python scripts/run_alignment_ablation.py \
+  --pairs data/taptamdrum-pairs-raw-v1 \
+  --groove-checkpoint artifacts/groove-encoder-v1/best.pt \
+  --out artifacts/alignment-ablation-smoke \
+  --studies baseline both_rhythm --seeds 42 \
+  --epochs 2 --train-group-limit 32 --device cuda --progress on
+```
+
+Append `--dry-run` to validate inputs/settings and print a compact study plan without
+creating output or starting training (`--console json` includes all fingerprints and
+settings). The full run uses the existing fixed session
+split; seeds change initialization and sampling, not the dataset split. A limited
+smoke run selects its train subset using the seed, consistently across conditions.
+
+To resume, repeat the **same command with `--resume`**. The suite checks data/code,
+settings, seeds and epoch budget. Completed runs are verified and skipped; a partial
+run resumes from `last.pt`. An interruption after saving an epoch but before writing
+its JSONL row is recovered from checkpoint metrics. An attempt interrupted before
+its first checkpoint is preserved under `incomplete-attempts/` and restarted. A
+process lock prevents two runners writing the same suite. Different budgets or
+studies require a fresh output directory; console/progress/TensorBoard flags may
+change on resume. Completed run hashes detect subsequently modified artifacts.
+
+Outputs:
+
+- `suite.json`: immutable study plan, settings and input/code fingerprints.
+- `progress.json`: per-run status and completed artifact hashes.
+- `runs/<study>-seed<N>/`: normal checkpoints, JSONL metrics and TensorBoard events.
+- `diagnostics/report.json`: train/validation readout probes, retrieval and geometry
+  for each best checkpoint; `validation-queries.jsonl` contains individual ranks.
+- `summary.json`: each run's best epoch, MRR/Recall@1, last MRR and mean MRR over the
+  final 50 epochs (or all epochs if fewer), plus mean/sample-standard-deviation
+  across seeds and paired MRR differences against the same-seed baseline. With one
+  seed, standard deviation is null. If baseline is omitted, paired deltas are absent.
+
+Terminal output is one status per run, the usual progress bars, then a compact
+study summary. Per-epoch JSON is still saved. `--console quiet --progress off`
+suppresses normal terminal output; `--console json` prints the full final summary.
+TensorBoard is on by default (`--no-tensorboard` disables it):
+
+```bash
+tensorboard --logdir artifacts/alignment-ablation-v1/runs --port 6006
+```
+
+The rhythm-branch implementation changes the trainer code fingerprint. Historical
+v1 alignment checkpoints still load for inference/diagnostics; strict resume of an
+old training run requires its original code. Start this suite in a new directory.
+New rhythm-enabled checkpoints use `tap-groove-alignment-v2`; the loader supports
+both versions. Standalone training also accepts `--rhythm-branch none|groove|tap|both`.
+
+The comparisons are exploratory, not significance tests. Best checkpoints are
+selected on the same small validation set; multiple seeds are not independent data
+splits. Test examples are never encoded or evaluated. Probes for augmented embeddings
+measure the combined representation, including the added explicit rhythm input.
+The pretraining-overlap, participant and perceptual-compatibility limitations above
+remain in force; the runner does not automatically promote a winning model.
 
 ## Progress and TensorBoard
 

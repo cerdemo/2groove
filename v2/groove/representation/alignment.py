@@ -3,6 +3,7 @@ from dataclasses import dataclass
 import torch
 from torch import nn
 from torch.nn import functional as F
+from .rhythm import groove_profile, tap_profile
 
 
 class TapEncoder(nn.Module):
@@ -43,12 +44,15 @@ class AlignmentConfig:
     layers: int = 2
     heads: int = 4
     tap_view: str = 'hand_agnostic'
+    rhythm_branch: str = 'none'
 
     def validate(self):
         if min(self.groove_embedding, self.hidden, self.embedding, self.layers, self.heads) < 1:
             raise ValueError('Alignment dimensions must be positive')
         if self.hidden % self.heads or self.tap_view not in ('hand_agnostic', 'pad_aware'):
             raise ValueError('Invalid alignment heads/tap view')
+        if self.rhythm_branch not in ('none', 'groove', 'tap', 'both'):
+            raise ValueError('Unknown rhythm branch')
 
 
 class CompatibilityModel(nn.Module):
@@ -59,22 +63,51 @@ class CompatibilityModel(nn.Module):
         self.tap_encoder = TapEncoder(config.hidden, config.embedding, config.layers, config.heads)
         self.groove_projection = nn.Sequential(nn.LayerNorm(config.groove_embedding),
                                               nn.Linear(config.groove_embedding, config.embedding))
+        # Preserve common initial weights AND the subsequent dropout RNG stream
+        # across ablations. Zero residuals start with the exact baseline function.
+        with torch.random.fork_rng(devices=[]):
+            self.tap_rhythm = self._branch() if config.rhythm_branch in ('tap', 'both') else None
+            self.groove_rhythm = self._branch() if config.rhythm_branch in ('groove', 'both') else None
+
+    def _branch(self):
+        layer = nn.Linear(32, self.config.embedding, bias=False)
+        nn.init.zeros_(layer.weight)
+        return layer
 
     def encode_taps(self, events, padding):
         if self.config.tap_view == 'hand_agnostic':
             events = events.clone()
             events[..., 2] = 0
-        return self.tap_encoder(events, padding)
+        base = self.tap_encoder(events, padding)
+        if self.tap_rhythm is not None:
+            return F.normalize(base + self.tap_rhythm(tap_profile(events, padding)), dim=-1)
+        return base
+
+    def groove_inputs(self, encoded, hvo):
+        """Cache frozen features plus measured rhythm when the groove branch is active."""
+        if self.groove_rhythm is not None:
+            return torch.cat((encoded, groove_profile(hvo)), dim=-1)
+        return encoded
+
+    def encode_grooves(self, encoder, hvo):
+        return self.project_grooves(self.groove_inputs(encoder.encode(hvo), hvo))
 
     def project_grooves(self, features):
-        return F.normalize(self.groove_projection(features), dim=-1)
+        width = self.config.groove_embedding
+        expected = width + (32 if self.groove_rhythm is not None else 0)
+        if features.ndim != 2 or features.shape[-1] != expected:
+            raise ValueError('Wrong groove inputs; use encode_grooves(encoder, hvo) for inference')
+        base = F.normalize(self.groove_projection(features[:, :width]), dim=-1)
+        if self.groove_rhythm is not None:
+            return F.normalize(base + self.groove_rhythm(features[:, width:]), dim=-1)
+        return base
 
 
 def load_alignment(path, device='cpu'):
     from .encoder import EncoderConfig, GrooveEncoder
     state = torch.load(path, map_location='cpu', weights_only=True)
-    if state.get('format') != 'tap-groove-alignment-v1':
-        raise ValueError('Expected tap-groove-alignment-v1 checkpoint')
+    if state.get('format') not in ('tap-groove-alignment-v1', 'tap-groove-alignment-v2'):
+        raise ValueError('Expected tap-groove-alignment-v1/v2 checkpoint')
     model = CompatibilityModel(AlignmentConfig(**state['architecture'])).to(device)
     model.load_state_dict(state['model'])
     encoder = GrooveEncoder(EncoderConfig(**state['groove_architecture'])).to(device)

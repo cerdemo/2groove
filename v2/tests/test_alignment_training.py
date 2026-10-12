@@ -106,7 +106,8 @@ def test_real_ranks_chance_and_collapsed_embeddings():
     assert no_distractors['queries'] == 0 and 'mrr' not in no_distractors
 
 
-def test_alignment_resume_frozen_encoder_and_self_contained_inference(tmp_path, monkeypatch):
+@pytest.mark.parametrize('rhythm_branch', ['none', 'both'])
+def test_alignment_resume_frozen_encoder_and_self_contained_inference(tmp_path, monkeypatch, rhythm_branch):
     pairs, checkpoint = fixture(tmp_path)
     # Fail if a test tap is ever sent to the network (metadata integrity checks are OK).
     import groove.representation.train_alignment as training
@@ -118,12 +119,15 @@ def test_alignment_resume_frozen_encoder_and_self_contained_inference(tmp_path, 
     monkeypatch.setattr(training, 'pack_taps', checked_pack)
     monkeypatch.setattr(metrics, 'pack_taps', checked_pack)
     full = args_for(pairs, checkpoint, tmp_path/'full')
+    full.rhythm_branch = rhythm_branch
     full.tensorboard = False
     run(full)
     first = args_for(pairs, checkpoint, tmp_path/'resumed', 1)
+    first.rhythm_branch = rhythm_branch
     first.console = 'quiet'
     run(first)
     second = args_for(pairs, checkpoint, tmp_path/'resumed', 2)
+    second.rhythm_branch = rhythm_branch
     second.resume = first.out/'last.pt'
     second.log_every = 5
     second.console = 'json'
@@ -144,11 +148,12 @@ def test_alignment_resume_frozen_encoder_and_self_contained_inference(tmp_path, 
     selected = corpus.selection(corpus.split_groups('validation'))
     with torch.no_grad():
         tap = aligned.encode_taps(*pack_taps(corpus, selected['pair_indexes'], 'hand_agnostic'))
-        groove = aligned.project_grooves(frozen.encode(torch.from_numpy(
-            np.array(corpus.grooves[selected['groove_indexes']], copy=True))))
+        groove = aligned.encode_grooves(frozen, torch.from_numpy(
+            np.array(corpus.grooves[selected['groove_indexes']], copy=True)))
     assert torch.isfinite(tap @ groove.T).all()
     torch.testing.assert_close(tap.norm(dim=-1), torch.ones(len(tap)))
     changed = args_for(pairs, checkpoint, tmp_path/'resumed', 3)
+    changed.rhythm_branch = rhythm_branch
     changed.resume = first.out/'last.pt'; changed.temperature = .2
     with pytest.raises(ValueError, match='identical'):
         run(changed)

@@ -96,12 +96,15 @@ def collect(model, encoder, corpus, groups, batch_size):
     device = next(model.parameters()).device
     selection = corpus.selection(groups)
     pairs, indexes = selection['pair_indexes'], selection['groove_indexes']
-    frozen, taps = [], []
+    frozen, projected, taps = [], [], []
     for start in range(0, len(indexes), batch_size):
         hvo = torch.from_numpy(np.array(corpus.grooves[indexes[start:start+batch_size]], copy=True))
-        frozen.append(encoder.encode(hvo.to(device)).cpu())
+        hvo = hvo.to(device)
+        z = encoder.encode(hvo)
+        frozen.append(z.cpu())
+        projected.append(model.project_grooves(model.groove_inputs(z, hvo)).cpu().numpy())
     frozen = torch.cat(frozen)
-    projected = model.project_grooves(frozen.to(device)).cpu().numpy()
+    projected = np.concatenate(projected)
     for start in range(0, len(pairs), batch_size):
         taps.append(model.encode_taps(*pack_taps(corpus, pairs[start:start+batch_size],
                                                 model.config.tap_view, device)).cpu().numpy())
@@ -195,7 +198,7 @@ def run(args):
                 text = '/'.join('n/a' if v is None else f'{v:.3f}' for v in skill)
                 rank = report['geometry']['validation'][name]['effective_rank']
                 print(f'  probe {name}: MSE-skill(train/val)={text} effective-rank(val)={rank:.2f}')
-    files = ('diagnose_alignment.py', 'alignment.py', 'alignment_data.py', 'alignment_metrics.py', 'encoder.py')
+    files = ('diagnose_alignment.py', 'alignment.py', 'alignment_data.py', 'alignment_metrics.py', 'encoder.py', 'rhythm.py')
     report = dict(format='alignment-diagnostics-v1', pairs_sha256=corpus.fingerprint,
         code_sha256=hashlib.sha256(b''.join(Path(__file__).with_name(n).read_bytes() for n in files)).hexdigest(),
         settings=dict(device=device, ridge_alpha=args.ridge_alpha, batch_size=args.batch_size),

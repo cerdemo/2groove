@@ -163,6 +163,8 @@ implementation sequence, remote groove-encoder training commands, raw human-pair
 adapter, current limitations and research gates. The existing CVAE stays a baseline.
 The groove encoder trainer includes terminal progress bars and TensorBoard metrics;
 see [monitoring and existing-run visualization](CONTRASTIVE.md#progress-and-tensorboard).
+After groove pretraining, [train the human tap–groove alignment pilot](CONTRASTIVE.md#next-training-human-tapgroove-alignment)
+with `scripts/train_tap_alignment.py`; it freezes the pretrained groove encoder.
 
 For completed multi-source, fill-aware HVO exports, follow the
 [pretraining workflow](PRETRAINING.md): full-array/provenance audit, bounded

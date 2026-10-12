@@ -16,7 +16,7 @@ def summary_writer():
 def epoch_scalars(log):
     """Use the same aggregation as metrics.jsonl, not an average of batch averages."""
     values = {}
-    for split in ('train', 'validation', 'validation_constant_baseline', 'validation_shuffled_input'):
+    for split in (name for name in log if name == 'train' or name.startswith('validation')):
         for metric, value in log.get(split, {}).items():
             values[f'{metric}/{split}'] = value
     if 'seconds' in log:
@@ -24,17 +24,21 @@ def epoch_scalars(log):
     if 'validation_shuffled_input' in log:
         values['context/shuffled_minus_real_loss'] = (
             log['validation_shuffled_input']['loss'] - log['validation']['loss'])
+    if 'validation_shuffled_pairs' in log:
+        values['context/real_minus_shuffled_mrr'] = (
+            log['validation']['mrr'] - log['validation_shuffled_pairs']['mrr'])
     return values
 
 
 class TrainingMonitor:
     """Separate epoch/batch step spaces so resume can purge each correctly."""
-    def __init__(self, directory, *, enabled=True, start_epoch=0, train_batches=0, metadata=None):
+    def __init__(self, directory, *, enabled=True, start_epoch=0, train_batches=0, metadata=None, kind='groove'):
         self.directory = Path(directory)
         self.enabled = enabled
         self.start_epoch = start_epoch
         self.train_batches = train_batches
         self.metadata = metadata
+        self.kind = kind
         self.epochs = self.batches = None
         self.stack = ExitStack()
 
@@ -46,12 +50,21 @@ class TrainingMonitor:
             self.epochs = self.stack.enter_context(closing(writer(
                 str(self.directory/'epochs'), flush_secs=10,
                 purge_step=self.start_epoch + 1 if self.start_epoch else None)))
-            self.epochs.add_custom_scalars({'Groove encoder': {
+            layout = {'Groove encoder': {
                 'Loss comparison': ['Multiline', ['loss/train', 'loss/validation',
                     'loss/validation_constant_baseline', 'loss/validation_shuffled_input']],
                 'Masked hit F1': ['Multiline', ['hit_f1/train', 'hit_f1/validation',
                     'hit_f1/validation_shuffled_input']],
-            }})
+            }}
+            if self.kind == 'alignment':
+                layout = {'Tap-groove alignment': {
+                    'Contrastive loss': ['Multiline', ['loss/train', 'loss/validation']],
+                    'Retrieval MRR': ['Multiline', ['mrr/validation', 'mrr/validation_shuffled_pairs',
+                        'mrr/validation_onset_baseline', 'mrr/validation_chance']],
+                    'Recall at 1': ['Multiline', ['recall_at_1/validation',
+                        'recall_at_1/validation_onset_baseline', 'recall_at_1/validation_chance']],
+                }}
+            self.epochs.add_custom_scalars(layout)
             if self.metadata is not None:
                 self.epochs.add_text('run/configuration',
                                      '```json\n' + json.dumps(self.metadata, indent=2) + '\n```',
@@ -68,8 +81,8 @@ class TrainingMonitor:
     def batch(self, step, metrics, learning_rate, gradient_norm):
         if self.batches is None:
             return
-        for name in ('loss', 'hit_bce', 'velocity', 'offset', 'hit_f1'):
-            self.batches.add_scalar(f'train_batch/{name}', metrics[name], step)
+        for name, value in metrics.items():
+            self.batches.add_scalar(f'train_batch/{name}', value, step)
         self.batches.add_scalar('optimizer/learning_rate', learning_rate, step)
         self.batches.add_scalar('optimizer/gradient_norm_before_clip', float(gradient_norm), step)
 
@@ -91,8 +104,9 @@ def replay_history(run_directory, output=None):
     run_directory = Path(run_directory)
     output = Path(output) if output is not None else run_directory/'tensorboard-history'
     metadata = json.loads((run_directory/'run.json').read_text())
-    if metadata.get('format') != 'groove-pretraining-run-v1':
-        raise ValueError('Expected groove-pretraining-run-v1 run.json')
+    kind = 'alignment' if metadata.get('format') == 'tap-groove-alignment-run-v1' else 'groove'
+    if metadata.get('format') not in ('groove-pretraining-run-v1', 'tap-groove-alignment-run-v1'):
+        raise ValueError('Expected a groove-pretraining or tap-groove-alignment run.json')
     logs, previous = [], 0
     with (run_directory/'metrics.jsonl').open() as stream:
         for line_number, line in enumerate(stream, 1):
@@ -115,7 +129,7 @@ def replay_history(run_directory, output=None):
         raise ValueError('No completed epoch metrics found')
     summary_writer()  # Fail before reserving the output directory if not installed.
     output.mkdir(parents=True, exist_ok=False)
-    with TrainingMonitor(output, metadata=metadata) as monitor:
+    with TrainingMonitor(output, metadata=metadata, kind=kind) as monitor:
         for log in logs:
             monitor.epoch(log)
     return dict(epochs=len(logs), first_epoch=logs[0]['epoch'], last_epoch=logs[-1]['epoch'],

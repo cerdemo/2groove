@@ -1,4 +1,5 @@
-"""Alignment primitives; must be trained on human pairs before scoring user taps."""
+"""Human tap/groove alignment; scores are not calibrated perceptual probabilities."""
+from dataclasses import dataclass
 import torch
 from torch import nn
 from torch.nn import functional as F
@@ -32,6 +33,54 @@ class TapEncoder(nn.Module):
         x = self.temporal(x, src_key_padding_mask=padding)
         pooled = x.masked_fill(padding[..., None], 0).sum(1) / (~padding).sum(1, keepdim=True)
         return F.normalize(self.projection(pooled), dim=-1)
+
+
+@dataclass
+class AlignmentConfig:
+    groove_embedding: int
+    hidden: int = 64
+    embedding: int = 128
+    layers: int = 2
+    heads: int = 4
+    tap_view: str = 'hand_agnostic'
+
+    def validate(self):
+        if min(self.groove_embedding, self.hidden, self.embedding, self.layers, self.heads) < 1:
+            raise ValueError('Alignment dimensions must be positive')
+        if self.hidden % self.heads or self.tap_view not in ('hand_agnostic', 'pad_aware'):
+            raise ValueError('Invalid alignment heads/tap view')
+
+
+class CompatibilityModel(nn.Module):
+    def __init__(self, config):
+        super().__init__()
+        config.validate()
+        self.config = config
+        self.tap_encoder = TapEncoder(config.hidden, config.embedding, config.layers, config.heads)
+        self.groove_projection = nn.Sequential(nn.LayerNorm(config.groove_embedding),
+                                              nn.Linear(config.groove_embedding, config.embedding))
+
+    def encode_taps(self, events, padding):
+        if self.config.tap_view == 'hand_agnostic':
+            events = events.clone()
+            events[..., 2] = 0
+        return self.tap_encoder(events, padding)
+
+    def project_grooves(self, features):
+        return F.normalize(self.groove_projection(features), dim=-1)
+
+
+def load_alignment(path, device='cpu'):
+    from .encoder import EncoderConfig, GrooveEncoder
+    state = torch.load(path, map_location='cpu', weights_only=True)
+    if state.get('format') != 'tap-groove-alignment-v1':
+        raise ValueError('Expected tap-groove-alignment-v1 checkpoint')
+    model = CompatibilityModel(AlignmentConfig(**state['architecture'])).to(device)
+    model.load_state_dict(state['model'])
+    encoder = GrooveEncoder(EncoderConfig(**state['groove_architecture'])).to(device)
+    encoder.load_state_dict(state['groove_encoder'])
+    encoder.requires_grad_(False)
+    return model.eval(), encoder.eval(), state
 
 
 def multi_positive_loss(taps, grooves, tap_groups, groove_groups, temperature=.1, allowed=None):

@@ -23,10 +23,13 @@ MIDI file from target-derived pseudo taps. The old CVAE remains a baseline.
    in the multi-source corpus before an inductive encoder experiment. Exact hashes
    alone do not find all cropped/performance duplicates. A separate participant-held-out
    evaluation is necessary; do not call the default session split participant-disjoint.
-3. **Human contrastive alignment — encoder/loss primitives implemented; training and
-   evaluation runner next.** Freeze the groove encoder initially, learn projection
-   heads and a continuous-event tap encoder. Use source-group multi-positive loss,
-   group/participant-balanced batches and masks for known ambiguous negatives.
+3. **Human contrastive alignment — frozen-encoder pilot runner implemented.** Train
+   a continuous-event tap encoder and groove projection on human pairs using
+   source-group multi-positive loss, participant-aware batches and masks for other
+   segments of a known common performance. Session-held-out validation reports
+   retrieval, chance/onset baselines, label-permutation controls and matched
+   style/tempo candidate subsets. Pretraining overlap certification and separate
+   participant-held-out evaluation remain pending.
    Simple and complex interpretations remain distinct records, not averaged taps.
    Benchmark pad-aware, hand-agnostic and mono views; artificial mono views do not
    replace real single-finger input. Compare frozen and partially fine-tuned encoders.
@@ -188,8 +191,115 @@ different projection is invalid. After human alignment the index must be rebuilt
 
 Send `run.json`, the last few lines of `metrics.jsonl` (including shuffled-input
 metrics), and any error/VRAM information. After indexing, also send `index.json`.
-Keep the full checkpoint on the remote machine until we connect the alignment runner.
+Keep the full checkpoint on the remote machine; the alignment runner uses `best.pt`.
 Masked reconstruction improvement alone is not permission to claim perceptual success.
+
+## Next training: human tap–groove alignment
+
+The next pilot starts from the existing `artifacts/groove-encoder-v1/best.pt` and
+**freezes every groove encoder weight**. It trains only the continuous-event tap
+encoder and a normalized groove projection. The checkpoint includes both networks
+and the frozen encoder, so inference does not require the original checkpoint path.
+An older pretraining trainer code hash is fine for this initialization: this is a
+new training stage, not `--resume` of the old pretraining run.
+
+This remains exploratory: the previous pretraining run did not reserve TapTamDrum's
+GMD references. No claim of clean inductive generalization is made. Neither fitting
+nor checkpoint selection encodes/evaluates test taps or grooves. All pair artifacts
+are hashed for integrity, including the shared array containing all splits.
+
+After transferring the updated code to the remote PC, from `v2` with its venv active:
+
+```bash
+python -m pip install "tensorboard==2.21.0" "tqdm==4.70.1"
+python -m pytest -q
+
+python scripts/fetch_taptamdrum.py --output data/taptamdrum-source
+python scripts/prepare_taptamdrum.py \
+  --source data/taptamdrum-source --output data/taptamdrum-pairs-v2
+```
+
+The fetcher verifies/reuses existing matching MIDI files. Preparation needs a fresh
+output directory. If a current export with `hvo_eligible.npy` already exists, use
+that path and skip preparation. Older exports without explicit eligibility are
+rejected with an instruction to rebuild. The full current export preserves all
+1,116 taps; the HVO alignment selection uses 571 train and 80 validation taps, over
+163 train / 24 validation positive groups after alias merging. The 93 eligible test
+taps remain outside training and checkpoint selection.
+
+First check the new training path on CUDA:
+
+```bash
+python scripts/train_tap_alignment.py \
+  --pairs data/taptamdrum-pairs-v2 \
+  --groove-checkpoint artifacts/groove-encoder-v1/best.pt \
+  --out artifacts/tap-alignment-smoke \
+  --device cuda --epochs 2 --train-group-limit 32 \
+  --batch-groups 16 --taps-per-group 2 --progress on
+```
+
+Then start the full eligible human-pair pilot from the same pretrained encoder,
+using a fresh output directory (100 epochs is an initial budget, not an optimum):
+
+```bash
+python scripts/train_tap_alignment.py \
+  --pairs data/taptamdrum-pairs-v2 \
+  --groove-checkpoint artifacts/groove-encoder-v1/best.pt \
+  --out artifacts/tap-alignment-v1 \
+  --device cuda --epochs 100 \
+  --batch-groups 16 --taps-per-group 2 \
+  --tap-view hand_agnostic --progress on --log-every 10
+```
+
+`--batch-groups` counts source groups, not taps. Every selected group is visited once
+per epoch, with up to two interpretations sampled by participant before choosing a
+take. A final singleton group is merged into the preceding batch. Exact HVO aliases
+and repeated exports of the same performance segment are one positive group; one
+deterministic representative groove is used per group. The hand-agnostic view removes
+pad labels but preserves all onset/velocity events from both hands. It is not a
+substitute for real one-finger data. `--tap-view pad_aware` is an explicit ablation.
+No style or BPM metadata is fed into either encoder.
+
+Outputs: `run.json`, `selection.json`, `metrics.jsonl`, `best.pt`, `last.pt`,
+`completed.json`, and `tensorboard/epochs` / `tensorboard/batches`. Progress and
+TensorBoard are enabled by default; use the same server command documented below.
+The Custom Scalars tab compares MRR against chance, onset similarity and shuffled
+pairs. TensorBoard logs gradient norm, learning rate and batch contrastive loss too.
+
+`best.pt` maximizes **validation source-group-macro MRR**, using validation loss only
+to break ties. Validation uses every eligible interpretation against one candidate
+per validation positive group; it is not a corpus-wide retrieval benchmark. Ties
+with negatives are ranked conservatively so collapsed embeddings cannot win by
+gallery order. Recall@5/10 must be interpreted alongside the 24-candidate gallery.
+The diagnostics are:
+
+- `validation`: known-source MRR, Recall@1/5/10, loss, candidate counts and embedding
+  dimension variation. Contrastive loss depends on candidate count; train and
+  validation losses have different candidate sets.
+- `validation_chance`: analytic uniform-ranking chance on the same full gallery.
+- `validation_shuffled_pairs`: fixed cyclic source-label permutation, with no fixed
+  points. This is an evaluation control, not a model retrained on shuffled pairs.
+- `validation_onset_baseline`: fixed velocity-weighted 32-bin onset cosine similarity;
+  there are no learned parameters. A trained model needs to be compared against this
+  stronger baseline, not only against chance.
+- `validation_matched_style_tempo`: same parsed source style and within 10% of the
+  query reference BPM. Unknown metadata or fewer than two candidates excludes a
+  query from this diagnostic; coverage and candidate counts are reported. This is a
+  diagnostic using reference metadata, not a deployed tap-conditioning method.
+
+For resume, repeat the **same full-pilot command** and add
+`--resume artifacts/tap-alignment-v1/last.pt`. `--epochs` is the total desired epoch
+count, not an increment. Dataset/encoder hashes, training settings and alignment
+code must match. Monitoring flags can change. Partial epochs restart; optimizer and
+RNG states are restored, and stale TensorBoard steps are purged.
+
+After training, share `run.json`, `completed.json` and the last five JSONL rows.
+Before product use or formal evaluation we still need source overlap reservation,
+participant-held-out tests, real one-finger taps and human compatibility judgments.
+`load_alignment()` in `groove/representation/alignment.py` loads the tap model and
+frozen encoder for inference. All corpus embeddings must be regenerated through
+`model.project_grooves(encoder.encode(hvo))`; the old unprojected groove index cannot
+be queried with aligned tap vectors. Index/UI integration is a separate next step.
 
 ## Progress and TensorBoard
 

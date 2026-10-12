@@ -1,5 +1,9 @@
 # MIDI preprocessing — kullanım rehberi
 
+**HVO export tamamlandıysa:** [Eğitim öncesi hazırlık rehberini](../PRETRAINING.md)
+izle. `audit_hvo.py`, `prepare_training.py`, `review_pretraining.py` ve `cache_hvo.py`
+mevcut export'u kontrol eder ve eğitim için plan/cache hazırlar; ingest tekrarlanmaz.
+
 `ingest_midi.py`, seçtiğin klasörün **tüm alt klasörlerini otomatik tarar** ve bulduğu
 MIDI dosyalarını ortak bir veri yapısına dönüştürür. Tek MIDI dosyası veya ZIP arşivi
 de girdi olabilir. Kaynak dosyaları değiştirmez veya silmez; model eğitimi başlatmaz.

@@ -136,6 +136,11 @@ conditioning and tap-to-grid inference experiments.
 
 ## Model, data and search
 
+For completed multi-source, fill-aware HVO exports, follow the
+[pretraining workflow](PRETRAINING.md): full-array/provenance audit, bounded
+synthetic selection and sampling plan, MIDI/audio review, and memory-mapped cache.
+The existing trainer does not yet consume that plan or fill conditioning.
+
 `scripts/prepare_gmd.py` downloads the official Groove MIDI Dataset MIDI-only archive,
 verifies its pinned SHA-256, respects the official performance split, and constructs
 non-overlapping two-bar windows. The nine-voice H/V/O schema uses quarter-note beats;

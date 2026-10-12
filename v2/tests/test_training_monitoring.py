@@ -20,6 +20,7 @@ def test_training_events_match_jsonl_and_resume_purges_stale_steps(tmp_path):
     out = tmp_path/'run'
     args = arguments(cache, plan, out)
     args.log_every = 1
+    args.console = 'quiet'
     args.max_train_batches = args.max_validation_batches = 1
     run(args)
     # Simulate logs flushed in an uncheckpointed partial epoch.
@@ -31,6 +32,7 @@ def test_training_events_match_jsonl_and_resume_purges_stale_steps(tmp_path):
     args.epochs = 2
     args.log_every = 17  # Monitoring settings must not invalidate resume identity.
     args.progress = 'off'
+    args.console = 'json'  # Console verbosity is not part of training identity.
     run(args)
     logs = [json.loads(line) for line in (out/'metrics.jsonl').read_text().splitlines()]
     epoch_events = events(out/'tensorboard/epochs')
@@ -52,8 +54,10 @@ def test_monitoring_does_not_change_learning_and_progress_is_stderr(tmp_path, ca
     silent = arguments(cache, plan, tmp_path/'silent')
     silent.tensorboard = False
     silent.progress = 'off'
+    silent.console = 'quiet'
     run(silent)
-    capsys.readouterr()
+    quiet_output = capsys.readouterr()
+    assert quiet_output.out == '' and quiet_output.err == ''
     visible = arguments(cache, plan, tmp_path/'visible')
     visible.progress = 'on'
     visible.log_every = 1
@@ -61,6 +65,7 @@ def test_monitoring_does_not_change_learning_and_progress_is_stderr(tmp_path, ca
     captured = capsys.readouterr()
     assert 'Epochs' in captured.err and 'train' in captured.err and 'validation' in captured.err
     assert '\r' not in captured.out and '\x1b' not in captured.out
+    assert 'Epoch 1/1 | train=' in captured.out and '"identity"' not in captured.out
     assert not (silent.out/'tensorboard').exists()
     a = torch.load(silent.out/'last.pt', weights_only=True)
     b = torch.load(visible.out/'last.pt', weights_only=True)

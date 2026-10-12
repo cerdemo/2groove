@@ -315,8 +315,23 @@ python -m pip check
 The terminal shows overall epoch progress and a train/validation batch bar with
 ETA, batch rate, processed examples, running loss and hit F1. `--progress auto`
 (default) draws bars only on interactive stderr; `--progress on` forces them and
-`--progress off` hides them. JSON epoch summaries remain on stdout and in
-`metrics.jsonl`. Progress uses the actual selected rows and batch limits.
+`--progress off` hides them. Progress uses the actual selected rows and batch limits.
+
+Both `train_groove_encoder.py` and `train_tap_alignment.py` accept `--console`:
+
+- `--console compact` (default): short startup information and one line per epoch
+  with train/validation loss and F1 or MRR/Recall@1.
+- `--console quiet --progress on`: progress bars only, without normal stdout output.
+- `--console quiet --progress off`: no routine terminal output; errors remain visible.
+- `--console json`: full run metadata and epoch JSON on stdout, as in earlier versions.
+
+Full `run.json`, `metrics.jsonl`, checkpoints and enabled TensorBoard events are saved
+in every mode. `--log-every` controls TensorBoard batch frequency, not terminal JSON.
+Console mode can change when resuming with the same trainer code. As with other
+trainer edits, older checkpoints still require their original trainer revision to
+pass the strict code-hash resume check. There is no need to interrupt a running job
+for a display change. With the older code, appending `>> training-console.log` to a
+new command also keeps its stdout in a file while stderr progress/errors stay visible.
 
 TensorBoard files live inside each run:
 

@@ -3,6 +3,50 @@ from contextlib import ExitStack, closing
 import json
 import math
 from pathlib import Path
+import sys
+from tqdm import tqdm
+
+
+class ConsoleReporter:
+    """Control terminal verbosity independently of JSONL, checkpoints and TensorBoard."""
+    def __init__(self, mode):
+        self.mode = mode
+
+    def status(self, message):
+        if self.mode != 'quiet':
+            tqdm.write(message, file=sys.stdout)
+            sys.stdout.flush()
+
+    def run(self, description, output):
+        if self.mode == 'json':
+            self.status(json.dumps(description))
+        elif self.mode == 'compact':
+            if 'counts' in description:
+                counts = description['counts']
+                sizes = ' | '.join(f'{split}={row["groups"]} groups/{row["pairs"]} taps'
+                                   for split, row in counts.items())
+            else:
+                sizes = f'train={description["train_rows"]} | validation={description["validation_rows"]}'
+            self.status(f'Run: {output} | {sizes}')
+
+    def epoch(self, log, total):
+        if self.mode == 'json':
+            self.status(json.dumps(log))
+        elif self.mode == 'compact':
+            validation = log['validation']
+            message = (f'Epoch {log["epoch"]}/{total} | train={log["train"]["loss"]:.4f}'
+                       f' | val={validation["loss"]:.4f}')
+            if 'mrr' in validation:
+                message += f' | MRR={validation["mrr"]:.3f} | R@1={validation["recall_at_1"]:.3f}'
+            elif 'hit_f1' in validation:
+                message += f' | F1={validation["hit_f1"]:.3f}'
+            self.status(message + f' | {log["seconds"]:.2f}s')
+
+
+def add_console_argument(parser):
+    parser.add_argument('--console', choices=('compact', 'json', 'quiet'), default='compact',
+                        help='Terminal output: one line per epoch (default), full JSON, or no normal stdout; '
+                             'progress bars and saved metrics are independent')
 
 
 def summary_writer():

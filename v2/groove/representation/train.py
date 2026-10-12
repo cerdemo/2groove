@@ -8,7 +8,6 @@ import json
 import math
 from pathlib import Path
 import platform
-import sys
 import time
 import numpy as np
 import torch
@@ -16,7 +15,7 @@ from torch.utils.data import DataLoader, WeightedRandomSampler
 from tqdm import tqdm
 from .data import HVOExamples, selections, verify_inputs
 from .encoder import EncoderConfig, GrooveEncoder, make_mask, masked_loss, summarize
-from .monitoring import TrainingMonitor, summary_writer
+from .monitoring import ConsoleReporter, TrainingMonitor, add_console_argument, summary_writer
 from ..pretraining.audit import sha256
 
 
@@ -40,6 +39,7 @@ def code_fingerprint():
 
 
 def run(args):
+    console = ConsoleReporter(args.console)
     for name in ('epochs', 'batch_size', 'threads', 'log_every'):
         if getattr(args, name) < 1:
             raise ValueError(f'{name} must be positive')
@@ -61,7 +61,7 @@ def run(args):
         torch.cuda.manual_seed_all(args.seed)
         torch.backends.cudnn.benchmark = False
     torch.use_deterministic_algorithms(True)
-    print('Verifying plan and cache fingerprints (streaming file hashes)', flush=True)
+    console.status('Verifying plan and cache fingerprints (streaming file hashes)')
     cache, plan, fingerprints = verify_inputs(args.cache, args.plan)
     train_rows, weights, validation_rows = selections(cache, args.plan, args.include_synthetic,
                                                       args.train_limit, args.validation_limit, args.seed)
@@ -93,7 +93,7 @@ def run(args):
     config.validate()
     settings = {k: v for k, v in vars(args).items() if k not in
                 ('out', 'resume', 'epochs', 'cache', 'plan', 'exclude_parents',
-                 'progress', 'tensorboard', 'log_every')}
+                 'progress', 'tensorboard', 'log_every', 'console')}
     identity = dict(inputs=fingerprints, settings=settings, architecture=asdict(config), code_sha256=code_fingerprint())
     model = GrooveEncoder(config).to(device)
     optimizer = torch.optim.AdamW(model.parameters(), lr=args.lr, weight_decay=.01)
@@ -119,7 +119,7 @@ def run(args):
     description = dict(format='groove-pretraining-run-v1', identity=identity,
         train_rows=len(train_rows), validation_rows=len(validation_rows), device=str(device),
         excluded={s: len(rows) for s, rows in exclusions.items()},
-        monitoring=dict(progress=args.progress, tensorboard=args.tensorboard, log_every=args.log_every,
+        monitoring=dict(progress=args.progress, console=args.console, tensorboard=args.tensorboard, log_every=args.log_every,
                         directory=str(args.out/'tensorboard') if args.tensorboard else None),
         environment=dict(python=platform.python_version(), torch=str(torch.__version__),
                          cuda=torch.version.cuda, gpu=torch.cuda.get_device_name(device) if device.type == 'cuda' else None),
@@ -128,7 +128,7 @@ def run(args):
                       '32x9 HVO preserves accepted offsets but cannot recover events discarded by export.',
                       'No test data is used for fitting or checkpoint selection.'])
     (args.out/'run.json').write_text(json.dumps(description, indent=2) + '\n')
-    print(json.dumps(description), flush=True)
+    console.run(description, args.out)
     train_ds = HVOExamples(args.cache/'train/drums.npy', train_rows)
     validation_ds = HVOExamples(args.cache/'validation/drums.npy', validation_rows)
     train_batches = math.ceil(len(train_ds) / args.batch_size)
@@ -210,8 +210,7 @@ def run(args):
             monitor.epoch(log)
             epoch_progress.set_postfix(val_loss=f'{log["validation"]["loss"]:.4f}', best=f'{best:.4f}', refresh=False)
             epoch_progress.update(1)
-            tqdm.write(json.dumps(log), file=sys.stdout)
-            sys.stdout.flush()
+            console.epoch(log, args.epochs)
     (args.out/'completed.json').write_text(json.dumps(dict(epochs=args.epochs, best_validation=best,
                                                           last_sha256=sha256(args.out/'last.pt')), indent=2) + '\n')
     return log
@@ -249,6 +248,7 @@ def parser():
                    help='Disable TensorBoard events (JSONL metrics are always saved)')
     p.add_argument('--log-every', type=int, default=50,
                    help='TensorBoard batch logging interval; epoch metrics and final batch are always logged')
+    add_console_argument(p)
     return p
 
 

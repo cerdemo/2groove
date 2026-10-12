@@ -6,7 +6,6 @@ import json
 import math
 from pathlib import Path
 import platform
-import sys
 import time
 
 import numpy as np
@@ -17,7 +16,7 @@ from .alignment import AlignmentConfig, CompatibilityModel, multi_positive_loss
 from .alignment_data import HumanPairs, candidate_mask, group_batches, pack_taps
 from .alignment_metrics import evaluate
 from .encoder import load_encoder
-from .monitoring import TrainingMonitor, summary_writer
+from .monitoring import ConsoleReporter, TrainingMonitor, add_console_argument, summary_writer
 from .train import save_checkpoint
 from ..pretraining.audit import sha256
 
@@ -30,6 +29,7 @@ def code_fingerprint():
 
 
 def run(args):
+    console = ConsoleReporter(args.console)
     for name in ('epochs', 'taps_per_group', 'threads', 'hidden', 'embedding', 'layers', 'heads', 'log_every'):
         if getattr(args, name) < 1:
             raise ValueError(f'{name} must be positive')
@@ -49,7 +49,7 @@ def run(args):
         torch.cuda.manual_seed_all(args.seed)
         torch.backends.cudnn.benchmark = False
     torch.use_deterministic_algorithms(True)
-    print('Verifying human pairs and loading frozen groove encoder', flush=True)
+    console.status('Verifying human pairs and loading frozen groove encoder')
     corpus = HumanPairs(args.pairs)
     train_groups, validation_groups = corpus.split_groups('train'), corpus.split_groups('validation')
     if args.train_group_limit is not None and args.train_group_limit < len(train_groups):
@@ -64,7 +64,7 @@ def run(args):
     model = CompatibilityModel(config).to(device)
     optimizer = torch.optim.AdamW(model.parameters(), lr=args.lr, weight_decay=.01)
     settings = {k: v for k, v in vars(args).items() if k not in (
-        'pairs', 'groove_checkpoint', 'out', 'resume', 'epochs', 'progress', 'tensorboard', 'log_every')}
+        'pairs', 'groove_checkpoint', 'out', 'resume', 'epochs', 'progress', 'tensorboard', 'log_every', 'console')}
     identity = dict(inputs=dict(pairs=corpus.fingerprint, groove_checkpoint=sha256(args.groove_checkpoint)),
                     settings=settings, architecture=asdict(config), code_sha256=code_fingerprint())
     start, best_mrr, best_loss = 0, -1., float('inf')
@@ -109,7 +109,7 @@ def run(args):
                          gpu=torch.cuda.get_device_name(device) if device.type == 'cuda' else None),
         protocol='Exploratory session-held-out alignment; pretraining overlap is NOT certified.',
         groove_encoder_frozen=True, checkpoint_selection='Validation group-macro MRR; loss breaks ties',
-        tap_view=args.tap_view, monitoring=dict(tensorboard=args.tensorboard, log_every=args.log_every),
+        tap_view=args.tap_view, monitoring=dict(console=args.console, tensorboard=args.tensorboard, log_every=args.log_every),
         limitations=['Pretraining may include TapTamDrum/GMD references; this is not a clean inductive benchmark.',
             'Session splits do not hold out participants. Participant-held-out evaluation remains pending.',
             'Only HVO-eligible human pairs are used; raw pairs are preserved in the source export.',
@@ -119,7 +119,7 @@ def run(args):
             'Test pairs are not encoded, fitted or evaluated for checkpoint selection.'])
     (args.out/'run.json').write_text(json.dumps(description, indent=2) + '\n')
     (args.out/'completed.json').unlink(missing_ok=True)
-    print(json.dumps(description), flush=True)
+    console.run(description, args.out)
     steps = len(list(group_batches(corpus, train_groups, args.batch_groups, args.taps_per_group, args.seed)))
     # Save the frozen encoder for self-contained inference; no optimizer sees its weights.
     frozen_state = {k: v.detach().cpu().clone() for k, v in encoder.state_dict().items()}
@@ -180,8 +180,7 @@ def run(args):
             monitor.epoch(log)
             epochs.set_postfix(val_mrr=f'{mrr:.3f}', best=f'{best_mrr:.3f}', refresh=False)
             epochs.update(1)
-            tqdm.write(json.dumps(log), file=sys.stdout)
-            sys.stdout.flush()
+            console.epoch(log, args.epochs)
     (args.out/'completed.json').write_text(json.dumps(dict(epochs=args.epochs, best_mrr=best_mrr,
         last_sha256=sha256(args.out/'last.pt')), indent=2) + '\n')
     return log
@@ -210,6 +209,7 @@ def parser():
     p.add_argument('--progress', choices=('auto', 'on', 'off'), default='auto')
     p.add_argument('--no-tensorboard', dest='tensorboard', action='store_false')
     p.add_argument('--log-every', type=int, default=10)
+    add_console_argument(p)
     return p
 
 

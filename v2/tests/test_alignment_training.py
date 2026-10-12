@@ -121,10 +121,12 @@ def test_alignment_resume_frozen_encoder_and_self_contained_inference(tmp_path, 
     full.tensorboard = False
     run(full)
     first = args_for(pairs, checkpoint, tmp_path/'resumed', 1)
+    first.console = 'quiet'
     run(first)
     second = args_for(pairs, checkpoint, tmp_path/'resumed', 2)
     second.resume = first.out/'last.pt'
     second.log_every = 5
+    second.console = 'json'
     run(second)
     a = torch.load(full.out/'last.pt', weights_only=True)
     b = torch.load(first.out/'last.pt', weights_only=True)

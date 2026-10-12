@@ -190,3 +190,74 @@ Send `run.json`, the last few lines of `metrics.jsonl` (including shuffled-input
 metrics), and any error/VRAM information. After indexing, also send `index.json`.
 Keep the full checkpoint on the remote machine until we connect the alignment runner.
 Masked reconstruction improvement alone is not permission to claim perceptual success.
+
+## Progress and TensorBoard
+
+`train_groove_encoder.py` now enables TensorBoard logging by default. Install the
+updated dependencies with `python -m pip install -r requirements.lock`. To add only
+the monitoring dependencies to an existing CUDA environment:
+
+```bash
+python -m pip install "tensorboard==2.21.0" "tqdm==4.70.1"
+python -m pip check
+```
+
+The terminal shows overall epoch progress and a train/validation batch bar with
+ETA, batch rate, processed examples, running loss and hit F1. `--progress auto`
+(default) draws bars only on interactive stderr; `--progress on` forces them and
+`--progress off` hides them. JSON epoch summaries remain on stdout and in
+`metrics.jsonl`. Progress uses the actual selected rows and batch limits.
+
+TensorBoard files live inside each run:
+
+- `tensorboard/epochs`: epoch steps; train/validation loss, hit BCE, velocity/offset
+  losses, hit F1, masked hit/rest counts, example counts, baseline and shuffled-input
+  metrics, and epoch compute time (excluding checkpoint saving). The Custom Scalars
+  tab overlays loss and F1 comparisons. `context/shuffled_minus_real_loss` is positive
+  when real groove context improves loss; it is not a perceptual compatibility score.
+- `tensorboard/batches`: optimizer steps; individual training-batch metrics every
+  `--log-every 50` batches (default) and at the last batch of each epoch, learning
+  rate and gradient norm before clipping. These are batch values, not epoch averages.
+- Run settings/environment/provenance appear under Text. Epoch scalars use the
+  exact aggregations stored in `metrics.jsonl`. Test data is not evaluated.
+
+For subsequent runs, existing training commands need no additional flags. Use a
+fresh `--out` directory; optionally add `--progress on --log-every 10`. To disable
+TensorBoard, pass `--no-tensorboard`; JSONL and checkpoints are still saved.
+
+In a second terminal on the remote computer, activate the same venv and run:
+
+```bash
+tensorboard --logdir artifacts --host 127.0.0.1 --port 6006
+```
+
+Open `http://127.0.0.1:6006` in the **remote computer's browser via AnyDesk**.
+Select the relevant run(s), then Scalars or Custom Scalars; epoch and batch streams
+have separate step axes. This command does not expose a public server. With SSH
+access, `ssh -N -L 6006:127.0.0.1:6006 USER@HOST` also makes it accessible from a local
+browser without changing the binding.
+
+Monitoring switches can change on resume without invalidating the training
+identity. Writers flush each epoch and close even on interruption. Resume removes
+stale TensorBoard points after the last checkpoint, separately for epoch and batch
+steps. Data/model/trainer code checks remain strict: **checkpoints created before
+this trainer update cannot resume under the new code hash**. Use the original code
+revision for that continuation. Existing checkpoints still work for indexing and
+existing JSONL logs can be visualized without training again.
+
+### Visualize a completed run that predates TensorBoard
+
+```bash
+python scripts/export_training_tensorboard.py \
+  --run artifacts/groove-encoder-v1
+
+tensorboard --logdir artifacts/groove-encoder-v1/tensorboard-history \
+  --host 127.0.0.1 --port 6006
+```
+
+The exporter reads `run.json` and `metrics.jsonl`, then creates a new
+`tensorboard-history/epochs` directory. It does not load a model, cache or dataset,
+and leaves existing logs/checkpoints unchanged. Only recorded epoch metrics are
+available; historical batch metrics cannot be reconstructed. Malformed or
+non-monotonic history is rejected before output is created. For another export,
+use `--output PATH` with a fresh directory; existing output is never overwritten.

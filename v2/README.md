@@ -161,11 +161,14 @@ The next architecture targets **tap–groove compatibility retrieval**, with hum
 TapTamDrum pairs as the bridge. See [CONTRASTIVE.md](CONTRASTIVE.md) for the full
 implementation sequence, remote groove-encoder training commands, raw human-pair
 adapter, current limitations and research gates. The existing CVAE stays a baseline.
+The groove encoder trainer includes terminal progress bars and TensorBoard metrics;
+see [monitoring and existing-run visualization](CONTRASTIVE.md#progress-and-tensorboard).
 
 For completed multi-source, fill-aware HVO exports, follow the
 [pretraining workflow](PRETRAINING.md): full-array/provenance audit, bounded
 synthetic selection and sampling plan, MIDI/audio review, and memory-mapped cache.
-The existing trainer does not yet consume that plan or fill conditioning.
+The legacy CVAE trainer does not consume that plan or fill conditioning; the groove
+encoder uses the audited plan to select original training windows.
 
 `scripts/prepare_gmd.py` downloads the official Groove MIDI Dataset MIDI-only archive,
 verifies its pinned SHA-256, respects the official performance split, and constructs

@@ -3,16 +3,20 @@ import argparse
 from collections import Counter
 from dataclasses import asdict
 import hashlib
+from itertools import islice
 import json
 import math
 from pathlib import Path
 import platform
+import sys
 import time
 import numpy as np
 import torch
 from torch.utils.data import DataLoader, WeightedRandomSampler
+from tqdm import tqdm
 from .data import HVOExamples, selections, verify_inputs
 from .encoder import EncoderConfig, GrooveEncoder, make_mask, masked_loss, summarize
+from .monitoring import TrainingMonitor, summary_writer
 from ..pretraining.audit import sha256
 
 
@@ -36,7 +40,7 @@ def code_fingerprint():
 
 
 def run(args):
-    for name in ('epochs', 'batch_size', 'threads'):
+    for name in ('epochs', 'batch_size', 'threads', 'log_every'):
         if getattr(args, name) < 1:
             raise ValueError(f'{name} must be positive')
     for name in ('train_limit', 'validation_limit', 'max_train_batches', 'max_validation_batches'):
@@ -49,6 +53,8 @@ def run(args):
                           else 'cpu' if args.device == 'auto' else args.device)
     if device.type == 'cuda' and not torch.cuda.is_available():
         raise ValueError('CUDA requested but unavailable; inspect the remote PyTorch/CUDA installation')
+    if args.tensorboard:
+        summary_writer()  # Check the optional runtime import before creating an output directory.
     torch.set_num_threads(args.threads)
     torch.manual_seed(args.seed)
     if device.type == 'cuda':
@@ -86,7 +92,8 @@ def run(args):
     config = EncoderConfig(args.hidden, args.embedding, args.layers, args.heads, args.dropout)
     config.validate()
     settings = {k: v for k, v in vars(args).items() if k not in
-                ('out', 'resume', 'epochs', 'cache', 'plan', 'exclude_parents')}
+                ('out', 'resume', 'epochs', 'cache', 'plan', 'exclude_parents',
+                 'progress', 'tensorboard', 'log_every')}
     identity = dict(inputs=fingerprints, settings=settings, architecture=asdict(config), code_sha256=code_fingerprint())
     model = GrooveEncoder(config).to(device)
     optimizer = torch.optim.AdamW(model.parameters(), lr=args.lr, weight_decay=.01)
@@ -112,6 +119,8 @@ def run(args):
     description = dict(format='groove-pretraining-run-v1', identity=identity,
         train_rows=len(train_rows), validation_rows=len(validation_rows), device=str(device),
         excluded={s: len(rows) for s, rows in exclusions.items()},
+        monitoring=dict(progress=args.progress, tensorboard=args.tensorboard, log_every=args.log_every,
+                        directory=str(args.out/'tensorboard') if args.tensorboard else None),
         environment=dict(python=platform.python_version(), torch=str(torch.__version__),
                          cuda=torch.version.cuda, gpu=torch.cuda.get_device_name(device) if device.type == 'cuda' else None),
         protocol='Exploratory representation pretraining; TapTamDrum parent/session overlap is not certified.',
@@ -122,69 +131,87 @@ def run(args):
     print(json.dumps(description), flush=True)
     train_ds = HVOExamples(args.cache/'train/drums.npy', train_rows)
     validation_ds = HVOExamples(args.cache/'validation/drums.npy', validation_rows)
-    for epoch in range(start, args.epochs):
-        started = time.perf_counter()
-        gen = torch.Generator().manual_seed(args.seed + epoch * 1009)
-        sampler = WeightedRandomSampler(weights, len(train_ds), replacement=True, generator=gen) if args.sampling == 'plan' else None
-        train_loader = DataLoader(train_ds, batch_size=args.batch_size, shuffle=sampler is None,
-                                  sampler=sampler, generator=gen, num_workers=args.workers,
-                                  pin_memory=device.type == 'cuda')
-        # A private loader generator avoids changing dropout RNG during validation.
-        validation_loader = DataLoader(validation_ds, batch_size=args.batch_size, shuffle=False,
-            num_workers=args.workers, generator=torch.Generator().manual_seed(args.seed), pin_memory=device.type == 'cuda')
-        mask_gen = torch.Generator().manual_seed(args.seed + epoch * 1013 + 17)
-        log = dict(epoch=epoch + 1)
-        for name, loader in [('train', train_loader), ('validation', validation_loader)]:
-            training = name == 'train'
-            model.train(training)
-            totals, baseline, shuffled, examples = Counter(), Counter(), Counter(), 0
-            max_batches = args.max_train_batches if training else args.max_validation_batches
-            for batch, (target, indexes) in enumerate(loader):
-                if max_batches is not None and batch >= max_batches:
-                    break
-                mask = make_mask(len(target), mask_gen, args.mask_probability) if training else validation_mask(indexes, args.seed + 900001, args.mask_probability)
-                target, mask = target.to(device), mask.to(device)
-                with torch.set_grad_enabled(training):
-                    _, heads = model(target, mask)
-                    loss, stats = masked_loss(heads, target, mask)
-                    if not torch.isfinite(loss):
-                        raise FloatingPointError(f'Nonfinite {name} loss at epoch {epoch + 1}, batch {batch}')
-                    if not training:
-                        _, constant = masked_loss(torch.zeros_like(heads), target, mask)
-                        baseline.update(constant)
-                        # Same targets/masks, wrong visible groove context. A model that
-                        # only learned positional priors can pass reconstruction unnoticed.
-                        _, mismatched = model(target.roll(1, dims=0), mask)
-                        _, mismatch_stats = masked_loss(mismatched, target, mask)
-                        shuffled.update(mismatch_stats)
-                    if training:
-                        optimizer.zero_grad(set_to_none=True)
-                        loss.backward()
-                        torch.nn.utils.clip_grad_norm_(model.parameters(), 1., error_if_nonfinite=True)
-                        optimizer.step()
-                totals.update(stats)
-                examples += len(target)
-                if (batch + 1) % 100 == 0:
-                    print(f'epoch={epoch+1} split={name} batches={batch+1} examples={examples}', flush=True)
-            log[name] = dict(summarize(totals), examples=examples)
-            if not training:
-                log['validation_constant_baseline'] = summarize(baseline)
-                log['validation_shuffled_input'] = summarize(shuffled)
-        log['seconds'] = round(time.perf_counter() - started, 3)
-        improved = log['validation']['loss'] < best
-        best = min(best, log['validation']['loss'])
-        checkpoint = dict(format='groove-encoder-v1', architecture=asdict(config), identity=identity,
-            model=model.state_dict(), optimizer=optimizer.state_dict(), epoch=epoch + 1,
-            best_validation=best, metrics=log, torch_rng=torch.get_rng_state(),
-            cuda_rng=torch.cuda.get_rng_state_all() if device.type == 'cuda' else [],
-            semantic_status='masked-HVO-pretraining; not tap-aligned')
-        if improved:
-            save_checkpoint(checkpoint, args.out/'best.pt')
-        save_checkpoint(checkpoint, args.out/'last.pt')
-        # Checkpoints are authoritative; a crash may leave the JSONL one row behind.
-        with (args.out/'metrics.jsonl').open('a') as f:
-            f.write(json.dumps(log, allow_nan=False) + '\n')
-        print(json.dumps(log), flush=True)
+    train_batches = math.ceil(len(train_ds) / args.batch_size)
+    train_batches = min(train_batches, args.max_train_batches or train_batches)
+    disable_progress = None if args.progress == 'auto' else args.progress == 'off'
+    with TrainingMonitor(args.out/'tensorboard', enabled=args.tensorboard, start_epoch=start,
+                         train_batches=train_batches, metadata=description) as monitor, \
+            tqdm(total=args.epochs, initial=start, desc='Epochs', unit='epoch',
+                 dynamic_ncols=True, disable=disable_progress) as epoch_progress:
+        for epoch in range(start, args.epochs):
+            started = time.perf_counter()
+            gen = torch.Generator().manual_seed(args.seed + epoch * 1009)
+            sampler = WeightedRandomSampler(weights, len(train_ds), replacement=True, generator=gen) if args.sampling == 'plan' else None
+            train_loader = DataLoader(train_ds, batch_size=args.batch_size, shuffle=sampler is None,
+                                      sampler=sampler, generator=gen, num_workers=args.workers,
+                                      pin_memory=device.type == 'cuda')
+            # A private loader generator avoids changing dropout RNG during validation.
+            validation_loader = DataLoader(validation_ds, batch_size=args.batch_size, shuffle=False,
+                num_workers=args.workers, generator=torch.Generator().manual_seed(args.seed), pin_memory=device.type == 'cuda')
+            mask_gen = torch.Generator().manual_seed(args.seed + epoch * 1013 + 17)
+            log = dict(epoch=epoch + 1)
+            for name, loader in [('train', train_loader), ('validation', validation_loader)]:
+                training = name == 'train'
+                model.train(training)
+                totals, baseline, shuffled, examples = Counter(), Counter(), Counter(), 0
+                max_batches = args.max_train_batches if training else args.max_validation_batches
+                batch_count = min(len(loader), max_batches or len(loader))
+                with tqdm(islice(loader, batch_count), total=batch_count,
+                          desc=f'Epoch {epoch+1}/{args.epochs} {name}', unit='batch',
+                          dynamic_ncols=True, leave=False, disable=disable_progress) as batches:
+                    for batch, (target, indexes) in enumerate(batches):
+                        mask = make_mask(len(target), mask_gen, args.mask_probability) if training else validation_mask(indexes, args.seed + 900001, args.mask_probability)
+                        target, mask = target.to(device), mask.to(device)
+                        with torch.set_grad_enabled(training):
+                            _, heads = model(target, mask)
+                            loss, stats = masked_loss(heads, target, mask)
+                            if not torch.isfinite(loss):
+                                raise FloatingPointError(f'Nonfinite {name} loss at epoch {epoch + 1}, batch {batch}')
+                            if not training:
+                                _, constant = masked_loss(torch.zeros_like(heads), target, mask)
+                                baseline.update(constant)
+                                # Same targets/masks, wrong visible groove context. A model that
+                                # only learned positional priors can pass reconstruction unnoticed.
+                                _, mismatched = model(target.roll(1, dims=0), mask)
+                                _, mismatch_stats = masked_loss(mismatched, target, mask)
+                                shuffled.update(mismatch_stats)
+                            if training:
+                                optimizer.zero_grad(set_to_none=True)
+                                loss.backward()
+                                gradient_norm = torch.nn.utils.clip_grad_norm_(model.parameters(), 1., error_if_nonfinite=True)
+                                optimizer.step()
+                        totals.update(stats)
+                        examples += len(target)
+                        if not batches.disable:
+                            running = summarize(totals)
+                            batches.set_postfix(loss=f'{running["loss"]:.4f}', f1=f'{running["hit_f1"]:.3f}',
+                                                examples=examples, refresh=False)
+                        if training and ((batch + 1) % args.log_every == 0 or batch + 1 == batch_count):
+                            monitor.batch(epoch * train_batches + batch + 1, summarize(stats),
+                                          optimizer.param_groups[0]['lr'], gradient_norm)
+                log[name] = dict(summarize(totals), examples=examples)
+                if not training:
+                    log['validation_constant_baseline'] = summarize(baseline)
+                    log['validation_shuffled_input'] = summarize(shuffled)
+            log['seconds'] = round(time.perf_counter() - started, 3)
+            improved = log['validation']['loss'] < best
+            best = min(best, log['validation']['loss'])
+            checkpoint = dict(format='groove-encoder-v1', architecture=asdict(config), identity=identity,
+                model=model.state_dict(), optimizer=optimizer.state_dict(), epoch=epoch + 1,
+                best_validation=best, metrics=log, torch_rng=torch.get_rng_state(),
+                cuda_rng=torch.cuda.get_rng_state_all() if device.type == 'cuda' else [],
+                semantic_status='masked-HVO-pretraining; not tap-aligned')
+            if improved:
+                save_checkpoint(checkpoint, args.out/'best.pt')
+            save_checkpoint(checkpoint, args.out/'last.pt')
+            # Checkpoints are authoritative; a crash may leave the JSONL one row behind.
+            with (args.out/'metrics.jsonl').open('a') as f:
+                f.write(json.dumps(log, allow_nan=False) + '\n')
+            monitor.epoch(log)
+            epoch_progress.set_postfix(val_loss=f'{log["validation"]["loss"]:.4f}', best=f'{best:.4f}', refresh=False)
+            epoch_progress.update(1)
+            tqdm.write(json.dumps(log), file=sys.stdout)
+            sys.stdout.flush()
     (args.out/'completed.json').write_text(json.dumps(dict(epochs=args.epochs, best_validation=best,
                                                           last_sha256=sha256(args.out/'last.pt')), indent=2) + '\n')
     return log
@@ -216,6 +243,12 @@ def parser():
     p.add_argument('--validation-limit', type=int)
     p.add_argument('--max-train-batches', type=int)
     p.add_argument('--max-validation-batches', type=int)
+    p.add_argument('--progress', choices=('auto', 'on', 'off'), default='auto',
+                   help='Epoch/batch progress on stderr; auto enables it in interactive terminals')
+    p.add_argument('--no-tensorboard', dest='tensorboard', action='store_false',
+                   help='Disable TensorBoard events (JSONL metrics are always saved)')
+    p.add_argument('--log-every', type=int, default=50,
+                   help='TensorBoard batch logging interval; epoch metrics and final batch are always logged')
     return p
 
 

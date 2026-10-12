@@ -326,12 +326,34 @@ fill source/BPM/duration/boundary basis and synthesis policy. `excluded.jsonl`
 records rejected file/window/composition stages with source IDs and reasons.
 `dataset-card.json` is written only on successful completion.
 
-SQLite staging and disk-backed NumPy arrays bound the export's tensor/product RAM;
-ensure sufficient temporary disk space under the export directory. The default
+SQLite staging and disk-backed NumPy arrays bound the export's tensor/product RAM.
+Staged tensors are losslessly compressed, exclusions stream directly to JSONL,
+and final rows stream in primary-key order without sorting tensor payloads.
+Temporary NumPy arrays are removed after each split is compressed. Allow space for
+the staging database, the largest split's uncompressed arrays, final NPZ files,
+and JSON manifests/exclusions. Each uncompressed sample needs about 3.8 KB for
+arrays alone; five million retained samples would need about 19 GB, before the
+database and metadata. SQLite may also use the system temporary directory for
+other grouping operations; `SQLITE_TMPDIR` can point to an existing writable
+directory on a larger disk, and `--output` controls the staging/array location.
+The default
 `max_combinations: 1000000` **fails explicitly** before generating an oversized
 product, rather than truncating it. Raise it or set it to null deliberately. A failed
 export has no dataset card and should not be consumed; use a fresh output directory
 on retry. Canonical ingestion remains available independently.
+
+After a combination-limit or disk-space failure, use `scripts/export_hvo.py`
+with the existing canonical run instead of re-running ingestion:
+
+```sh
+.venv/bin/python scripts/export_hvo.py \
+  --run data/2groove2-canonical/runs/20261009T150754276820Z-a30858d9 \
+  --output data/2groove2-hvo-5m-retry \
+  --config configs/hvo-remote-5m.json
+```
+
+The config here contains HVO options directly, including `max_combinations`.
+Increasing that limit permits more pairs; it does not reduce disk requirements.
 
 The existing CVAE does not yet consume these conditioning fields. Creating labelled
 arrays alone does not implement inference-time fill control; model/trainer/UI

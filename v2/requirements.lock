@@ -1,3 +1,5 @@
+# Use Python 3.12 on macOS/Linux; run ./setup.sh to validate the interpreter.
+# OS-specific transitive dependencies (for example CUDA) are resolved by pip.
 annotated-doc==0.0.5
 annotated-types==0.8.0
 anyio==4.15.1

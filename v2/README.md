@@ -33,8 +33,15 @@ not a finished or perceptually validated generative model.
 
 ## Run
 
-The isolated `.venv` has been created with Python 3.12 and dependencies installed.
-From this directory:
+Use Python **3.12** on both macOS and Linux. Create a separate `.venv` on each
+machine; do not copy or sync virtual environments between operating systems.
+From this directory, set up the environment first:
+
+```sh
+./setup.sh
+```
+
+Then start the app:
 
 ```sh
 source .venv/bin/activate
@@ -47,12 +54,26 @@ the last session in local storage; **Save session** writes portable JSON. Sessio
 files store taps, selected groove, locks, A/B patterns, history and generation
 settings. They do not store live MIDI connections or resume transport automatically.
 
-To reproduce the environment elsewhere with Python 3.12:
+`setup.sh` requires `python3.12` on your PATH (or set `PYTHON` to its full path).
+On macOS, Homebrew users can install it with `brew install python@3.12`.
+On a machine with Conda, install it separately from the base environment:
 
 ```sh
-python3.12 -m venv .venv
-.venv/bin/python -m pip install -r requirements.lock
+conda create -n twogroove-py312 python=3.12 -y
+conda activate twogroove-py312
+PYTHON="$CONDA_PREFIX/bin/python" ./setup.sh
 ```
+
+If an existing `.venv` uses Python 3.11, deactivate it, move it out of the way
+(for example, `mv .venv .venv-py311-backup`), and run setup again. Updating pip
+alone cannot fix this: `networkx==3.7` requires Python 3.12 or newer, and the
+project also declares Python 3.12 as its minimum. Check the actual environment
+with `.venv/bin/python --version`; the shell's `(base)` prefix is not sufficient.
+
+`requirements.lock` pins package versions from the original environment. Pip
+selects OS-specific wheels and additional platform dependencies, so this is not
+a complete cross-platform lock. PyTorch's Linux CUDA dependencies can differ
+from its macOS dependencies. Native MIDI/DAW behavior needs testing on each OS.
 
 The package currently runs from the source checkout. Drum samples are served from
 the existing `../db_app/assets/sounds/drum_samples` directory. Their original

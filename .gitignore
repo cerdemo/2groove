@@ -131,6 +131,8 @@ dist
 
 # Python virtual environments and bytecode
 .venv/
+.venv-*-backup/
+/v2/.python/
 venv/
 env/
 ENV/

@@ -1,5 +1,7 @@
 import gzip
 import json
+import sqlite3
+import zlib
 import numpy as np
 import mido
 import pytest
@@ -46,6 +48,38 @@ def test_composes_before_quantization_preserving_timing(tmp_path):
     y=ds['drums'][i];assert y[24,1,0]==1
     assert y[24,1,1]==pytest.approx(113/127) and y[24,1,2]==pytest.approx(.4)
     assert y[25,0,0]==0 and y[30,0,0]==0 and np.isnan(ds['fill_start_beat'][0])
+
+
+def test_export_streams_without_payload_sort_and_releases_split_arrays(tmp_path,monkeypatch):
+    connect=sqlite3.connect
+    checked=[]
+
+    class CheckedConnection(sqlite3.Connection):
+        def execute(self,sql,parameters=()):
+            if sql.startswith('SELECT w.y,w.meta'):
+                plan=list(super().execute('EXPLAIN QUERY PLAN '+sql,parameters))
+                assert not any('TEMP B-TREE' in row[3] for row in plan),plan
+                for (blob,) in super().execute('SELECT y FROM windows'):
+                    assert len(blob)<32*9*3*4
+                    assert len(zlib.decompress(blob))==32*9*3*4
+                assert not list(super().execute("SELECT name FROM sqlite_master WHERE name='exclusions'"))
+                checked.append(parameters[0])
+            return super().execute(sql,parameters)
+
+    monkeypatch.setattr(sqlite3,'connect',lambda path:connect(path,factory=CheckedConnection))
+    save=np.savez_compressed
+    def checked_save(path,**arrays):
+        if path.name!='train.npz':
+            assert not list(path.parent.glob('.hvo-stage-*/train-*.npy'))
+        save(path,**arrays)
+    monkeypatch.setattr(np,'savez_compressed',checked_save)
+    report,manifest,ds=export(tmp_path,[dict(role='groove'),dict(role='fill',duration=2)])
+    assert checked==['train','validation','test']
+    assert report['splits']=={'train':2,'validation':0,'test':0}
+    assert [r['split_index'] for r in manifest]==[0,1]
+    assert ds['has_fill'].tolist()==[0,1]
+    assert (tmp_path/'hvo/excluded.jsonl').read_text()
+    assert not list((tmp_path/'hvo').glob('.hvo-stage-*'))
 
 
 @pytest.mark.parametrize('options,fill,expected',[

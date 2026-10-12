@@ -57,7 +57,7 @@ print("Built with GPU support:", tf.test.is_built_with_gpu_support())
 parser = argparse.ArgumentParser(description='Description of your script')
 parser.add_argument('-b', '--batch', type=int, default=16, help='Batch size')
 parser.add_argument('-e', '--epoch', type=int,default=150, help='Number of epochs')
-parser.add_argument('-f', '--fold', type=int, default=11,help='kfold Split number')
+parser.add_argument('-f', '--fold', type=int, default=9,help='kfold Split number')
 parser.add_argument('-d', '--dataset', type=str, default='drum',help="Choose whether to use 'drum' [32,9] or 'tap' data [32,1]")
 parser.add_argument('-i', '--num_instrument', type=int, default=9,help="Choose either 9 for full drumset or 1 for taps (collapsed drums)")
 parser.add_argument('-enc', '--encoder', type=int,default=512, help='Encoder LSTM units')
@@ -67,7 +67,7 @@ parser.add_argument('--decoder_layers', type=int,default=3, help='Decoder LSTM-D
 parser.add_argument('-l', '--latent_dim', type=int,default=256, help='Latent space dimension')
 # if flag provided, args.norm_loss = True, else False 
 parser.add_argument('-n', '--norm_loss', action='store_true',help="Normalize the loss or not")
-parser.add_argument('-lr', '--learning_rate', type=float,default=3e-4, help="Learning rate")
+parser.add_argument('-lr', '--learning_rate', type=float,default=2e-5, help="Learning rate")
 parser.add_argument('-s', '--scheduler', action='store_true',help="Use learning rate scheduler or not")
 parser.add_argument('--lab', action='store_false',help="Lab computer or not")
 parser.add_argument('--extended', action='store_true',help="Extended dataset or not")
@@ -110,11 +110,11 @@ model_config = {
     "DENSE_DIM": 512,
     "BATCH_SIZE": 16,
     "NUM_EPOCHS": 150,
-    "enc_D_OUT": 0.05, 
-    "dec_D_OUT": 0.05, 
-    "L2_REG": 0.0001,  # adding regularization to all layers may increase the risk of underfitting --> start with a small value and increase if overfitting persists
-    "TEMPERATURE": 0.5,
-    "kl_weight": 0.5,
+    "enc_D_OUT": 0.65, 
+    "dec_D_OUT": 0.65, 
+    "L2_REG": 0.001,  # adding regularization to all layers may increase the risk of underfitting --> start with a small value and increase if overfitting persists
+    "TEMPERATURE": 1.0,
+    "kl_weight": 1.0,
     "scheduler": False,
     "annealing": 'constant',
     "initial_learning_rate": 2e-05,  # 0.002  also try 3e-4

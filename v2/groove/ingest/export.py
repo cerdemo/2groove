@@ -6,6 +6,7 @@ import json
 from pathlib import Path
 import sqlite3
 import tempfile
+import zlib
 import numpy as np
 from .schema import HVOConfig
 from ..events import DRUMS,STYLES
@@ -57,7 +58,7 @@ def export_hvo(run_path,output,max_collision_rate=.05,options=None):
     output.mkdir(parents=True)
     stats=Counter()
     # SQLite stores tensors, clip events, metadata and joins; no Cartesian product in RAM.
-    with tempfile.TemporaryDirectory(prefix='.hvo-stage-',dir=output) as temporary:
+    with tempfile.TemporaryDirectory(prefix='.hvo-stage-',dir=output) as temporary, (output/'excluded.jsonl').open('w') as exclusions:
         stage=Path(temporary);db=sqlite3.connect(stage/'index.sqlite')
         try:
             db.executescript('''
@@ -70,7 +71,6 @@ def export_hvo(run_path,output,max_collision_rate=.05,options=None):
                 CREATE INDEX clip_role ON clips(role,split,scope);
                 CREATE TABLE seen(hash TEXT PRIMARY KEY);
                 CREATE TABLE identities(hash TEXT,role TEXT,split TEXT);
-                CREATE TABLE exclusions(meta TEXT);
             ''')
             # Conflicting labels or pre-existing split leakage must not seed synthetic pairs.
             with (run_path/'manifest.jsonl').open() as handle:
@@ -82,7 +82,7 @@ def export_hvo(run_path,output,max_collision_rate=.05,options=None):
             invalid={row[0] for row in db.execute('SELECT hash FROM identities GROUP BY hash HAVING count(DISTINCT role)>1 OR count(DISTINCT split)>1')}
 
             def log_exclusion(reason,meta):
-                db.execute('INSERT INTO exclusions VALUES(?)',(json.dumps(dict(meta,reason=reason)),))
+                exclusions.write(json.dumps(dict(meta,reason=reason))+'\n')
 
             def omit(reason,meta):
                 stats[reason]+=1;log_exclusion(reason,meta)
@@ -100,7 +100,7 @@ def export_hvo(run_path,output,max_collision_rate=.05,options=None):
                 label=json.dumps([meta['has_fill'],meta['fill_start_beat'],meta['fill_duration_beats']])
                 meta.update(hash=fingerprint,structure_hash=structure)
                 db.execute('INSERT INTO windows(split,hash,structure,label,y,meta) VALUES(?,?,?,?,?,?)',
-                           (meta['split'],fingerprint,structure,label,y.tobytes(),json.dumps(meta)))
+                           (meta['split'],fingerprint,structure,label,zlib.compress(y.tobytes(),level=1),json.dumps(meta)))
 
             def add_clip(role,events,meta,length,labels):
                 scope=meta['source_id'] if options.pair_scope=='source' else '*'
@@ -205,16 +205,15 @@ def export_hvo(run_path,output,max_collision_rate=.05,options=None):
             db.executescript('''CREATE TABLE rejected AS SELECT hash FROM windows GROUP BY hash
                 HAVING count(DISTINCT split)>1 OR count(DISTINCT label)>1;
                 CREATE INDEX rejected_hash ON rejected(hash);
-                CREATE TABLE kept AS SELECT min(id) AS id FROM windows WHERE hash NOT IN (SELECT hash FROM rejected) GROUP BY hash;
-                CREATE INDEX kept_id ON kept(id);''')
+                CREATE TABLE kept(id INTEGER PRIMARY KEY);
+                INSERT INTO kept SELECT min(id) FROM windows WHERE hash NOT IN (SELECT hash FROM rejected) GROUP BY hash;''')
             cross=db.execute('SELECT count(*) FROM (SELECT hash FROM windows GROUP BY hash HAVING count(DISTINCT split)>1)').fetchone()[0]
             conflicts=db.execute('SELECT count(*) FROM (SELECT hash FROM windows GROUP BY hash HAVING count(DISTINCT label)>1)').fetchone()[0]
             structural=db.execute('SELECT count(*) FROM (SELECT structure FROM windows GROUP BY structure HAVING count(DISTINCT split)>1)').fetchone()[0]
             stats['duplicate_or_conflicting_windows_removed']=db.execute('SELECT count(*) FROM windows').fetchone()[0]-db.execute('SELECT count(*) FROM kept').fetchone()[0]
             for (encoded,) in db.execute('SELECT meta FROM windows WHERE id NOT IN (SELECT id FROM kept)'):
                 log_exclusion('duplicate_or_conflicting_window',json.loads(encoded))
-            with (output/'excluded.jsonl').open('w') as exclusions:
-                for (encoded,) in db.execute('SELECT meta FROM exclusions'):exclusions.write(encoded+'\n')
+            exclusions.flush()
             counts={};fill_counts={}
             with (output/'manifest.json').open('w') as manifest,(output/'manifest.jsonl').open('w') as jsonl:
                 manifest.write('[');first=True
@@ -228,10 +227,12 @@ def export_hvo(run_path,output,max_collision_rate=.05,options=None):
                         'synthetic':((count,),np.bool_)}
                     arrays={key:np.lib.format.open_memmap(stage/f'{split}-{key}.npy',mode='w+',dtype=dtype,shape=shape)
                             for key,(shape,dtype) in shapes.items()}
-                    query='SELECT y,meta FROM windows w JOIN kept k ON w.id=k.id WHERE split=? ORDER BY w.id'
+                    # Scan integer primary keys in order, then fetch each window. A normal
+                    # join may sort every tensor + metadata row into a temporary B-tree.
+                    query='SELECT w.y,w.meta FROM kept k CROSS JOIN windows w ON w.id=k.id WHERE w.split=? ORDER BY k.id'
                     for i,(blob,encoded) in enumerate(db.execute(query,(split,))):
                         meta=json.loads(encoded);meta['split_index']=i
-                        arrays['drums'][i]=np.frombuffer(blob,dtype=np.float32).reshape(32,9,3)
+                        arrays['drums'][i]=np.frombuffer(zlib.decompress(blob),dtype=np.float32).reshape(32,9,3)
                         for key in ('bpm','style','has_fill','synthetic'):arrays[key][i]=meta[key]
                         for key in ('fill_start_beat','fill_duration_beats'):arrays[key][i]=meta[key] if meta[key] is not None else np.nan
                         mask=np.full(32,-1 if meta['has_fill']==-1 else 0,np.int8)
@@ -248,7 +249,12 @@ def export_hvo(run_path,output,max_collision_rate=.05,options=None):
                         jsonl.write(json.dumps(meta)+'\n')
                     for array in arrays.values():array.flush()
                     np.savez_compressed(output/f'{split}.npz',**arrays)
+                    # Release all views/mappings before unlinking (also works on Windows).
+                    hvo=None
+                    del array
+                    for mapped in arrays.values():mapped._mmap.close()
                     del arrays
+                    for key in shapes:(stage/f'{split}-{key}.npy').unlink()
                 manifest.write(']\n')
             report=dict(adapter='hvo32x9-fill-v2',canonical_run=str(run_path.resolve()),statistics=dict(stats),
                 config=options.model_dump(),splits=counts,fill_labels={s:dict(v) for s,v in fill_counts.items()},

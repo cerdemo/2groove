@@ -1,0 +1,114 @@
+{
+  "date": "2026-10-13",
+  "command": "search --split validation --budget 512 --seed 42 per condition; 51 validation sources, two archives each; copy analysis per source",
+  "mean_source_onset_density": 0.769,
+  "note": "Chance onset precision toward a source equals its onset density (~.77 mean), so precision is informative only relative to that; Jaccard of the best elite and the best-exceeds-best-human count are the primary indicators. Quality values and QD scores are NOT comparable across conditions.",
+  "conditions": {
+    "v1_baseline": {
+      "directory": "artifacts/solo-search-ctl-v1",
+      "model_sha256": "07b436552926387a9e0b78ef620046675e144a58a122f4f774c49f969a49c5fd",
+      "algorithms": {
+        "map_elites": {
+          "sources": 51,
+          "mean_precision": 0.9059490296956555,
+          "mean_precision_of_best": 0.9905228758169935,
+          "mean_jaccard_of_best": 0.20771838155412448,
+          "best_exceeds_best_human": 46,
+          "mean_quality_precision_correlation": 0.47290413401540365,
+          "mean_coverage": 0.3391544117647059
+        },
+        "random": {
+          "sources": 51,
+          "mean_precision": 0.8394222230683007,
+          "mean_precision_of_best": 0.999108734402852,
+          "mean_jaccard_of_best": 0.09316061360545606,
+          "best_exceeds_best_human": 38,
+          "mean_quality_precision_correlation": 0.51969792014359,
+          "mean_coverage": 0.3333333333333333
+        }
+      }
+    },
+    "no_offset": {
+      "directory": "artifacts/solo-search-ctl-no-offset",
+      "model_sha256": "dc1f5d4c259e6fe3e1940d93adeffcf5f226f2b3fb45ea20e414709e7a924e29",
+      "algorithms": {
+        "map_elites": {
+          "sources": 51,
+          "mean_precision": 0.9114022696309698,
+          "mean_precision_of_best": 0.9886788048552755,
+          "mean_jaccard_of_best": 0.2715183635165312,
+          "best_exceeds_best_human": 35,
+          "mean_quality_precision_correlation": 0.47731291060763004,
+          "mean_coverage": 0.3428308823529412
+        },
+        "random": {
+          "sources": 51,
+          "mean_precision": 0.847525611798439,
+          "mean_precision_of_best": 0.994421906693712,
+          "mean_jaccard_of_best": 0.15421128717623117,
+          "best_exceeds_best_human": 21,
+          "mean_quality_precision_correlation": 0.5132986042206535,
+          "mean_coverage": 0.3333333333333333
+        }
+      }
+    },
+    "no_offset_expected": {
+      "directory": "artifacts/solo-search-ctl-no-offset-expected",
+      "model_sha256": "dc1f5d4c259e6fe3e1940d93adeffcf5f226f2b3fb45ea20e414709e7a924e29",
+      "algorithms": {
+        "map_elites": {
+          "sources": 51,
+          "mean_precision": 0.9001949012709535,
+          "mean_precision_of_best": 0.9454436806945458,
+          "mean_jaccard_of_best": 0.38159047017492564,
+          "best_exceeds_best_human": 18,
+          "mean_quality_precision_correlation": 0.2214803574020139,
+          "mean_coverage": 0.35079656862745096
+        },
+        "random": {
+          "sources": 51,
+          "mean_precision": 0.8306222384201519,
+          "mean_precision_of_best": 0.8694659577519619,
+          "mean_jaccard_of_best": 0.3533000771391694,
+          "best_exceeds_best_human": 2,
+          "mean_quality_precision_correlation": 0.35940763818382515,
+          "mean_coverage": 0.3333333333333333
+        }
+      }
+    },
+    "no_offset_source": {
+      "directory": "artifacts/solo-search-ctl-no-offset-source",
+      "model_sha256": "dc1f5d4c259e6fe3e1940d93adeffcf5f226f2b3fb45ea20e414709e7a924e29",
+      "algorithms": {
+        "map_elites": {
+          "sources": 51,
+          "mean_precision": 0.9249509377101176,
+          "mean_precision_of_best": 0.9762377600612895,
+          "mean_jaccard_of_best": 0.3741310266796792,
+          "best_exceeds_best_human": 14,
+          "mean_quality_precision_correlation": 0.33339153286993106,
+          "mean_coverage": 0.3428308823529412
+        },
+        "random": {
+          "sources": 51,
+          "mean_precision": 0.8520723054583647,
+          "mean_precision_of_best": 0.9242156311121829,
+          "mean_jaccard_of_best": 0.33439218161435963,
+          "best_exceeds_best_human": 4,
+          "mean_quality_precision_correlation": 0.45952747643160624,
+          "mean_coverage": 0.3333333333333333
+        }
+      }
+    }
+  },
+  "findings": [
+    "The v1 scorer is invalid as a search objective: MAP-Elites finds synthetic elites outscoring the best real human tap in 46/51 sources (random search 38/51), consistent with the microtiming exploit.",
+    "Removing the offset channel reduces exploitation to 35/51 (random 21/51); adding an onset term reduces it much further (expected 18/51, source 14/51; random 2/51 and 4/51): the onset term makes arbitrary synthetic candidates harder to score highly, increasing robustness relative to humans within the 512-evaluation budget.",
+    "The onset terms increase structural copying of the best elite: mean Jaccard of the best elite rises from .21 (v1) / .27 (no_offset) to .38 (expected) / .37 (source). Copy pressure moved from timing exploitation to onset-set imitation.",
+    "MAP-Elites exploits every scorer more than matched-budget random search; the gap (e.g., 18 vs 2 under the expected term) measures optimization pressure against the scorer and will grow with budget. The static battery remains the sharper copy test: the source term showed 23/51 copy dominance there despite 14/51 here.",
+    "No condition is a trustworthy search objective yet. The expected term currently balances the axes best (static copy 11/51, search exploitation 18/51, retrieval .260/.565) but all step-4 outputs remain synthetic candidate pairings pending human evaluation."
+  ],
+  "limitations": "Single seed and budget; validation sources only; raw-quality comparisons are within-scorer; no human perceptual judgment; no model promoted.",
+  "human_perceptual_validation": false,
+  "test_evaluated": false
+}

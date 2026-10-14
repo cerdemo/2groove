@@ -7,3 +7,8 @@ data/*
 artifacts/
 .ipynb_checkpoints/
 notebooks/*-executed.ipynb
+research/solo_tapping/runs/
+research/solo_tapping/qa/
+research/solo_tapping/fits/
+research/solo_tapping/human_benchmark/data/
+research/solo_tapping/human_benchmark/runs/

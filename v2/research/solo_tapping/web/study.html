@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Groove listening study</title>
+<style>
+:root{color-scheme:dark}
+body{margin:0;background:#141b1d;color:#dbe5e1;font:15px/1.5 system-ui,sans-serif;display:flex;justify-content:center}
+main{max-width:620px;width:100%;padding:24px 16px 64px}
+h1{font-size:1.25rem;letter-spacing:.02em}
+.card{background:#1b2426;border:1px solid #2b373a;border-radius:10px;padding:18px;margin:14px 0}
+.muted{color:#9eaeaa;font-size:.88rem}
+button{background:#263336;color:#dbe5e1;border:1px solid #3a4a4e;border-radius:8px;padding:9px 14px;font:inherit;cursor:pointer}
+button:disabled{opacity:.45;cursor:default}
+button.primary{background:#3c5a48;border-color:#4e7a60}
+button.playing{background:#4e7a60}
+.listen{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}
+label.option{display:block;background:#202b2e;border:1px solid #2f3d41;border-radius:8px;padding:10px 12px;margin:6px 0;cursor:pointer}
+label.option:has(input:checked){border-color:#6ea784;background:#24332a}
+fieldset{border:none;margin:12px 0 0;padding:0}
+legend{font-size:.9rem;color:#b8c6c1;margin-bottom:4px}
+input[type=text]{background:#10171a;border:1px solid #3a4a4e;border-radius:6px;color:inherit;padding:8px;font:inherit;width:220px}
+.row{display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+#notice{color:#e8b46a;white-space:pre-wrap}
+progress{width:100%;height:8px}
+</style>
+</head>
+<body>
+<main>
+<h1>Groove listening study</h1>
+<div id="notice" hidden></div>
+
+<section id="intro" class="card">
+  <p id="instructions"></p>
+  <p class="muted" id="consentText"></p>
+  <div class="row">
+    <input id="participant" type="text" maxlength="40" placeholder="Pseudonym (2–40 characters)" autocomplete="off">
+    <label><input id="consent" type="checkbox"> I consent</label>
+    <button id="begin" class="primary">Begin</button>
+  </div>
+  <p class="muted">Renderings are MIDI sonifications, not original recordings. Their origins are
+  hidden during the study and stored separately on this computer.</p>
+</section>
+
+<section id="trial" class="card" hidden>
+  <div class="row" style="justify-content:space-between">
+    <strong id="trialTitle"></strong><span class="muted" id="trialCount"></span>
+  </div>
+  <progress id="trialProgress" max="1" value="0"></progress>
+  <div class="listen">
+    <button data-play="source">Groove</button>
+    <button data-play="first">Rendering 1</button>
+    <button data-play="second">Rendering 2</button>
+    <button data-play="source+first">Groove + 1</button>
+    <button data-play="source+second">Groove + 2</button>
+    <button id="stop">Stop</button>
+  </div>
+  <fieldset>
+    <legend>Which rendering fits the groove better?</legend>
+    <label class="option"><input type="radio" name="choice" value="first"> Rendering 1</label>
+    <label class="option"><input type="radio" name="choice" value="second"> Rendering 2</label>
+  </fieldset>
+  <fieldset>
+    <legend>How different are they?</legend>
+    <label class="option"><input type="radio" name="confidence" value="slight"> Slightly better</label>
+    <label class="option"><input type="radio" name="confidence" value="clear"> Clearly better</label>
+  </fieldset>
+  <fieldset>
+    <legend>Optional: one-hand playability</legend>
+    <label class="option"><input id="unplayFirst" type="checkbox"> Rendering 1 sounds impossible with one hand</label>
+    <label class="option"><input id="unplaySecond" type="checkbox"> Rendering 2 sounds impossible with one hand</label>
+  </fieldset>
+  <div class="row" style="margin-top:12px">
+    <button id="submit" class="primary" disabled>Save answer</button>
+    <span class="muted">Replay as often as you like before answering.</span>
+  </div>
+</section>
+
+<section id="done" class="card" hidden>
+  <p><strong>Thank you.</strong> <span id="doneText"></span></p>
+  <p class="muted">Responses are stored locally in the study directory on this computer.</p>
+</section>
+
+<script>
+'use strict';
+const $=id=>document.getElementById(id);
+const S={info:null,drums:[],manifest:null,queue:[],index:0,replays:0,started:0,session:crypto.randomUUID()};
+function notice(m=''){$('notice').textContent=m;$('notice').hidden=!m;}
+async function api(path,body){const r=await fetch(path,body===undefined?{}:{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});const data=await r.json();if(!r.ok)throw Error(typeof data.detail==='string'?data.detail:JSON.stringify(data.detail));return data;}
+const A={ctx:null,master:null,buffers:null,nodes:new Set(),loading:null,token:0};
+async function initAudio(){
+  if(!A.ctx){A.ctx=new AudioContext({latencyHint:'interactive'});A.master=A.ctx.createGain();A.master.gain.value=.9;A.master.connect(A.ctx.destination);}
+  await A.ctx.resume();
+  if(!A.loading)A.loading=Promise.all(S.drums.map(name=>Promise.all([3,7,11].map(async layer=>{const r=await fetch(`/samples/${name}_${layer}.mp3`);if(!r.ok)throw Error('missing');return A.ctx.decodeAudioData(await r.arrayBuffer());})))).then(b=>{A.buffers=b;}).catch(()=>{A.buffers=null;});
+  await A.loading;
+}
+function stopAudio(){A.token++;for(const n of A.nodes)try{n.stop();}catch{}A.nodes.clear();document.querySelectorAll('[data-play]').forEach(b=>b.classList.remove('playing'));}
+function sound(voice,v,when,gainFactor){
+  const gain=A.ctx.createGain();gain.connect(A.master);gain.gain.value=v*.45*gainFactor;let node;
+  if(A.buffers){node=A.ctx.createBufferSource();node.buffer=A.buffers[voice][v<.4?0:v<.75?1:2];node.connect(gain);node.start(when);}
+  else{node=A.ctx.createOscillator();node.type=voice===0?'sine':'triangle';node.frequency.setValueAtTime(voice===0?110:180+voice*95,when);node.frequency.exponentialRampToValueAtTime(60,when+.07);gain.gain.setValueAtTime(v*.3*gainFactor,when);gain.gain.exponentialRampToValueAtTime(.001,when+.09);node.connect(gain);node.start(when);node.stop(when+.1);}
+  A.nodes.add(node);node.onended=()=>{A.nodes.delete(node);gain.disconnect();};
+}
+function play(what){
+  const trial=S.queue[S.index];
+  const parts=what.split('+').map(part=>S.manifest.stimuli[trial[part==='source'?'source':part]]);
+  stopAudio();const token=A.token;S.replays++;
+  initAudio().then(()=>{
+    if(token!==A.token)return;
+    const bpm=parts[0].bpm,spb=60/bpm,origin=A.ctx.currentTime+.08,gainFactor=parts.length>1?.65:1;
+    for(let loop=0;loop<2;loop++)for(const part of parts)for(const [beat,v,voice] of part.events)
+      sound(part.kind==='full'?voice:1,v,origin+(loop*8+beat)*spb,gainFactor);
+    document.querySelector(`[data-play="${what}"]`).classList.add('playing');
+    setTimeout(()=>{if(token===A.token)stopAudio();},(16*spb+.3)*1000);
+  }).catch(e=>notice(e.message));
+}
+function updateSubmit(){$('submit').disabled=!document.querySelector('input[name=choice]:checked')||!document.querySelector('input[name=confidence]:checked');}
+function showTrial(){
+  stopAudio();notice();
+  if(S.index>=S.queue.length){$('trial').hidden=true;$('done').hidden=false;$('doneText').textContent=`You answered ${S.queue.length} comparisons in this session.`;return;}
+  S.replays=0;S.started=performance.now();
+  $('trial').hidden=false;
+  $('trialTitle').textContent=`Comparison ${S.index+1}`;
+  $('trialCount').textContent=`${S.index+1} / ${S.queue.length}`;
+  $('trialProgress').max=S.queue.length;$('trialProgress').value=S.index;
+  for(const input of document.querySelectorAll('#trial input'))input.checked=false;
+  updateSubmit();
+}
+async function submit(){
+  const trial=S.queue[S.index];
+  try{
+    await api('/api/study/respond',{participant:S.manifest.participant,session:S.session,trial:trial.trial,
+      choice:document.querySelector('input[name=choice]:checked').value,
+      confidence:document.querySelector('input[name=confidence]:checked').value,
+      unplayable_first:$('unplayFirst').checked,unplayable_second:$('unplaySecond').checked,
+      replays:S.replays,elapsed_ms:Math.round(performance.now()-S.started),consent:true});
+    S.index++;showTrial();
+  }catch(e){notice(e.message);}
+}
+async function begin(){
+  try{
+    if(!$('consent').checked)throw Error('Please read and tick the consent box first.');
+    S.manifest=await api(`/api/study/manifest?participant=${encodeURIComponent($('participant').value)}`);
+    const answered=new Set(S.manifest.answered);
+    S.queue=S.manifest.trials.filter(t=>!answered.has(t.trial));S.index=0;
+    $('intro').hidden=true;
+    if(!S.queue.length){$('done').hidden=false;$('doneText').textContent='You have already answered every comparison in this study.';return;}
+    if(answered.size)notice(`Resuming: ${answered.size} earlier answers found for this pseudonym.`);
+    showTrial();
+  }catch(e){notice(e.message);}
+}
+async function initialize(){
+  try{
+    const [study,info]=await Promise.all([api('/api/study'),api('/api/info')]);
+    S.drums=info.drums;
+    if(!study.configured)throw Error(study.error||'No listening study is loaded on this server.');
+    $('instructions').textContent=study.instructions;$('consentText').textContent=study.consent;
+  }catch(e){notice(e.message);$('begin').disabled=true;}
+}
+document.querySelectorAll('[data-play]').forEach(b=>b.onclick=()=>play(b.dataset.play));
+$('stop').onclick=stopAudio;
+$('begin').onclick=begin;$('submit').onclick=submit;
+document.querySelectorAll('#trial input[type=radio]').forEach(i=>i.onchange=updateSubmit);
+document.addEventListener('visibilitychange',()=>{if(document.hidden)stopAudio();});
+initialize();
+</script>
+</main>
+</body>
+</html>

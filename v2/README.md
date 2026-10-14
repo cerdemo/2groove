@@ -1,5 +1,20 @@
 # 2groove v2 — production workspace
 
+**Interactive solo research lab:** [research/solo_tapping](research/solo_tapping/README.md)
+contains the research engine and browser explorer. Run `./research/solo_tapping/run.sh`
+and open <http://127.0.0.1:8766> to audition GMD / real human 2-ch / generated 1-ch,
+tweak evolutionary search, browse archives, inspect shapelets and export MIDI.
+
+**Full groove → one-channel tapping research pilot (2026-10-13):**
+[SOLO_TAPPING.md](SOLO_TAPPING.md) documents the style-independent, train-only
+paired local motif model, decomposed conservation score, event-genome MAP-Elites,
+equal-budget random search, MIDI output and leakage/shortcut controls. This offline
+experiment uses human two-channel pairs; transfer to real solo tapping and
+perceptual quality are unvalidated. The existing application remains a separate baseline.
+The [local verification report](solo-validation.json) records 195 passing tests,
+real-pair retrieval below the onset baseline, scorer weaknesses, and a three-source
+MAP-Elites/random search MIDI smoke run.
+
 **MIDI preprocessing kullanım rehberi (Türkçe):** [scripts/README.md](scripts/README.md)
 — tek dosya, ZIP veya tüm alt klasörleriyle bir MIDI arşivini işleme.
 

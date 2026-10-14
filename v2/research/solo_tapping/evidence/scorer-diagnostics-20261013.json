@@ -1,0 +1,173 @@
+{
+  "date": "2026-10-13",
+  "command": "scripts/solo_tapping.py diagnose --pairs data/taptamdrum-pairs-raw-v1 --model artifacts/solo-local-20261013-final/model --out artifacts/solo-diagnostics-20261013",
+  "status": "exploratory_scorer_diagnostics",
+  "score_version": "conservation-v1",
+  "source_groups": 51,
+  "human_taps": 172,
+  "pairs_fingerprint": "eac1c961a073afeb5d5e72aa4d9700e0c299dd41f1b43bebaf2d6124d42ec9eb",
+  "model_sha256": "07b436552926387a9e0b78ef620046675e144a58a122f4f774c49f969a49c5fd",
+  "ablation_mrr": {
+    "full_raw_quality": {
+      "all": 0.23999764854713718,
+      "tempo_density_matched": 0.5239487001288472
+    },
+    "weighted_retention": {
+      "all": 0.2183125225159796,
+      "tempo_density_matched": 0.51467589763178
+    },
+    "learned_compatibility": {
+      "all": 0.24124176576889467,
+      "tempo_density_matched": 0.48559854769413596
+    },
+    "positive_terms": {
+      "all": 0.23882698065428273,
+      "tempo_density_matched": 0.4988620890275302
+    },
+    "additions_only": {
+      "all": 0.09919526518354703,
+      "tempo_density_matched": 0.4374704538381009
+    },
+    "phase_only": {
+      "all": 0.15049108458795793,
+      "tempo_density_matched": 0.4672699609758433
+    },
+    "order_only": {
+      "all": 0.10522350965978507,
+      "tempo_density_matched": 0.42766295972545976
+    },
+    "density_excess_only": {
+      "all": 0.06731266228395903,
+      "tempo_density_matched": 0.2605203391379862
+    },
+    "penalty_terms": {
+      "all": 0.10306399412708968,
+      "tempo_density_matched": 0.4540240252666723
+    },
+    "onset_baseline": {
+      "all": 0.5180328010883551,
+      "tempo_density_matched": 0.7400324582824586
+    }
+  },
+  "chance_mrr": {
+    "all": 0.08860418002875833,
+    "tempo_density_matched": 0.3723129287421162
+  },
+  "attack_aggregate": {
+    "source_onset_copy": {
+      "groups": 51,
+      "outscores_best_human": 3
+    },
+    "density_matched_even": {
+      "groups": 51,
+      "outscores_best_human": 0
+    },
+    "saturated": {
+      "groups": 51,
+      "outscores_best_human": 0
+    },
+    "shifted_sixteenth": {
+      "groups": 51,
+      "outscores_best_human": 0,
+      "outscores_source_copy": 11
+    },
+    "shifted_beat": {
+      "groups": 51,
+      "outscores_best_human": 0,
+      "outscores_source_copy": 1
+    },
+    "reversed": {
+      "groups": 51,
+      "outscores_best_human": 0,
+      "outscores_source_copy": 7
+    },
+    "flat_velocity": {
+      "groups": 51,
+      "outscores_best_human": 0,
+      "outscores_source_copy": 0
+    },
+    "quantized_timing": {
+      "groups": 51,
+      "outscores_best_human": 21,
+      "outscores_source_copy": 51
+    },
+    "empty": {
+      "groups": 51,
+      "outscores_best_human": 0
+    },
+    "tap_plus_additions": {
+      "groups": 51,
+      "outscores_best_human": 2,
+      "score_increased": 3,
+      "mean_delta_raw_quality": -0.12449657558655623,
+      "mean_component_deltas": {
+        "weighted_retention": -0.0717192447193412,
+        "learned_compatibility": -0.03909827887547864,
+        "incompatible_additions": 0.07072650231142406,
+        "phase_loss": 0.02002786104774473,
+        "order_loss": 0.008162270218872015,
+        "density_excess": 0.1689273473695831
+      }
+    },
+    "tap_quantized_timing": {
+      "groups": 51,
+      "outscores_best_human": 38,
+      "score_increased": 51,
+      "mean_delta_raw_quality": 0.055735987480237816,
+      "mean_component_deltas": {
+        "weighted_retention": 0.05217331088740925,
+        "learned_compatibility": 0.05490719085564156,
+        "incompatible_additions": 0.0,
+        "phase_loss": -0.0002411059489665357,
+        "order_loss": -0.010737577094595553,
+        "density_excess": 0.0
+      }
+    },
+    "tap_flat_velocity": {
+      "groups": 51,
+      "outscores_best_human": 0,
+      "score_increased": 0,
+      "mean_delta_raw_quality": -0.1080092316214408,
+      "mean_component_deltas": {
+        "weighted_retention": -0.1265199761413253,
+        "learned_compatibility": -0.08629825458414318,
+        "incompatible_additions": 0.0,
+        "phase_loss": 0.0010844343476085678,
+        "order_loss": 0.0069161469459242285,
+        "density_excess": 0.0
+      }
+    }
+  },
+  "transfer_probe": {
+    "status": "artificial_channel_isolation",
+    "eligible_taps": 171,
+    "total_taps": 172,
+    "mrr_all": {
+      "two_channel_union": 0.24000790517504086,
+      "denser_hand": 0.1574919831675256,
+      "sparser_hand": 0.20575387091978414
+    },
+    "mrr_matched": {
+      "two_channel_union": 0.5239234476035947,
+      "denser_hand": 0.4257837032248797,
+      "sparser_hand": 0.4669516784957961
+    },
+    "own_source_mean_raw_quality": {
+      "two_channel_union": 0.3689119309348234,
+      "denser_hand": 0.35468867501642315,
+      "sparser_hand": 0.3696973745059555
+    },
+    "real_solo_ground_truth": false
+  },
+  "findings": [
+    "Zeroing microtiming raised raw quality for the source copy in 51/51 groups and for a real human tap in 51/51 groups (+.056 mean, via retention +.052 and learned compatibility +.055): the offset channel systematically penalizes real human timing. This is the dominant exploit.",
+    "One-sixteenth shift outscored the unaltered source copy in 11/51 groups and reversal in 7/51: phase/order penalties are insufficient for a minority of sources.",
+    "Density inflation raised the score in only 3/51 groups (mean delta -.124); flattened velocity never did (0/51); the source onset copy outscored the best human tap in only 3/51 groups.",
+    "No component approaches the fixed onset-cosine baseline (full .240 vs onset .518 all-candidate MRR; .524 vs .740 matched): the local-shapelet terms lose direct onset-profile information.",
+    "Artificial channel-isolated views retrieve above chance (denser .157, sparser .206 vs chance .089) but below the two-channel union (.240); consistent with, not proof of, 1-ch transfer."
+  ],
+  "limitations": "Synthetic attacks and artificial views; not human perceptual judgments; validation-only; participant-held-out and pretraining-overlap gates remain open; no checkpoint promoted.",
+  "human_perceptual_validation": false,
+  "transfer_to_solo_validated": false,
+  "test_evaluated": false
+}

@@ -1,0 +1,1189 @@
+{
+  "date": "2026-10-13",
+  "status": "exploratory_real_human_mono_contour_benchmark",
+  "upstream_revision": "e2a1590bb137c7284e8a78946470be07a032338c",
+  "run": "research/solo_tapping/human_benchmark/runs/pilot-seed42-v2",
+  "data": "research/solo_tapping/human_benchmark/data/verified-v2",
+  "run_completion_sha256": "525aa2bf45e853a9aeb886a629b0d24b6747c59bdafcefef9828d2750ea4a7a4",
+  "data_fingerprint": "92ac24b14db4f5c53c3e60427b9ff8b68d940e6f9443eb5395b5d08640228087",
+  "cohort": {
+    "sources_total": 16,
+    "sources_accepted": 14,
+    "source_groups": 8,
+    "primary_pairs": 588,
+    "retest_pairs": 84,
+    "participant_blocks": 42,
+    "recording_dates": 14
+  },
+  "source_exclusions": [
+    {
+      "kind": "source",
+      "source_id": 143,
+      "reasons": [
+        "logged_source_support_mismatch"
+      ]
+    },
+    {
+      "kind": "source",
+      "source_id": 1043,
+      "reasons": [
+        "selected_midi_crop_tag_disagrees_with_trial_name"
+      ]
+    }
+  ],
+  "block_exclusions": [
+    {
+      "block": 11,
+      "accepted": false,
+      "reasons": [
+        "unexpected_source_repetitions_or_missing_trial"
+      ],
+      "counts": {
+        "143": 2,
+        "590": 1,
+        "249": 1,
+        "678": 2,
+        "736": 1,
+        "1367": 1,
+        "1359": 1,
+        "1355": 2,
+        "580": 1,
+        "894": 1,
+        "1043": 1,
+        "673": 1,
+        "427": 1,
+        "423": 1,
+        "939": 1
+      }
+    }
+  ],
+  "legacy_lmh_mismatches": [
+    894,
+    423,
+    1367,
+    249,
+    939,
+    427,
+    590,
+    143,
+    912,
+    580,
+    1043,
+    673,
+    1359,
+    736,
+    678,
+    1355
+  ],
+  "config": {
+    "seed": 42,
+    "folds": 4,
+    "motifs": 8,
+    "ridge": 0.01,
+    "bootstrap": 1000
+  },
+  "results": {
+    "source": {
+      "constant": {
+        "queries": 588,
+        "bce": 0.6964702860482088,
+        "brier": 0.2516601670145778,
+        "velocity_mae": 0.18205304305761771,
+        "contour_mse": 0.10325983179264991,
+        "retrieval_mrr": 0.6673263888888888,
+        "retrieval_r1": 0.41041666666666665,
+        "candidate_count": 2.75,
+        "chance_mrr": 0.6673263888888888,
+        "chance_r1": 0.41041666666666665,
+        "shifted_source_bce": 0.6964702860482088
+      },
+      "meter": {
+        "queries": 588,
+        "bce": 0.6267765151588287,
+        "brier": 0.21802259862017342,
+        "velocity_mae": 0.18137207804767674,
+        "contour_mse": 0.08969962895604401,
+        "retrieval_mrr": 0.6673263888888888,
+        "retrieval_r1": 0.41041666666666665,
+        "candidate_count": 2.75,
+        "chance_mrr": 0.6673263888888888,
+        "chance_r1": 0.41041666666666665,
+        "shifted_source_bce": 0.6267765151588287
+      },
+      "onset": {
+        "queries": 588,
+        "bce": 0.5709456005177145,
+        "brier": 0.1928365000349836,
+        "velocity_mae": 0.17905001371708587,
+        "contour_mse": 0.08008456369165531,
+        "retrieval_mrr": 0.8215691137566137,
+        "retrieval_r1": 0.6924603174603174,
+        "candidate_count": 2.75,
+        "chance_mrr": 0.6673263888888888,
+        "chance_r1": 0.41041666666666665,
+        "shifted_source_bce": 0.9567127343748535
+      },
+      "fwod": {
+        "queries": 588,
+        "bce": 0.5606795856190001,
+        "brier": 0.18812456196294017,
+        "velocity_mae": 0.17814688698969297,
+        "contour_mse": 0.07734614553219982,
+        "retrieval_mrr": 0.839103835978836,
+        "retrieval_r1": 0.7400793650793651,
+        "candidate_count": 2.75,
+        "chance_mrr": 0.6673263888888888,
+        "chance_r1": 0.41041666666666665,
+        "shifted_source_bce": 0.9664984014232663
+      },
+      "meter_onset": {
+        "queries": 588,
+        "bce": 0.5602756173630472,
+        "brier": 0.18887932886420444,
+        "velocity_mae": 0.17917814740197896,
+        "contour_mse": 0.07842187376349141,
+        "retrieval_mrr": 0.8214533730158731,
+        "retrieval_r1": 0.6944444444444444,
+        "candidate_count": 2.75,
+        "chance_mrr": 0.6673263888888888,
+        "chance_r1": 0.41041666666666665,
+        "shifted_source_bce": 0.8055505402012559
+      },
+      "meter_fwod": {
+        "queries": 588,
+        "bce": 0.5545712049428653,
+        "brier": 0.18609861381414988,
+        "velocity_mae": 0.1781764663786133,
+        "contour_mse": 0.07663392947987879,
+        "retrieval_mrr": 0.8364252645502646,
+        "retrieval_r1": 0.7294146825396826,
+        "candidate_count": 2.75,
+        "chance_mrr": 0.6673263888888888,
+        "chance_r1": 0.41041666666666665,
+        "shifted_source_bce": 0.8316429451923284
+      },
+      "meter_onset_fwod": {
+        "queries": 588,
+        "bce": 0.5526334648636124,
+        "brier": 0.1852930422561277,
+        "velocity_mae": 0.17828998007919838,
+        "contour_mse": 0.07653520090275998,
+        "retrieval_mrr": 0.8364169973544974,
+        "retrieval_r1": 0.7299107142857142,
+        "candidate_count": 2.75,
+        "chance_mrr": 0.6673263888888888,
+        "chance_r1": 0.41041666666666665,
+        "shifted_source_bce": 0.8519577877320879
+      },
+      "local_linear": {
+        "queries": 588,
+        "bce": 0.5599389255770466,
+        "brier": 0.18842036572503448,
+        "velocity_mae": 0.17864885476272974,
+        "contour_mse": 0.0766504321491897,
+        "retrieval_mrr": 0.8426008597883597,
+        "retrieval_r1": 0.7398313492063492,
+        "candidate_count": 2.75,
+        "chance_mrr": 0.6673263888888888,
+        "chance_r1": 0.41041666666666665,
+        "shifted_source_bce": 0.8956413368854709
+      },
+      "shapelet": {
+        "queries": 588,
+        "bce": 0.5511704812814365,
+        "brier": 0.18500519327094508,
+        "velocity_mae": 0.17933095045387165,
+        "contour_mse": 0.07619852361021112,
+        "retrieval_mrr": 0.8509755291005291,
+        "retrieval_r1": 0.751984126984127,
+        "candidate_count": 2.75,
+        "chance_mrr": 0.6673263888888888,
+        "chance_r1": 0.41041666666666665,
+        "shifted_source_bce": 0.9001233732000464
+      },
+      "shapelet_shuffled": {
+        "queries": 588,
+        "bce": 0.611652315518987,
+        "brier": 0.2114243745315655,
+        "velocity_mae": 0.18111677849038504,
+        "contour_mse": 0.08638461085110559,
+        "retrieval_mrr": 0.7295056216931217,
+        "retrieval_r1": 0.5595238095238095,
+        "candidate_count": 2.75,
+        "chance_mrr": 0.6673263888888888,
+        "chance_r1": 0.41041666666666665,
+        "shifted_source_bce": 0.6306639045109734
+      }
+    },
+    "participant_session": {
+      "constant": {
+        "queries": 588,
+        "bce": 0.6959596095605276,
+        "brier": 0.25140481435959405,
+        "velocity_mae": 0.18220904078784805,
+        "contour_mse": 0.10328776675945943,
+        "retrieval_mrr": 0.24237914086112758,
+        "retrieval_r1": 0.0760385447885448,
+        "candidate_count": 13.25,
+        "chance_mrr": 0.24237914086112758,
+        "chance_r1": 0.0760385447885448,
+        "shifted_source_bce": 0.6959596095605276
+      },
+      "meter": {
+        "queries": 588,
+        "bce": 0.6220404457281629,
+        "brier": 0.21601035975839164,
+        "velocity_mae": 0.18170245657139156,
+        "contour_mse": 0.08915447438125726,
+        "retrieval_mrr": 0.24237914086112758,
+        "retrieval_r1": 0.0760385447885448,
+        "candidate_count": 13.25,
+        "chance_mrr": 0.24237914086112758,
+        "chance_r1": 0.0760385447885448,
+        "shifted_source_bce": 0.6220404457281629
+      },
+      "onset": {
+        "queries": 588,
+        "bce": 0.5732326301152886,
+        "brier": 0.19403662847472647,
+        "velocity_mae": 0.17917420248005161,
+        "contour_mse": 0.08035646176731565,
+        "retrieval_mrr": 0.5273933442274216,
+        "retrieval_r1": 0.35887896825396826,
+        "candidate_count": 13.25,
+        "chance_mrr": 0.24237914086112758,
+        "chance_r1": 0.0760385447885448,
+        "shifted_source_bce": 0.9670222762619558
+      },
+      "fwod": {
+        "queries": 588,
+        "bce": 0.5639234121725663,
+        "brier": 0.1896586819180514,
+        "velocity_mae": 0.17850078546814113,
+        "contour_mse": 0.07793249373321769,
+        "retrieval_mrr": 0.5681995033185508,
+        "retrieval_r1": 0.43005952380952384,
+        "candidate_count": 13.25,
+        "chance_mrr": 0.24237914086112758,
+        "chance_r1": 0.0760385447885448,
+        "shifted_source_bce": 0.9789005841867715
+      },
+      "meter_onset": {
+        "queries": 588,
+        "bce": 0.563855233451554,
+        "brier": 0.19034925221648044,
+        "velocity_mae": 0.17930840188197403,
+        "contour_mse": 0.07885183416338692,
+        "retrieval_mrr": 0.5326952802213218,
+        "retrieval_r1": 0.37723214285714285,
+        "candidate_count": 13.25,
+        "chance_mrr": 0.24237914086112758,
+        "chance_r1": 0.0760385447885448,
+        "shifted_source_bce": 0.8133959480343582
+      },
+      "meter_fwod": {
+        "queries": 588,
+        "bce": 0.5576689215580221,
+        "brier": 0.18734866280820978,
+        "velocity_mae": 0.17851117435501918,
+        "contour_mse": 0.07719038312063746,
+        "retrieval_mrr": 0.5738260781601555,
+        "retrieval_r1": 0.4340277777777778,
+        "candidate_count": 13.25,
+        "chance_mrr": 0.24237914086112758,
+        "chance_r1": 0.0760385447885448,
+        "shifted_source_bce": 0.8431589357807795
+      },
+      "meter_onset_fwod": {
+        "queries": 588,
+        "bce": 0.5565960763291775,
+        "brier": 0.18691589611464152,
+        "velocity_mae": 0.17852256244480036,
+        "contour_mse": 0.07712560951032253,
+        "retrieval_mrr": 0.5672374232084053,
+        "retrieval_r1": 0.4211309523809524,
+        "candidate_count": 13.25,
+        "chance_mrr": 0.24237914086112758,
+        "chance_r1": 0.0760385447885448,
+        "shifted_source_bce": 0.8646095404055063
+      },
+      "local_linear": {
+        "queries": 588,
+        "bce": 0.5563274206312963,
+        "brier": 0.1868060779613962,
+        "velocity_mae": 0.17797076798898417,
+        "contour_mse": 0.07653950240215741,
+        "retrieval_mrr": 0.5795452432543206,
+        "retrieval_r1": 0.4285714285714286,
+        "candidate_count": 13.25,
+        "chance_mrr": 0.24237914086112758,
+        "chance_r1": 0.0760385447885448,
+        "shifted_source_bce": 0.899579258917552
+      },
+      "shapelet": {
+        "queries": 588,
+        "bce": 0.5530430371063034,
+        "brier": 0.18562037527133712,
+        "velocity_mae": 0.17783005234748434,
+        "contour_mse": 0.07640189246519763,
+        "retrieval_mrr": 0.5813137562393514,
+        "retrieval_r1": 0.4322916666666667,
+        "candidate_count": 13.25,
+        "chance_mrr": 0.24237914086112758,
+        "chance_r1": 0.0760385447885448,
+        "shifted_source_bce": 0.8964203780443419
+      },
+      "shapelet_shuffled": {
+        "queries": 588,
+        "bce": 0.6162029115455465,
+        "brier": 0.21265865859023225,
+        "velocity_mae": 0.18111630617535052,
+        "contour_mse": 0.0863942411747862,
+        "retrieval_mrr": 0.35965251886010813,
+        "retrieval_r1": 0.17956349206349204,
+        "candidate_count": 13.25,
+        "chance_mrr": 0.24237914086112758,
+        "chance_r1": 0.0760385447885448,
+        "shifted_source_bce": 0.6506660771160694
+      }
+    },
+    "crossed": {
+      "constant": {
+        "queries": 588,
+        "bce": 0.6991279632452355,
+        "brier": 0.2529823210502343,
+        "velocity_mae": 0.18246734772278725,
+        "contour_mse": 0.10352200340295968,
+        "retrieval_mrr": 0.6673263888888888,
+        "retrieval_r1": 0.41041666666666665,
+        "candidate_count": 2.75,
+        "chance_mrr": 0.6673263888888888,
+        "chance_r1": 0.41041666666666665,
+        "shifted_source_bce": 0.6991279632452355
+      },
+      "meter": {
+        "queries": 588,
+        "bce": 0.6310169322535957,
+        "brier": 0.2197389530338133,
+        "velocity_mae": 0.18185916236698424,
+        "contour_mse": 0.09019277891628594,
+        "retrieval_mrr": 0.6673263888888888,
+        "retrieval_r1": 0.41041666666666665,
+        "candidate_count": 2.75,
+        "chance_mrr": 0.6673263888888888,
+        "chance_r1": 0.41041666666666665,
+        "shifted_source_bce": 0.6310169322535957
+      },
+      "onset": {
+        "queries": 588,
+        "bce": 0.5749560986675116,
+        "brier": 0.19458510091081752,
+        "velocity_mae": 0.17948504522165587,
+        "contour_mse": 0.08063155116948716,
+        "retrieval_mrr": 0.8191302910052909,
+        "retrieval_r1": 0.6884920634920635,
+        "candidate_count": 2.75,
+        "chance_mrr": 0.6673263888888888,
+        "chance_r1": 0.41041666666666665,
+        "shifted_source_bce": 0.9626164464716505
+      },
+      "fwod": {
+        "queries": 588,
+        "bce": 0.565649818884773,
+        "brier": 0.19023492284871285,
+        "velocity_mae": 0.17872407638485618,
+        "contour_mse": 0.0781157317050723,
+        "retrieval_mrr": 0.8382853835978836,
+        "retrieval_r1": 0.7378472222222222,
+        "candidate_count": 2.75,
+        "chance_mrr": 0.6673263888888888,
+        "chance_r1": 0.41041666666666665,
+        "shifted_source_bce": 0.9758713862906833
+      },
+      "meter_onset": {
+        "queries": 588,
+        "bce": 0.5651758221502843,
+        "brier": 0.19084903800310205,
+        "velocity_mae": 0.1796170559067104,
+        "contour_mse": 0.07901552869222808,
+        "retrieval_mrr": 0.8230737433862434,
+        "retrieval_r1": 0.6984126984126984,
+        "candidate_count": 2.75,
+        "chance_mrr": 0.6673263888888888,
+        "chance_r1": 0.41041666666666665,
+        "shifted_source_bce": 0.8114617549459279
+      },
+      "meter_fwod": {
+        "queries": 588,
+        "bce": 0.5601526033492444,
+        "brier": 0.18834268061944448,
+        "velocity_mae": 0.17875522124590706,
+        "contour_mse": 0.07742511137969768,
+        "retrieval_mrr": 0.8401455026455027,
+        "retrieval_r1": 0.7390873015873016,
+        "candidate_count": 2.75,
+        "chance_mrr": 0.6673263888888888,
+        "chance_r1": 0.41041666666666665,
+        "shifted_source_bce": 0.8425544583466453
+      },
+      "meter_onset_fwod": {
+        "queries": 588,
+        "bce": 0.5584370855417997,
+        "brier": 0.18760149479820298,
+        "velocity_mae": 0.17866323208662427,
+        "contour_mse": 0.07733218979202805,
+        "retrieval_mrr": 0.8391947751322751,
+        "retrieval_r1": 0.7338789682539681,
+        "candidate_count": 2.75,
+        "chance_mrr": 0.6673263888888888,
+        "chance_r1": 0.41041666666666665,
+        "shifted_source_bce": 0.861940995598653
+      },
+      "local_linear": {
+        "queries": 588,
+        "bce": 0.5668243122931917,
+        "brier": 0.19103169261808056,
+        "velocity_mae": 0.17908190604496924,
+        "contour_mse": 0.07751061759019412,
+        "retrieval_mrr": 0.8435185185185186,
+        "retrieval_r1": 0.7400793650793651,
+        "candidate_count": 2.75,
+        "chance_mrr": 0.6673263888888888,
+        "chance_r1": 0.41041666666666665,
+        "shifted_source_bce": 0.9008361369367783
+      },
+      "shapelet": {
+        "queries": 588,
+        "bce": 0.5568316810061074,
+        "brier": 0.18714833838507292,
+        "velocity_mae": 0.17959339772536626,
+        "contour_mse": 0.0770028895923173,
+        "retrieval_mrr": 0.8480820105820106,
+        "retrieval_r1": 0.7467757936507937,
+        "candidate_count": 2.75,
+        "chance_mrr": 0.6673263888888888,
+        "chance_r1": 0.41041666666666665,
+        "shifted_source_bce": 0.9100702312131429
+      },
+      "shapelet_shuffled": {
+        "queries": 588,
+        "bce": 0.6168388516448813,
+        "brier": 0.21353003796725042,
+        "velocity_mae": 0.1816059015869348,
+        "contour_mse": 0.08706885587569643,
+        "retrieval_mrr": 0.7254794973544973,
+        "retrieval_r1": 0.5496031746031746,
+        "candidate_count": 2.75,
+        "chance_mrr": 0.6673263888888888,
+        "chance_r1": 0.41041666666666665,
+        "shifted_source_bce": 0.6338456851881601
+      }
+    }
+  },
+  "paired_deltas": {
+    "source": {
+      "meter_onset_fwod": {
+        "bce": {
+          "group": {
+            "delta_mean": -0.0014629835821758335,
+            "low": -0.005187457394703451,
+            "high": 0.0021442269191707486,
+            "clusters": 8,
+            "definition": "Equal group-cluster mean paired delta; negative loss delta is better",
+            "conditional_interval": true
+          },
+          "session": {
+            "delta_mean": -0.0030523604270984465,
+            "low": -0.005517790943722996,
+            "high": -0.0007178734261875206,
+            "clusters": 14,
+            "definition": "Equal session-cluster mean paired delta; negative loss delta is better",
+            "conditional_interval": true
+          }
+        },
+        "brier": {
+          "group": {
+            "delta_mean": -0.00028784898518262867,
+            "low": -0.0018839203659709073,
+            "high": 0.0012301008919144752,
+            "clusters": 8,
+            "definition": "Equal group-cluster mean paired delta; negative loss delta is better",
+            "conditional_interval": true
+          },
+          "session": {
+            "delta_mean": -0.0008495826194083548,
+            "low": -0.0022193729957780536,
+            "high": 0.0005140813762824095,
+            "clusters": 14,
+            "definition": "Equal session-cluster mean paired delta; negative loss delta is better",
+            "conditional_interval": true
+          }
+        },
+        "velocity_mae": {
+          "group": {
+            "delta_mean": 0.0010409703746732835,
+            "low": -6.0572891955691614e-05,
+            "high": 0.002589462339331808,
+            "clusters": 8,
+            "definition": "Equal group-cluster mean paired delta; negative loss delta is better",
+            "conditional_interval": true
+          },
+          "session": {
+            "delta_mean": 0.001215696270248595,
+            "low": -0.0010021584790826327,
+            "high": 0.00312554081102449,
+            "clusters": 14,
+            "definition": "Equal session-cluster mean paired delta; negative loss delta is better",
+            "conditional_interval": true
+          }
+        },
+        "contour_mse": {
+          "group": {
+            "delta_mean": -0.0003366772925488711,
+            "low": -0.0008916900664463523,
+            "high": 0.00017474705420937971,
+            "clusters": 8,
+            "definition": "Equal group-cluster mean paired delta; negative loss delta is better",
+            "conditional_interval": true
+          },
+          "session": {
+            "delta_mean": -0.0003829878151576878,
+            "low": -0.0013475101879407857,
+            "high": 0.0006003795470859056,
+            "clusters": 14,
+            "definition": "Equal session-cluster mean paired delta; negative loss delta is better",
+            "conditional_interval": true
+          }
+        }
+      },
+      "local_linear": {
+        "bce": {
+          "group": {
+            "delta_mean": -0.008768444295610058,
+            "low": -0.011372070305027833,
+            "high": -0.005668792973806371,
+            "clusters": 8,
+            "definition": "Equal group-cluster mean paired delta; negative loss delta is better",
+            "conditional_interval": true
+          },
+          "session": {
+            "delta_mean": -0.009545875915722854,
+            "low": -0.012358179195718896,
+            "high": -0.007174356823867696,
+            "clusters": 14,
+            "definition": "Equal session-cluster mean paired delta; negative loss delta is better",
+            "conditional_interval": true
+          }
+        },
+        "brier": {
+          "group": {
+            "delta_mean": -0.0034151724540893947,
+            "low": -0.004579626631726696,
+            "high": -0.0020861602169838372,
+            "clusters": 8,
+            "definition": "Equal group-cluster mean paired delta; negative loss delta is better",
+            "conditional_interval": true
+          },
+          "session": {
+            "delta_mean": -0.0035694440012772164,
+            "low": -0.005078120235041419,
+            "high": -0.002255212992963855,
+            "clusters": 14,
+            "definition": "Equal session-cluster mean paired delta; negative loss delta is better",
+            "conditional_interval": true
+          }
+        },
+        "velocity_mae": {
+          "group": {
+            "delta_mean": 0.0006820956911419232,
+            "low": -0.000804288463546807,
+            "high": 0.0022818548639355904,
+            "clusters": 8,
+            "definition": "Equal group-cluster mean paired delta; negative loss delta is better",
+            "conditional_interval": true
+          },
+          "session": {
+            "delta_mean": 0.000886857951764461,
+            "low": -0.0003003477104133954,
+            "high": 0.0021273392317450526,
+            "clusters": 14,
+            "definition": "Equal session-cluster mean paired delta; negative loss delta is better",
+            "conditional_interval": true
+          }
+        },
+        "contour_mse": {
+          "group": {
+            "delta_mean": -0.00045190853897858946,
+            "low": -0.0010338266649836784,
+            "high": 0.00011144729386742865,
+            "clusters": 8,
+            "definition": "Equal group-cluster mean paired delta; negative loss delta is better",
+            "conditional_interval": true
+          },
+          "session": {
+            "delta_mean": -0.0006145149215341249,
+            "low": -0.0011734977614649346,
+            "high": -7.570814267349585e-05,
+            "clusters": 14,
+            "definition": "Equal session-cluster mean paired delta; negative loss delta is better",
+            "conditional_interval": true
+          }
+        }
+      },
+      "shapelet_shuffled": {
+        "bce": {
+          "group": {
+            "delta_mean": -0.06048183423755042,
+            "low": -0.08757582709756466,
+            "high": -0.0363670262896585,
+            "clusters": 8,
+            "definition": "Equal group-cluster mean paired delta; negative loss delta is better",
+            "conditional_interval": true
+          },
+          "session": {
+            "delta_mean": -0.062050950542104584,
+            "low": -0.07719247035220927,
+            "high": -0.0480703691395218,
+            "clusters": 14,
+            "definition": "Equal session-cluster mean paired delta; negative loss delta is better",
+            "conditional_interval": true
+          }
+        },
+        "brier": {
+          "group": {
+            "delta_mean": -0.02641918126062044,
+            "low": -0.03750059398326134,
+            "high": -0.016435558356769322,
+            "clusters": 8,
+            "definition": "Equal group-cluster mean paired delta; negative loss delta is better",
+            "conditional_interval": true
+          },
+          "session": {
+            "delta_mean": -0.027065225636102565,
+            "low": -0.033486320368408005,
+            "high": -0.02117949802090864,
+            "clusters": 14,
+            "definition": "Equal session-cluster mean paired delta; negative loss delta is better",
+            "conditional_interval": true
+          }
+        },
+        "velocity_mae": {
+          "group": {
+            "delta_mean": -0.0017858280365133604,
+            "low": -0.0031006067851123715,
+            "high": -0.0005895546631243228,
+            "clusters": 8,
+            "definition": "Equal group-cluster mean paired delta; negative loss delta is better",
+            "conditional_interval": true
+          },
+          "session": {
+            "delta_mean": -0.001316677941289907,
+            "low": -0.003115866877046347,
+            "high": 0.0007613846529752851,
+            "clusters": 14,
+            "definition": "Equal session-cluster mean paired delta; negative loss delta is better",
+            "conditional_interval": true
+          }
+        },
+        "contour_mse": {
+          "group": {
+            "delta_mean": -0.010186087240894478,
+            "low": -0.015391609847668245,
+            "high": -0.005716348853703745,
+            "clusters": 8,
+            "definition": "Equal group-cluster mean paired delta; negative loss delta is better",
+            "conditional_interval": true
+          },
+          "session": {
+            "delta_mean": -0.010371439003728054,
+            "low": -0.014331273336736047,
+            "high": -0.0069471659110499386,
+            "clusters": 14,
+            "definition": "Equal session-cluster mean paired delta; negative loss delta is better",
+            "conditional_interval": true
+          }
+        }
+      }
+    },
+    "participant_session": {
+      "meter_onset_fwod": {
+        "bce": {
+          "group": {
+            "delta_mean": -0.0035530392228740374,
+            "low": -0.008073095402212219,
+            "high": 0.0009290451242033688,
+            "clusters": 8,
+            "definition": "Equal group-cluster mean paired delta; negative loss delta is better",
+            "conditional_interval": true
+          },
+          "session": {
+            "delta_mean": -0.005409954596790356,
+            "low": -0.008810895055826084,
+            "high": -0.002363571105598905,
+            "clusters": 14,
+            "definition": "Equal session-cluster mean paired delta; negative loss delta is better",
+            "conditional_interval": true
+          }
+        },
+        "brier": {
+          "group": {
+            "delta_mean": -0.00129552084330442,
+            "low": -0.003266245333967576,
+            "high": 0.0006417745416697293,
+            "clusters": 8,
+            "definition": "Equal group-cluster mean paired delta; negative loss delta is better",
+            "conditional_interval": true
+          },
+          "session": {
+            "delta_mean": -0.0019433156751037374,
+            "low": -0.0037199368762471465,
+            "high": -0.00014745020656528021,
+            "clusters": 14,
+            "definition": "Equal session-cluster mean paired delta; negative loss delta is better",
+            "conditional_interval": true
+          }
+        },
+        "velocity_mae": {
+          "group": {
+            "delta_mean": -0.0006925100973160596,
+            "low": -0.0024832366782960432,
+            "high": 0.000680880785860452,
+            "clusters": 8,
+            "definition": "Equal group-cluster mean paired delta; negative loss delta is better",
+            "conditional_interval": true
+          },
+          "session": {
+            "delta_mean": -0.0002801829424351163,
+            "low": -0.001859671802911935,
+            "high": 0.0011303113308030932,
+            "clusters": 14,
+            "definition": "Equal session-cluster mean paired delta; negative loss delta is better",
+            "conditional_interval": true
+          }
+        },
+        "contour_mse": {
+          "group": {
+            "delta_mean": -0.0007237170451248931,
+            "low": -0.0014804308205667233,
+            "high": -9.982760143466526e-05,
+            "clusters": 8,
+            "definition": "Equal group-cluster mean paired delta; negative loss delta is better",
+            "conditional_interval": true
+          },
+          "session": {
+            "delta_mean": -0.0008800429225672942,
+            "low": -0.0018491905526301024,
+            "high": 3.377853413355172e-05,
+            "clusters": 14,
+            "definition": "Equal session-cluster mean paired delta; negative loss delta is better",
+            "conditional_interval": true
+          }
+        }
+      },
+      "local_linear": {
+        "bce": {
+          "group": {
+            "delta_mean": -0.0032843835249928275,
+            "low": -0.006398010127967,
+            "high": -0.0007029862741696999,
+            "clusters": 8,
+            "definition": "Equal group-cluster mean paired delta; negative loss delta is better",
+            "conditional_interval": true
+          },
+          "session": {
+            "delta_mean": -0.004311337456418639,
+            "low": -0.006232355441618711,
+            "high": -0.002177789365998939,
+            "clusters": 14,
+            "definition": "Equal session-cluster mean paired delta; negative loss delta is better",
+            "conditional_interval": true
+          }
+        },
+        "brier": {
+          "group": {
+            "delta_mean": -0.0011857026900590779,
+            "low": -0.0025167146317130917,
+            "high": -0.00013388668035938886,
+            "clusters": 8,
+            "definition": "Equal group-cluster mean paired delta; negative loss delta is better",
+            "conditional_interval": true
+          },
+          "session": {
+            "delta_mean": -0.0014510254805484898,
+            "low": -0.002509462544262336,
+            "high": -0.0002837157231824055,
+            "clusters": 14,
+            "definition": "Equal session-cluster mean paired delta; negative loss delta is better",
+            "conditional_interval": true
+          }
+        },
+        "velocity_mae": {
+          "group": {
+            "delta_mean": -0.00014071564149986608,
+            "low": -0.0005900009097076932,
+            "high": 0.0003727256647731398,
+            "clusters": 8,
+            "definition": "Equal group-cluster mean paired delta; negative loss delta is better",
+            "conditional_interval": true
+          },
+          "session": {
+            "delta_mean": -0.0002161314821423853,
+            "low": -0.0006639709074470608,
+            "high": 0.0002845354211929724,
+            "clusters": 14,
+            "definition": "Equal session-cluster mean paired delta; negative loss delta is better",
+            "conditional_interval": true
+          }
+        },
+        "contour_mse": {
+          "group": {
+            "delta_mean": -0.00013760993695978438,
+            "low": -0.0006681494931748528,
+            "high": 0.000341686864275025,
+            "clusters": 8,
+            "definition": "Equal group-cluster mean paired delta; negative loss delta is better",
+            "conditional_interval": true
+          },
+          "session": {
+            "delta_mean": -0.00018231146774883624,
+            "low": -0.0006058868731814789,
+            "high": 0.00026578810551883405,
+            "clusters": 14,
+            "definition": "Equal session-cluster mean paired delta; negative loss delta is better",
+            "conditional_interval": true
+          }
+        }
+      },
+      "shapelet_shuffled": {
+        "bce": {
+          "group": {
+            "delta_mean": -0.06315987443924308,
+            "low": -0.0873095293018981,
+            "high": -0.03816886149929328,
+            "clusters": 8,
+            "definition": "Equal group-cluster mean paired delta; negative loss delta is better",
+            "conditional_interval": true
+          },
+          "session": {
+            "delta_mean": -0.05717992935565081,
+            "low": -0.0739246512440449,
+            "high": -0.039808266795204446,
+            "clusters": 14,
+            "definition": "Equal session-cluster mean paired delta; negative loss delta is better",
+            "conditional_interval": true
+          }
+        },
+        "brier": {
+          "group": {
+            "delta_mean": -0.027038283318895122,
+            "low": -0.03696192299935447,
+            "high": -0.01651571248098103,
+            "clusters": 8,
+            "definition": "Equal group-cluster mean paired delta; negative loss delta is better",
+            "conditional_interval": true
+          },
+          "session": {
+            "delta_mean": -0.02426502527083871,
+            "low": -0.03161881852936716,
+            "high": -0.016877333697855986,
+            "clusters": 14,
+            "definition": "Equal session-cluster mean paired delta; negative loss delta is better",
+            "conditional_interval": true
+          }
+        },
+        "velocity_mae": {
+          "group": {
+            "delta_mean": -0.0032862538278662107,
+            "low": -0.005493334059082642,
+            "high": -0.001074778197923741,
+            "clusters": 8,
+            "definition": "Equal group-cluster mean paired delta; negative loss delta is better",
+            "conditional_interval": true
+          },
+          "session": {
+            "delta_mean": -0.0023123964034059167,
+            "low": -0.006799417214646867,
+            "high": 0.0017931318793234933,
+            "clusters": 14,
+            "definition": "Equal session-cluster mean paired delta; negative loss delta is better",
+            "conditional_interval": true
+          }
+        },
+        "contour_mse": {
+          "group": {
+            "delta_mean": -0.00999234870958856,
+            "low": -0.014481209598785365,
+            "high": -0.005455496720830638,
+            "clusters": 8,
+            "definition": "Equal group-cluster mean paired delta; negative loss delta is better",
+            "conditional_interval": true
+          },
+          "session": {
+            "delta_mean": -0.00908970788095451,
+            "low": -0.013238870254994725,
+            "high": -0.004845854022437259,
+            "clusters": 14,
+            "definition": "Equal session-cluster mean paired delta; negative loss delta is better",
+            "conditional_interval": true
+          }
+        }
+      }
+    },
+    "crossed": {
+      "meter_onset_fwod": {
+        "bce": {
+          "group": {
+            "delta_mean": -0.00160540453569242,
+            "low": -0.005103494281013616,
+            "high": 0.0021755809534635424,
+            "clusters": 8,
+            "definition": "Equal group-cluster mean paired delta; negative loss delta is better",
+            "conditional_interval": true
+          },
+          "session": {
+            "delta_mean": -0.0027659024216710897,
+            "low": -0.0057269702810348365,
+            "high": -9.944248490986503e-05,
+            "clusters": 14,
+            "definition": "Equal session-cluster mean paired delta; negative loss delta is better",
+            "conditional_interval": true
+          }
+        },
+        "brier": {
+          "group": {
+            "delta_mean": -0.00045315641313006935,
+            "low": -0.0019810594763169194,
+            "high": 0.0011764447719082333,
+            "clusters": 8,
+            "definition": "Equal group-cluster mean paired delta; negative loss delta is better",
+            "conditional_interval": true
+          },
+          "session": {
+            "delta_mean": -0.0008242629685626523,
+            "low": -0.0024018190294038014,
+            "high": 0.0006305550384707393,
+            "clusters": 14,
+            "definition": "Equal session-cluster mean paired delta; negative loss delta is better",
+            "conditional_interval": true
+          }
+        },
+        "velocity_mae": {
+          "group": {
+            "delta_mean": 0.0009301656387419675,
+            "low": -0.0003434117376487704,
+            "high": 0.0026893982590332605,
+            "clusters": 8,
+            "definition": "Equal group-cluster mean paired delta; negative loss delta is better",
+            "conditional_interval": true
+          },
+          "session": {
+            "delta_mean": 0.0012047592214486217,
+            "low": -0.0010346655708582616,
+            "high": 0.003017116909129511,
+            "clusters": 14,
+            "definition": "Equal session-cluster mean paired delta; negative loss delta is better",
+            "conditional_interval": true
+          }
+        },
+        "contour_mse": {
+          "group": {
+            "delta_mean": -0.00032930019971076413,
+            "low": -0.0009060055869144799,
+            "high": 0.000252152084520625,
+            "clusters": 8,
+            "definition": "Equal group-cluster mean paired delta; negative loss delta is better",
+            "conditional_interval": true
+          },
+          "session": {
+            "delta_mean": -0.0003009947976381937,
+            "low": -0.001246354536678372,
+            "high": 0.0006499483002432631,
+            "clusters": 14,
+            "definition": "Equal session-cluster mean paired delta; negative loss delta is better",
+            "conditional_interval": true
+          }
+        }
+      },
+      "local_linear": {
+        "bce": {
+          "group": {
+            "delta_mean": -0.009992631287084299,
+            "low": -0.01438186040252219,
+            "high": -0.005795727376602342,
+            "clusters": 8,
+            "definition": "Equal group-cluster mean paired delta; negative loss delta is better",
+            "conditional_interval": true
+          },
+          "session": {
+            "delta_mean": -0.010182215311418271,
+            "low": -0.012906140304204436,
+            "high": -0.007698562648282036,
+            "clusters": 14,
+            "definition": "Equal session-cluster mean paired delta; negative loss delta is better",
+            "conditional_interval": true
+          }
+        },
+        "brier": {
+          "group": {
+            "delta_mean": -0.003883354233007643,
+            "low": -0.005796938782763152,
+            "high": -0.002093369096263775,
+            "clusters": 8,
+            "definition": "Equal group-cluster mean paired delta; negative loss delta is better",
+            "conditional_interval": true
+          },
+          "session": {
+            "delta_mean": -0.0037780789706133044,
+            "low": -0.005266233181322866,
+            "high": -0.0024235587130194843,
+            "clusters": 14,
+            "definition": "Equal session-cluster mean paired delta; negative loss delta is better",
+            "conditional_interval": true
+          }
+        },
+        "velocity_mae": {
+          "group": {
+            "delta_mean": 0.0005114916803970045,
+            "low": -0.0009567945400265474,
+            "high": 0.0021227737046240424,
+            "clusters": 8,
+            "definition": "Equal group-cluster mean paired delta; negative loss delta is better",
+            "conditional_interval": true
+          },
+          "session": {
+            "delta_mean": 0.000540650862651714,
+            "low": -0.0005333923131692979,
+            "high": 0.0016968792725593445,
+            "clusters": 14,
+            "definition": "Equal session-cluster mean paired delta; negative loss delta is better",
+            "conditional_interval": true
+          }
+        },
+        "contour_mse": {
+          "group": {
+            "delta_mean": -0.0005077279978768173,
+            "low": -0.001152608257764743,
+            "high": 4.959167436519467e-05,
+            "clusters": 8,
+            "definition": "Equal group-cluster mean paired delta; negative loss delta is better",
+            "conditional_interval": true
+          },
+          "session": {
+            "delta_mean": -0.0005677782078697532,
+            "low": -0.0010855017133830208,
+            "high": -6.279774251476365e-05,
+            "clusters": 14,
+            "definition": "Equal session-cluster mean paired delta; negative loss delta is better",
+            "conditional_interval": true
+          }
+        }
+      },
+      "shapelet_shuffled": {
+        "bce": {
+          "group": {
+            "delta_mean": -0.06000717063877388,
+            "low": -0.08774488904345716,
+            "high": -0.03460616256812377,
+            "clusters": 8,
+            "definition": "Equal group-cluster mean paired delta; negative loss delta is better",
+            "conditional_interval": true
+          },
+          "session": {
+            "delta_mean": -0.06058510609268919,
+            "low": -0.07569163958084253,
+            "high": -0.04356957437999348,
+            "clusters": 14,
+            "definition": "Equal session-cluster mean paired delta; negative loss delta is better",
+            "conditional_interval": true
+          }
+        },
+        "brier": {
+          "group": {
+            "delta_mean": -0.026381699582177506,
+            "low": -0.03805132116959272,
+            "high": -0.01574844391958435,
+            "clusters": 8,
+            "definition": "Equal group-cluster mean paired delta; negative loss delta is better",
+            "conditional_interval": true
+          },
+          "session": {
+            "delta_mean": -0.026646606238610537,
+            "low": -0.033186894093840846,
+            "high": -0.019735887777131575,
+            "clusters": 14,
+            "definition": "Equal session-cluster mean paired delta; negative loss delta is better",
+            "conditional_interval": true
+          }
+        },
+        "velocity_mae": {
+          "group": {
+            "delta_mean": -0.002012503861568545,
+            "low": -0.0036187289641103427,
+            "high": -0.0003988341541693552,
+            "clusters": 8,
+            "definition": "Equal group-cluster mean paired delta; negative loss delta is better",
+            "conditional_interval": true
+          },
+          "session": {
+            "delta_mean": -0.0011424396882916482,
+            "low": -0.0031383462687206024,
+            "high": 0.0014559902128105802,
+            "clusters": 14,
+            "definition": "Equal session-cluster mean paired delta; negative loss delta is better",
+            "conditional_interval": true
+          }
+        },
+        "contour_mse": {
+          "group": {
+            "delta_mean": -0.010065966283379132,
+            "low": -0.015287954890823324,
+            "high": -0.0057411782290346745,
+            "clusters": 8,
+            "definition": "Equal group-cluster mean paired delta; negative loss delta is better",
+            "conditional_interval": true
+          },
+          "session": {
+            "delta_mean": -0.010025669090854433,
+            "low": -0.013661880923709215,
+            "high": -0.006637100696650718,
+            "clusters": 14,
+            "definition": "Equal session-cluster mean paired delta; negative loss delta is better",
+            "conditional_interval": true
+          }
+        }
+      }
+    }
+  },
+  "verification": {
+    "pytest_passed": 216,
+    "new_benchmark_tests": 8,
+    "saved_file_hashes_verified": 245,
+    "converged_models": 240,
+    "training_dictionary_exemplars_verified": 768,
+    "git_diff_check_passed": true
+  },
+  "interpretation": "Shapelet gains versus meter+onset+FWOD are small; source-cluster BCE intervals include zero in all three regimes. No claim of robust superiority.",
+  "claim_boundaries": {
+    "human_response_observations": true,
+    "independent_perceptual_preference_study": false,
+    "one_hand_technique_verified": false,
+    "microtiming_observed": false,
+    "two_channel_to_mono_transfer_validated": false,
+    "tap_to_full_generation_validated": false,
+    "published_paper_replication": false,
+    "pretrained_encoder_used": false
+  },
+  "limitations": [
+    "Participant identity is the upstream 18-trial block convention, cross-checked against ordered derivatives; no independent participant IDs.",
+    "Recording date is a conservative session proxy, not a certified session/person identity.",
+    "Pairing verifies released ID/name/onset evidence, not original audio playback or band salience.",
+    "MIDI sources and legacy LMH dictionary disagree; features are recomputed from selected MIDI, not a paper replication.",
+    "Study tempo 120 BPM is contextual metadata; CSV BPM field is not interpreted as stimulus tempo.",
+    "No microtiming observations. One-bar contours are never duplicated into two-bar ground truth.",
+    "No pretrained encoder is used; overlap of unrelated historical checkpoints remains uncertified.",
+    "Small source vocabulary; fold galleries differ. Compare conditions within the same regime and fold.",
+    "Primary metrics average source families, then source patterns, then human responses.",
+    "Bootstrap intervals separately condition on source or session clusters; they are exploratory, not full crossed-effects inference.",
+    "No nested tuning or model promotion; all regularization/dictionary budgets were fixed before evaluation."
+  ]
+}

@@ -1,0 +1,110 @@
+{
+  "date": "2026-10-13",
+  "command": "fit --no-offset-channel [--onset-term expected|source] + diagnose, motifs 16, iterations 300, seed 42, pairs data/taptamdrum-pairs-raw-v1",
+  "onset_baseline_mrr": {
+    "all": 0.518,
+    "tempo_density_matched": 0.74
+  },
+  "chance_mrr": {
+    "all": 0.0886,
+    "tempo_density_matched": 0.3723
+  },
+  "conditions": {
+    "v1_baseline": {
+      "model_sha256": "07b436552926387a9e0b78ef620046675e144a58a122f4f774c49f969a49c5fd",
+      "diagnostics": "artifacts/solo-diagnostics-20261013",
+      "full_mrr": {
+        "all": 0.23999764854713718,
+        "tempo_density_matched": 0.5239487001288472
+      },
+      "onset_alignment_mrr": null,
+      "tap_quantized_score_increased": 51,
+      "shifted_sixteenth_outscores_copy": 11,
+      "reversed_outscores_copy": 7,
+      "source_copy_outscores_best_human": 3,
+      "tap_plus_additions_score_increased": 3,
+      "transfer_all_mrr": {
+        "two_channel_union": 0.24000790517504086,
+        "denser_hand": 0.1574919831675256,
+        "sparser_hand": 0.20575387091978414
+      }
+    },
+    "no_offset": {
+      "model_sha256": "dc1f5d4c259e6fe3e1940d93adeffcf5f226f2b3fb45ea20e414709e7a924e29",
+      "diagnostics": "artifacts/solo-diagnostics-20261013-no-offset",
+      "full_mrr": {
+        "all": 0.253046209259817,
+        "tempo_density_matched": 0.5543572538572539
+      },
+      "onset_alignment_mrr": {
+        "all": 0.0196078431372549,
+        "tempo_density_matched": 0.16139982729688612
+      },
+      "tap_quantized_score_increased": 0,
+      "shifted_sixteenth_outscores_copy": 11,
+      "reversed_outscores_copy": 6,
+      "source_copy_outscores_best_human": 2,
+      "tap_plus_additions_score_increased": 2,
+      "transfer_all_mrr": {
+        "two_channel_union": 0.2530401291391175,
+        "denser_hand": 0.16285555632949206,
+        "sparser_hand": 0.18696040810068862
+      }
+    },
+    "no_offset_expected": {
+      "model_sha256": "dc1f5d4c259e6fe3e1940d93adeffcf5f226f2b3fb45ea20e414709e7a924e29",
+      "diagnostics": "artifacts/solo-diagnostics-20261013-no-offset-expected",
+      "full_mrr": {
+        "all": 0.2597953563829726,
+        "tempo_density_matched": 0.5649794372294372
+      },
+      "onset_alignment_mrr": {
+        "all": 0.35812729145233607,
+        "tempo_density_matched": 0.6261825396825397
+      },
+      "tap_quantized_score_increased": 0,
+      "shifted_sixteenth_outscores_copy": 7,
+      "reversed_outscores_copy": 2,
+      "source_copy_outscores_best_human": 11,
+      "tap_plus_additions_score_increased": 2,
+      "transfer_all_mrr": {
+        "two_channel_union": 0.25979634939867147,
+        "denser_hand": 0.18467477385284808,
+        "sparser_hand": 0.20192191527841527
+      }
+    },
+    "no_offset_source": {
+      "model_sha256": "dc1f5d4c259e6fe3e1940d93adeffcf5f226f2b3fb45ea20e414709e7a924e29",
+      "diagnostics": "artifacts/solo-diagnostics-20261013-no-offset-source",
+      "full_mrr": {
+        "all": 0.4152486370413493,
+        "tempo_density_matched": 0.6656088772338772
+      },
+      "onset_alignment_mrr": {
+        "all": 0.5180328010883551,
+        "tempo_density_matched": 0.7400324582824586
+      },
+      "tap_quantized_score_increased": 0,
+      "shifted_sixteenth_outscores_copy": 0,
+      "reversed_outscores_copy": 0,
+      "source_copy_outscores_best_human": 23,
+      "tap_plus_additions_score_increased": 2,
+      "transfer_all_mrr": {
+        "two_channel_union": 0.4152669692900736,
+        "denser_hand": 0.25246960862607826,
+        "sparser_hand": 0.29183929768443434
+      }
+    }
+  },
+  "findings": [
+    "Removing the offset channel closes the microtiming exploit: zeroing a real tap's timing raised the score in 0/51 groups in every no-offset condition (51/51 in v1). The quantized source-copy >= copy count stays 51/51 only because the scores are now exactly equal; the tie is counted conservatively, not an exploit.",
+    "Retrieval: v1 .240/.524 -> no_offset .253/.554 -> +expected .260/.565 -> +source .415/.666 (all/matched MRR). Every condition remains below the raw onset baseline (.518/.740): the source-term alignment equals that baseline by construction, and the human-conditioned expected profile carries less signal (.358/.626) than the raw source, echoing the human benchmark's weak-shapelet result.",
+    "Gaming trade-off: the source term removes phase violations (0/51 shifts, 0/51 reversal) but raises source-onset-copy dominance to 23/51 sources; the expected term is intermediate (7/51, 2/51 phase; 11/51 copy); density inflation stays controlled (2/51) everywhere.",
+    "Artificial 1-ch probe improves in step with the union under every condition; no condition inverts the union > isolated-hand ordering."
+  ],
+  "recommendation": "No model is promoted. no_offset is a strict improvement over v1. An onset term improves known-source retrieval but increases onset-copy gaming, the exact degeneracy the master plan requires controlling; whether any onset term enters the search objective must be decided with search-time controls and human judgments, not retrieval alone.",
+  "limitations": "Validation-only, synthetic attacks, artificial views; retrieval gate versus the onset baseline remains failed in all conditions; participant-held-out, pretraining-overlap and perceptual gates remain open.",
+  "human_perceptual_validation": false,
+  "transfer_to_solo_validated": false,
+  "test_evaluated": false
+}

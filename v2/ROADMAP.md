@@ -1,6 +1,52 @@
 # V2 implementation and research gates
 
-## Current priority: human-aligned compatibility retrieval (2026-10-12)
+## Current research extension: full groove → solo tapping (2026-10-13)
+
+The [offline local-motif pilot](SOLO_TAPPING.md) implements train-only paired
+shapelet compatibility without style targets or pretrained encoders, shared
+metre-anchored full/2-ch/1-ch features, decomposed conservation, and evolutionary
+event MAP-Elites with a matched-budget random baseline. This reverse-direction
+experiment is separate from the tap→groove application/retrieval plan below.
+
+The [local browser explorer](research/solo_tapping/README.md) now provides GMD
+imports, real 2-ch interpretations, shared audio/piano rolls, parameterized
+MAP-Elites/random searches, clickable archives, score/shapelet inspection and saved
+run/MIDI output. Research implementation lives in `research/solo_tapping/`; existing
+data and checkpoints retain their paths. Interactive exploration is not a study.
+
+Research gates remain open: source/performance/session and pretraining-overlap
+audit coverage, retrieval beyond onset baselines, participant-held-out evaluation,
+real one-hand interpretations and independent perceptual/playability judgments.
+Neither synthetic test success nor increasing the optimized score passes these
+gates. No isolated-hand/hand-union view is solo ground truth. RL is out of scope.
+
+A deterministic [scorer diagnostic](research/solo_tapping/METHOD.md) now measures
+each conservation component's held-out retrieval separately, attacks the score
+with density inflation, onset copying, timing removal and phase manipulations on
+every validation source, and probes artificial channel-isolated 1-ch views. The
+first run localizes a systematic microtiming exploit (51/51 sources) and confirms
+no component approaches the onset baseline; this directs the score redesign and
+is not a perceptual result. The matched-budget redesign comparison closes the
+microtiming exploit by removing the offset feature channel and shows an explicit
+onset term trades retrieval gains against onset-copy gaming; the retrieval gate
+versus the onset baseline remains failed and no scorer is promoted. Search-time
+copy controls over all validation sources show the v1 scalar is invalid as an
+optimization objective (elites beat the best human tap in 46/51 sources), the
+redesigned variants are markedly more robust but shift exploitation toward
+onset-set imitation, and no variant is yet a trustworthy objective; archive
+outputs stay synthetic candidates pending blinded human judgments. A blinded
+pairwise listening-study instrument (build/serve/report, provenance sealed
+server-side) is now implemented with a 72-trial validation stimulus set;
+building it is not evidence, and real consented responses remain pending.
+
+The [real mono-contour benchmark](research/solo_tapping/human_benchmark/README.md)
+now provides an audited Gómez-Marín et al. data adapter and fixed source,
+participant/session and crossed comparisons of metre/onset/FWOD/local shapelets.
+The first 588-pair run does not establish robust shapelet superiority. Published
+source inconsistencies are quarantined, and participant/session identities remain
+explicit proxies. This is not yet a gate pass for long closed-loop training.
+
+## Existing application plan: human-aligned compatibility retrieval (2026-10-12)
 
 The implementation sequence in [CONTRASTIVE.md](CONTRASTIVE.md) takes priority over
 expanding the tap-conditioned CVAE below: masked groove pretraining, TapTamDrum

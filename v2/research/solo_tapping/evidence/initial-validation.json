@@ -1,0 +1,290 @@
+{
+  "version": "solo-local-validation-v1",
+  "date": "2026-10-13",
+  "software_tests": {
+    "total_passed": 195,
+    "solo_tests_passed": 11,
+    "synthetic_fixtures": true,
+    "warning": "Existing Starlette/httpx deprecation"
+  },
+  "real_pair_pilot": {
+    "train_source_groups": 225,
+    "train_interpretations": 743,
+    "validation_source_groups": 51,
+    "validation_interpretations": 172,
+    "metrics": {
+      "conservation": {
+        "all": {
+          "mrr": 0.23999764854713718,
+          "recall_at_1": 0.12254901960784313,
+          "recall_at_5": 0.31209150326797386,
+          "recall_at_10": 0.4967320261437908,
+          "queries": 172,
+          "source_groups": 51,
+          "mean_candidates": 51.0
+        },
+        "tempo_density_matched": {
+          "mrr": 0.5239487001288472,
+          "recall_at_1": 0.32333333333333336,
+          "recall_at_5": 0.8016666666666667,
+          "recall_at_10": 0.955,
+          "queries": 170,
+          "source_groups": 50,
+          "mean_candidates": 8.92
+        }
+      },
+      "learned": {
+        "all": {
+          "mrr": 0.24124176576889467,
+          "recall_at_1": 0.1388888888888889,
+          "recall_at_5": 0.3202614379084967,
+          "recall_at_10": 0.47058823529411764,
+          "queries": 172,
+          "source_groups": 51,
+          "mean_candidates": 51.0
+        },
+        "tempo_density_matched": {
+          "mrr": 0.48559854769413596,
+          "recall_at_1": 0.27666666666666667,
+          "recall_at_5": 0.795,
+          "recall_at_10": 0.92,
+          "queries": 170,
+          "source_groups": 50,
+          "mean_candidates": 8.92
+        }
+      },
+      "onset": {
+        "all": {
+          "mrr": 0.5180328010883551,
+          "recall_at_1": 0.3725490196078431,
+          "recall_at_5": 0.7189542483660131,
+          "recall_at_10": 0.8202614379084966,
+          "queries": 172,
+          "source_groups": 51,
+          "mean_candidates": 51.0
+        },
+        "tempo_density_matched": {
+          "mrr": 0.7400324582824586,
+          "recall_at_1": 0.605,
+          "recall_at_5": 0.9233333333333333,
+          "recall_at_10": 0.99,
+          "queries": 170,
+          "source_groups": 50,
+          "mean_candidates": 8.92
+        }
+      },
+      "density": {
+        "all": {
+          "mrr": 0.11693287213403163,
+          "recall_at_1": 0.0196078431372549,
+          "recall_at_5": 0.12254901960784313,
+          "recall_at_10": 0.3006535947712418,
+          "queries": 172,
+          "source_groups": 51,
+          "mean_candidates": 51.0
+        },
+        "tempo_density_matched": {
+          "mrr": 0.3351329966329966,
+          "recall_at_1": 0.12,
+          "recall_at_5": 0.7116666666666666,
+          "recall_at_10": 0.93,
+          "queries": 170,
+          "source_groups": 50,
+          "mean_candidates": 8.92
+        }
+      }
+    },
+    "chance": {
+      "all": {
+        "mrr": 0.08860418002875833,
+        "recall_at_1": 0.019607843137254916
+      },
+      "tempo_density_matched": {
+        "mrr": 0.3723129287421162,
+        "recall_at_1": 0.16139982729688607
+      }
+    },
+    "full_to_human_multi_positive": {
+      "mrr": 0.12124695621367709,
+      "recall_at_1": 0.0392156862745098,
+      "recall_at_5": 0.19607843137254902,
+      "recall_at_10": 0.2549019607843137,
+      "queries": 51,
+      "source_groups": 51,
+      "mean_candidates": 172.0
+    },
+    "shuffled_pair_control": {
+      "mrr": 0.1024311674410931,
+      "recall_at_1": 0.0261437908496732,
+      "recall_at_5": 0.1045751633986928,
+      "recall_at_10": 0.23692810457516336,
+      "queries": 172,
+      "source_groups": 51,
+      "mean_candidates": 51.0
+    }
+  },
+  "source_split_audit": {
+    "identity_split_check": "passed",
+    "split_basis": "existing session assignment before HVO/local segmentation",
+    "cross_split_onset_signatures": 10,
+    "cross_split_tap_byte_hashes": 0,
+    "near_duplicate_status": "structure signatures only; crop/expressive near-duplicate review pending",
+    "participant_disjoint": false,
+    "groups": {
+      "train": 225,
+      "validation": 51,
+      "test": 68
+    },
+    "profile_collision_events": {
+      "grooves": 4897,
+      "taps": 2755
+    }
+  },
+  "pretraining_overlap": {
+    "status": "overlap_detected",
+    "exact_hvo_matches": 22,
+    "heldout_matches": 9,
+    "identity_coverage": "partial",
+    "pretrained_encoder_used": false,
+    "caveat": "Potential overlap with supplied corpus; actual encoder training selections are not certified."
+  },
+  "search_smoke": {
+    "sources": [
+      "19",
+      "24",
+      "25"
+    ],
+    "seed": 42,
+    "budget_per_algorithm_per_source": 256,
+    "results": [
+      {
+        "source_id": "19",
+        "algorithm": "map_elites",
+        "evaluations": 256,
+        "coverage": 0.265625,
+        "qd_score": 0.10234140986609684,
+        "unique_candidates": 247,
+        "feasible_evaluations": 201
+      },
+      {
+        "source_id": "19",
+        "algorithm": "random",
+        "evaluations": 256,
+        "coverage": 0.25,
+        "qd_score": 0.08540432054052773,
+        "unique_candidates": 256,
+        "feasible_evaluations": 70
+      },
+      {
+        "source_id": "24",
+        "algorithm": "map_elites",
+        "evaluations": 256,
+        "coverage": 0.265625,
+        "qd_score": 0.11366155242563025,
+        "unique_candidates": 253,
+        "feasible_evaluations": 208
+      },
+      {
+        "source_id": "24",
+        "algorithm": "random",
+        "evaluations": 256,
+        "coverage": 0.234375,
+        "qd_score": 0.08354712716047415,
+        "unique_candidates": 256,
+        "feasible_evaluations": 65
+      },
+      {
+        "source_id": "25",
+        "algorithm": "map_elites",
+        "evaluations": 256,
+        "coverage": 0.328125,
+        "qd_score": 0.10509179286032104,
+        "unique_candidates": 255,
+        "feasible_evaluations": 218
+      },
+      {
+        "source_id": "25",
+        "algorithm": "random",
+        "evaluations": 256,
+        "coverage": 0.3125,
+        "qd_score": 0.0922606989027338,
+        "unique_candidates": 256,
+        "feasible_evaluations": 90
+      }
+    ],
+    "controls": {
+      "source-19": {
+        "source_onset_copy": 0.3300162901895019,
+        "density_matched_even": 0.20240716663943656,
+        "saturated": 0.08550605316146365,
+        "shifted_sixteenth": 0.16680793321776158,
+        "shifted_beat": 0.2575821011088219,
+        "reversed": 0.15311171264490592,
+        "flat_velocity": 0.19593016621241954,
+        "quantized_timing": 0.43228771099873115,
+        "empty": 0.0
+      },
+      "source-24": {
+        "source_onset_copy": 0.3648122382967516,
+        "density_matched_even": 0.2626996939963528,
+        "saturated": 0.0585015006319996,
+        "shifted_sixteenth": 0.1631530689290351,
+        "shifted_beat": 0.29729317170487807,
+        "reversed": 0.15745681609469403,
+        "flat_velocity": 0.3040050538460186,
+        "quantized_timing": 0.47188343474163724,
+        "empty": 0.0
+      },
+      "source-25": {
+        "source_onset_copy": 0.19712609953327415,
+        "density_matched_even": 0.15419728459391335,
+        "saturated": 0.15530424379262736,
+        "shifted_sixteenth": 0.21671466950991775,
+        "shifted_beat": 0.17346197435565344,
+        "reversed": 0.20716465233284248,
+        "flat_velocity": 0.09792010698563991,
+        "quantized_timing": 0.2939453597533837,
+        "empty": 0.0
+      }
+    },
+    "midi_files_checked": 106,
+    "maximum_tick_rounding_error": 0.49977695890720497,
+    "shortcut_flags": {
+      "quantized_timing_above_source_copy": [
+        "source-19",
+        "source-24",
+        "source-25"
+      ],
+      "phase_shift_or_reversal_above_source_copy": [
+        "source-25"
+      ],
+      "interpretation": "Flags indicate scorer weaknesses, not established human rankings of synthetic controls."
+    }
+  },
+  "artifacts": {
+    "fit": "artifacts/solo-local-20261013-final",
+    "search": "artifacts/solo-search-20261013-final",
+    "model_sha256": "07b436552926387a9e0b78ef620046675e144a58a122f4f774c49f969a49c5fd",
+    "pairs_fingerprint": "eac1c961a073afeb5d5e72aa4d9700e0c299dd41f1b43bebaf2d6124d42ec9eb"
+  },
+  "code_sha256": {
+    "representation/alignment_data.py": "81624696bb2e734cf066f0b7fc186620d0768bc151e2d1601abc95cbdf9bfbe7",
+    "representation/taptam.py": "cc51dd14510d1df7ce7259accd7fe8e56313c0061fb85636f3cc8b7bcc00594d",
+    "solo/__init__.py": "9af023ae015adf0ddd91fb06e3e0e96573f97ecdc786abe352f2cc2a40617a45",
+    "solo/cli.py": "80de3f12e095502fc2d7e3f52ae6f33eb8cf3b0829144cb15e631f8e0334be87",
+    "solo/data.py": "7c03bb6a0ec133862c6ac69aca5e488c8605746e30d7eb563b9eec7a2a207218",
+    "solo/evaluation.py": "5e2fc245297880f0f9bb2abc65fe5bfb3ceaa389b7909ac34d75f185a407158c",
+    "solo/features.py": "a9b5079afb847b38d87ab005ba3cfca60499b4185c04d825a6121259b23a251d",
+    "solo/model.py": "3a54da1041eb6ed233a8c24f33d02e5e8f64cfeb1e7fdd353089009ac324a8a8",
+    "solo/scoring.py": "23d1f13489a335ddbcf7851938df78c294802ab163144e9eba80888a1e77e95e",
+    "solo/search.py": "9b825b124400707cacd79cbc3dabdeb893319e21255a943a8efc61506c92677f"
+  },
+  "limitations": [
+    "Conservation and learned compatibility underperform onset retrieval on this real validation split.",
+    "Three sources and one seed test execution, not statistical MAP-Elites superiority.",
+    "Test retrieval untouched; near-duplicate and participant-held-out audits incomplete.",
+    "Two-channel to solo transfer, human solo fidelity, comfort and perceptual quality remain unvalidated.",
+    "Profile union loses polyphony and colliding quieter events; it is not a human solo target.",
+    "All three smoke sources favor quantized source copies; source 25 also favors a shifted/reversed copy. No post-hoc retuning was used to hide these controls."
+  ]
+}

@@ -1,5 +1,10 @@
 # Tap–groove compatibility: implementation plan and encoder training
 
+For the separate **full groove → 1-ch** local-shapelet/MAP-Elites research path,
+see [SOLO_TAPPING.md](SOLO_TAPPING.md). It uses the verified raw TapTamDrum pairs
+and source groups, learns no style target, and does not consume the pretrained
+groove checkpoint. Two-channel-to-solo transfer remains an explicit hypothesis.
+
 Objective: retrieve and explore grooves compatible with a user's rhythmic idea.
 Human tap/groove pairs supervise compatibility, not reconstruction of one prescribed
 MIDI file from target-derived pseudo taps. The old CVAE remains a baseline.

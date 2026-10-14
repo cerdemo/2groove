@@ -12,8 +12,11 @@ dependencies = ["fastapi>=0.115,<1", "uvicorn>=0.30,<1", "numpy>=1.26,<3", "mido
 test = ["pytest>=8,<10", "httpx>=0.27,<1"]
 
 [tool.setuptools.packages.find]
-include = ["groove*"]
+include = ["groove*", "research*"]
+
+[tool.setuptools.package-data]
+"research.solo_tapping" = ["web/*.html", "web/*.css", "web/*.js"]
 
 [tool.pytest.ini_options]
-testpaths = ["tests"]
+testpaths = ["tests", "research/solo_tapping/tests"]
 pythonpath = ["."]

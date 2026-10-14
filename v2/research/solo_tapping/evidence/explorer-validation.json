@@ -1,0 +1,64 @@
+{
+  "date": "2026-10-13T10:37:09.280207+00:00",
+  "scope": "Engineering explorer verification; not perceptual or solo-transfer validation",
+  "pytest": {
+    "passed": 208,
+    "warnings": [
+      "Existing Starlette/httpx TestClient deprecation"
+    ],
+    "command": ".venv/bin/python -m pytest -q"
+  },
+  "browser": {
+    "browser": "Chrome",
+    "passed": [
+      "paired GMD source and real human interpretation selection",
+      "full/dual/solo playback status, moving shared playhead, local drum sample requests",
+      "seed/budget controls and fresh MAP-Elites/random search",
+      "archive cell and algorithm selection",
+      "1/2/4-beat cyclic shapelet inspection",
+      "original GMD import at beat 8 with absent human pair explicit",
+      "saved-run restoration",
+      "search cancellation and partial persistence",
+      "downloaded solo MIDI timing/velocity/channel/8-beat length matches selected elite"
+    ],
+    "limitations": [
+      "Automated file chooser blocked by Chrome extension file URL permission; import API tested on synthetic MIDI.",
+      "Audio scheduling and UI verified; no independent listening study or device latency measurement.",
+      "Responsive CSS provided; no mobile-device validation."
+    ]
+  },
+  "complete_run": {
+    "id": "20261013-112405-58be5387",
+    "source_id": "19",
+    "seed": 44,
+    "algorithms": [
+      {
+        "algorithm": "map_elites",
+        "evaluations": 256,
+        "coverage": 0.21875,
+        "qd_score": 0.082328804595271,
+        "feasible_evaluations": 205
+      },
+      {
+        "algorithm": "random",
+        "evaluations": 256,
+        "coverage": 0.265625,
+        "qd_score": 0.08356478006325353,
+        "feasible_evaluations": 64
+      }
+    ],
+    "model_sha256": "07b436552926387a9e0b78ef620046675e144a58a122f4f774c49f969a49c5fd",
+    "pairs_fingerprint": "eac1c961a073afeb5d5e72aa4d9700e0c299dd41f1b43bebaf2d6124d42ec9eb"
+  },
+  "cancelled_run": {
+    "id": "20261013-112421-7b100718",
+    "evaluations": [
+      409
+    ]
+  },
+  "screenshot": "qa/explorer.jpg",
+  "midi_roundtrip": "qa/browser-export.mid",
+  "data_and_checkpoints_modified": false,
+  "human_solo_validation": false,
+  "perceptual_validation": false
+}
